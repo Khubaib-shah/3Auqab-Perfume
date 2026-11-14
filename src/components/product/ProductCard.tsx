@@ -1,0 +1,179 @@
+"use client";
+
+import React, { useState, useEffect, useCallback, memo } from "react";
+import Link from "next/link";
+import toast from "react-hot-toast";
+import { Product } from "@/data/products";
+import { siteConfig } from "@/data/siteConfig";
+import { useShopStore } from "@/store/useShopStore";
+
+interface ProductCardProps {
+  product: Product;
+  asListItem?: boolean;
+  className?: string;
+  useBlackImage?: boolean;
+}
+
+function ProductCardComponent({
+  product,
+  asListItem = true,
+  className = "product-item col-lg-3 col-md-4 col-sm-6 col-xs-6 col-ts-12 style-1",
+  useBlackImage = false,
+}: ProductCardProps) {
+  const [mounted, setMounted] = useState(false);
+  const { addToCart, toggleWishlist, wishlist, openQuickView } = useShopStore();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isWishlisted = mounted && wishlist.includes(product.id);
+  const isOutOfStock =
+    product.inStock === false ||
+    (typeof (product as unknown as { stockQuantity?: number }).stockQuantity === "number" &&
+      (product as unknown as { stockQuantity: number }).stockQuantity <= 0);
+
+  const displayImage =
+    useBlackImage && product.blackCardImage
+      ? product.blackCardImage
+      : product.image;
+
+  const handleAddToCart = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    if (isOutOfStock) {
+      toast.error(`${product.name} is currently out of stock.`);
+      return;
+    }
+    addToCart(product, 1);
+    toast.success(`${product.name} added to bag!`);
+  }, [isOutOfStock, addToCart, product]);
+
+  const handleWishlist = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    toggleWishlist(product.id);
+    toast.success(
+      isWishlisted
+        ? `${product.name} removed from wishlist`
+        : `${product.name} added to wishlist!`
+    );
+  }, [toggleWishlist, product.id, product.name, isWishlisted]);
+
+  const handleQuickView = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    openQuickView(product);
+  }, [openQuickView, product]);
+
+  const innerContent = (
+    <div className="product-inner equal-element">
+      <div className="product-top">
+        {product.isNew && (
+          <div className="flash">
+            <span className="onnew">
+              <span className="text">new</span>
+            </span>
+          </div>
+        )}
+      </div>
+      <div className="product-thumb">
+        <div className="thumb-inner">
+          <Link href={`/product/${product.slug}`}>
+            <img
+              src={displayImage}
+              alt={product.name}
+              style={isOutOfStock ? { opacity: 0.88 } : undefined}
+            />
+          </Link>
+          <button
+            type="button"
+            onClick={handleWishlist}
+            className={`card-fav-btn ${isWishlisted ? "active in-wishlist" : ""}`}
+            title={isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
+            aria-label={isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
+          >
+            <i
+              className={isWishlisted ? "fa fa-heart" : "fa fa-heart-o"}
+              aria-hidden="true"
+            />
+          </button>
+          {isOutOfStock && (
+            <div className="product-soldout-overlay">
+              <span>Out of Stock</span>
+            </div>
+          )}
+          <div className="thumb-group">
+            <div
+              className={`yith-wcwl-add-to-wishlist ${
+                isWishlisted ? "active in-wishlist" : ""
+              }`}
+            >
+              <div className="yith-wcwl-add-button">
+                <a
+                  href="#wishlist"
+                  onClick={handleWishlist}
+                  className={isWishlisted ? "active in-wishlist" : ""}
+                  title={isWishlisted ? "In Wishlist (Click to remove)" : "Add to Wishlist"}
+                >
+                  {isWishlisted ? "In Wishlist" : "Add to Wishlist"}
+                </a>
+              </div>
+            </div>
+            <a
+              href="#quickview"
+              onClick={handleQuickView}
+              className="button quick-wiew-button"
+              title="Quick View"
+            >
+              Quick View
+            </a>
+            {!isOutOfStock && (
+              <div className="loop-form-add-to-cart">
+                <button
+                  type="button"
+                  onClick={handleAddToCart}
+                  className="single_add_to_cart_button button"
+                >
+                  Add to cart
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+      <div className="product-info">
+        <h5 className="product-name product_title">
+          <Link href={`/product/${product.slug}`}>{product.name}</Link>
+        </h5>
+        <div className="group-info">
+          <div className="stars-rating">
+            <div className="star-rating">
+              <span className={`star-${product.rating || 5}`}></span>
+            </div>
+            <div className="count-star">({product.reviewsCount})</div>
+          </div>
+          <div className="price">
+            {product.oldPrice && (
+              <del>
+                {siteConfig.currency}
+                {product.oldPrice}
+              </del>
+            )}
+            <ins>
+              {siteConfig.currency}
+              {product.price}
+            </ins>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const finalClassName = `${className} ${isOutOfStock ? "is-sold-out" : ""}`.trim();
+
+  if (asListItem) {
+    return <li className={finalClassName}>{innerContent}</li>;
+  }
+
+  return <div className={finalClassName}>{innerContent}</div>;
+}
+
+export default memo(ProductCardComponent);
