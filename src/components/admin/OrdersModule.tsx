@@ -452,7 +452,11 @@ export default function OrdersModule() {
                           {item.productName}
                         </div>
                         <div style={{ fontSize: "12px", color: "#888888" }}>
-                          {item.variantSize} | {item.variantFinish}
+                          Size: {item.variantSize}
+                          {item.variantFinish &&
+                          item.variantFinish !== "Standard"
+                            ? ` | ${item.variantFinish}`
+                            : ""}
                         </div>
                       </div>
                     </div>

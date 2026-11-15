@@ -22,7 +22,7 @@ export default function CartClient() {
   } | null>(null);
 
   const subtotal = cart.reduce(
-    (sum, item) => sum + item.product.price * item.quantity,
+    (sum, item) => sum + (item.price ?? item.product.price) * item.quantity,
     0
   );
 
@@ -122,100 +122,127 @@ export default function CartClient() {
                           </tr>
                         </thead>
                         <tbody>
-                          {cart.map((item) => (
-                            <tr key={item.product.id} className="cart_item">
-                              <td className="product-remove">
-                                <a
-                                  href="#remove"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    removeFromCart(item.product.id);
-                                    toast.success(
-                                      `${item.product.name} removed from bag.`
-                                    );
-                                  }}
-                                  className="remove"
-                                ></a>
-                              </td>
-                              <td className="product-thumbnail">
-                                <Link href={`/product/${item.product.slug}`}>
-                                  <img
-                                    src={
-                                      item.product.cartThumb ||
-                                      item.product.image
-                                    }
-                                    alt={item.product.name}
-                                    className="attachment-shop_thumbnail size-shop_thumbnail wp-post-image"
-                                  />
-                                </Link>
-                              </td>
-                              <td className="product-name" data-title="Product">
-                                <Link
-                                  href={`/product/${item.product.slug}`}
-                                  className="title"
-                                >
-                                  {item.product.name}
-                                </Link>
-                                <span className="attributes-select attributes-color">
-                                  {item.selectedFinish},
-                                </span>
-                                <span className="attributes-select attributes-size">
-                                  {item.selectedSize}
-                                </span>
-                              </td>
-                              <td
-                                className="product-quantity"
-                                data-title="Quantity"
+                          {cart.map((item) => {
+                            const unitPrice =
+                              item.price ?? item.product.price;
+                            return (
+                              <tr
+                                key={`${item.product.id}-${item.selectedSize}`}
+                                className="cart_item"
                               >
-                                <div className="quantity">
-                                  <div className="control">
-                                    <a
-                                      className="btn-number qtyminus quantity-minus"
-                                      href="#minus"
-                                      onClick={(e) => {
-                                        e.preventDefault();
-                                        updateQuantity(
-                                          item.product.id,
-                                          item.quantity - 1
-                                        );
-                                      }}
-                                    >
-                                      -
-                                    </a>
-                                    <input
-                                      type="text"
-                                      value={item.quantity}
-                                      readOnly
-                                      title="Qty"
-                                      className="input-qty qty"
-                                      size={4}
+                                <td className="product-remove">
+                                  <a
+                                    href="#remove"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      removeFromCart(
+                                        item.product.id,
+                                        item.selectedSize
+                                      );
+                                      toast.success(
+                                        `${item.product.name} (${item.selectedSize}) removed from bag.`
+                                      );
+                                    }}
+                                    className="remove"
+                                  ></a>
+                                </td>
+                                <td className="product-thumbnail">
+                                  <Link href={`/product/${item.product.slug}`}>
+                                    <img
+                                      src={
+                                        item.product.cartThumb ||
+                                        item.product.image
+                                      }
+                                      alt={item.product.name}
+                                      className="attachment-shop_thumbnail size-shop_thumbnail wp-post-image"
                                     />
-                                    <a
-                                      className="btn-number qtyplus quantity-plus"
-                                      href="#plus"
-                                      onClick={(e) => {
-                                        e.preventDefault();
-                                        updateQuantity(
-                                          item.product.id,
-                                          item.quantity + 1
-                                        );
-                                      }}
-                                    >
-                                      +
-                                    </a>
-                                  </div>
-                                </div>
-                              </td>
-                              <td className="product-price" data-title="Price">
-                                <span className="woocommerce-Price-amount amount">
-                                  <span className="woocommerce-Price-currencySymbol">
-                                    {settings.currency || "Rs"}
+                                  </Link>
+                                </td>
+                                <td className="product-name" data-title="Product">
+                                  <Link
+                                    href={`/product/${item.product.slug}`}
+                                    className="title"
+                                  >
+                                    {item.product.name}
+                                  </Link>
+                                  <span
+                                    className="attributes-select attributes-size"
+                                    style={{
+                                      display: "block",
+                                      color: "#888",
+                                      fontSize: "12px",
+                                      marginTop: "4px",
+                                    }}
+                                  >
+                                    Bottle Size: {item.selectedSize}
                                   </span>
-                                  {item.product.price * item.quantity}
-                                </span>
-                              </td>
-                            </tr>
-                          ))}
+                                </td>
+                                <td
+                                  className="product-quantity"
+                                  data-title="Quantity"
+                                >
+                                  <div className="quantity">
+                                    <div className="control">
+                                      <a
+                                        className="btn-number qtyminus quantity-minus"
+                                        href="#minus"
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                          updateQuantity(
+                                            item.product.id,
+                                            item.quantity - 1,
+                                            item.selectedSize
+                                          );
+                                        }}
+                                      >
+                                        -
+                                      </a>
+                                      <input
+                                        type="text"
+                                        value={item.quantity}
+                                        readOnly
+                                        title="Qty"
+                                        className="input-qty qty"
+                                        size={4}
+                                      />
+                                      <a
+                                        className="btn-number qtyplus quantity-plus"
+                                        href="#plus"
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                          updateQuantity(
+                                            item.product.id,
+                                            item.quantity + 1,
+                                            item.selectedSize
+                                          );
+                                        }}
+                                      >
+                                        +
+                                      </a>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td className="product-price" data-title="Price">
+                                  <div
+                                    style={{
+                                      fontSize: "12px",
+                                      color: "#888",
+                                      marginBottom: "2px",
+                                    }}
+                                  >
+                                    {settings.currency || "Rs"}{" "}
+                                    {unitPrice.toLocaleString()} each
+                                  </div>
+                                  <span className="woocommerce-Price-amount amount">
+                                    <span className="woocommerce-Price-currencySymbol">
+                                      {settings.currency || "Rs"}{" "}
+                                    </span>
+                                    {(unitPrice * item.quantity).toLocaleString()}
+                                  </span>
+                                </td>
+                              </tr>
+                            );
+                          })}
                           <tr>
                             <td className="actions" colSpan={6}>
                               <div className="coupon">

@@ -50,7 +50,8 @@ export default function Header() {
   const totalPrice = useMemo(
     () =>
       cart.reduce(
-        (sum, item) => sum + item.product.price * item.quantity,
+        (sum, item) =>
+          sum + (item.price ?? item.product.price) * item.quantity,
         0
       ),
     [cart]
@@ -360,14 +361,16 @@ export default function Header() {
                       </Link>
                       <span style={{ fontSize: "12px", color: "#888" }}>
                         {item.selectedSize} | {item.quantity} x{" "}
-                        {settings.currency}
-                        {item.product.price}
+                        {settings.currency}{" "}
+                        {(item.price ?? item.product.price).toLocaleString()}
                       </span>
                     </div>
                   </div>
                   <button
                     type="button"
-                    onClick={() => removeFromCart(item.product.id)}
+                    onClick={() =>
+                      removeFromCart(item.product.id, item.selectedSize)
+                    }
                     style={{
                       background: "transparent",
                       border: "none",
@@ -697,7 +700,7 @@ export default function Header() {
                 <img
                   src={siteConfig.logo}
                   alt={siteConfig.name}
-                  className="mobile-emblem-logo"
+                  className="mobile-emblem-logo scale-115"
                 />
               </Link>
             </div>

@@ -1,47 +1,32 @@
 import type { Metadata } from "next";
 import ProductDetailsClient from "@/components/product/ProductDetailsClient";
-import { readDbAsync } from "@/lib/db";
-import { Product } from "@/data/products";
-
-export const dynamic = "force-dynamic";
+import { initialPerfumeCatalog } from "@/data/perfumeCatalog";
+import { siteConfig } from "@/data/siteConfig";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-const fallbackProduct: Product = {
-  id: "prod-1",
-  slug: "uqab-signature-edp",
-  name: "3Uqab Signature EDP",
-  category: "Unisex Collection",
-  price: 45,
-  rating: 5,
-  reviewsCount: 18,
-  image: "/assets/images/product-item-1.jpg",
-  gallery: ["/assets/images/product-item-1.jpg"],
-  sku: "3UQAB-001",
-  inStock: true,
-  shortBullets: ["Handcrafted luxury fragrance by 3Uqab Perfume"],
-  description: ["Handcrafted luxury fragrance by 3Uqab Perfume."],
-  notes: { top: "Bergamot", heart: "Rose & Oud", base: "Amber & Musk" },
-  sizes: ["50ml", "100ml"],
-  bottleFinishes: [{ label: "Amber Gold", className: "color1" }],
-};
+export function generateStaticParams() {
+  return initialPerfumeCatalog.map((p) => ({
+    slug: p.slug,
+  }));
+}
 
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const db = await readDbAsync();
   const product =
-    db.products.find((p) => p.slug === slug) ||
-    db.products[0] || { ...fallbackProduct, slug };
+    initialPerfumeCatalog.find((p) => p.slug === slug) ||
+    initialPerfumeCatalog[0];
+
   return {
     title: `${product.name} - ${product.category}`,
-    description: product.description?.[0] || db.settings.description,
+    description: product.description?.[0] || siteConfig.description,
     openGraph: {
-      title: `${product.name} | ${db.settings.name}`,
-      description: product.description?.[0] || db.settings.description,
+      title: `${product.name} | ${siteConfig.name}`,
+      description: product.description?.[0] || siteConfig.description,
       images: [product.image],
     },
   };
@@ -49,10 +34,9 @@ export async function generateMetadata({
 
 export default async function ProductDetailsPage({ params }: PageProps) {
   const { slug } = await params;
-  const db = await readDbAsync();
   const product =
-    db.products.find((p) => p.slug === slug) ||
-    db.products[0] || { ...fallbackProduct, slug };
+    initialPerfumeCatalog.find((p) => p.slug === slug) ||
+    initialPerfumeCatalog[0];
 
   const productJsonLd = {
     "@context": "https://schema.org",
@@ -63,7 +47,7 @@ export default async function ProductDetailsPage({ params }: PageProps) {
     sku: product.sku,
     brand: {
       "@type": "Brand",
-      name: db.settings.name,
+      name: siteConfig.name,
     },
     offers: {
       "@type": "Offer",

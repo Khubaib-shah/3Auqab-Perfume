@@ -37,7 +37,6 @@ export default function ShopClient() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [selectedNotes, setSelectedNotes] = useState<string[]>([]);
-  const [selectedFinish, setSelectedFinish] = useState<string>("ALL");
   const [selectedTag, setSelectedTag] = useState<string>("");
   const [maxPrice, setMaxPrice] = useState<number>(10000);
   const [sortBy, setSortBy] = useState<string>("default");
@@ -165,7 +164,6 @@ export default function ShopClient() {
     setSelectedCategories([]);
     setSelectedSizes([]);
     setSelectedNotes([]);
-    setSelectedFinish("ALL");
     setSelectedTag("");
     setMaxPrice(10000);
     router.push("/shop");
@@ -539,7 +537,7 @@ export default function ShopClient() {
                 <div className="widget widget_filter_size">
                   <h4 className="widgettitle">Bottle Size</h4>
                   <ul className="list-brand">
-                    {["30ml", "50ml", "100ml"].map((sz, idx) => (
+                    {["15ml", "30ml", "50ml", "100ml"].map((sz, idx) => (
                       <li key={sz}>
                         <input
                           id={`sz-cb-${idx}`}
@@ -553,32 +551,6 @@ export default function ShopClient() {
                       </li>
                     ))}
                   </ul>
-                </div>
-
-                <div className="widget widget-color">
-                  <h4 className="widgettitle">Bottle Finish</h4>
-                  <div className="list-color">
-                    {[
-                      "color1",
-                      "color2",
-                      "color3",
-                      "color4",
-                      "color5",
-                      "color6",
-                      "color7",
-                    ].map((c) => (
-                      <a
-                        key={c}
-                        href="#color"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setSelectedFinish(c);
-                        }}
-                        className={`${c} ${selectedFinish === c ? "active" : ""
-                          }`}
-                      ></a>
-                    ))}
-                  </div>
                 </div>
 
                 <div className="widget widget-tags">
@@ -795,7 +767,7 @@ export default function ShopClient() {
               <div className="drawer-filter-group">
                 <label className="drawer-group-label">Bottle Volume</label>
                 <div style={{ display: "flex", gap: "8px" }}>
-                  {["30ml", "50ml", "100ml"].map((sz) => {
+                  {["15ml", "30ml", "50ml", "100ml"].map((sz) => {
                     const isSel = selectedSizes.includes(sz);
                     return (
                       <button

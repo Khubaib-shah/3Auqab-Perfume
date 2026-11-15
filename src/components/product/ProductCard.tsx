@@ -21,7 +21,7 @@ function ProductCardComponent({
   useBlackImage = false,
 }: ProductCardProps) {
   const [mounted, setMounted] = useState(false);
-  const { addToCart, toggleWishlist, wishlist, openQuickView } = useShopStore();
+  const { addToCart, toggleWishlist, wishlist } = useShopStore();
 
   useEffect(() => {
     setMounted(true);
@@ -57,11 +57,6 @@ function ProductCardComponent({
         : `${product.name} added to wishlist!`
     );
   }, [toggleWishlist, product.id, product.name, isWishlisted]);
-
-  const handleQuickView = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    openQuickView(product);
-  }, [openQuickView, product]);
 
   const innerContent = (
     <div className="product-inner equal-element">
@@ -111,28 +106,67 @@ function ProductCardComponent({
                   href="#wishlist"
                   onClick={handleWishlist}
                   className={isWishlisted ? "active in-wishlist" : ""}
-                  title={isWishlisted ? "In Wishlist (Click to remove)" : "Add to Wishlist"}
+                  title={
+                    isWishlisted
+                      ? "In Wishlist (Click to remove)"
+                      : "Add to Wishlist"
+                  }
+                  aria-label="Wishlist"
                 >
-                  {isWishlisted ? "In Wishlist" : "Add to Wishlist"}
+                  <i
+                    className={isWishlisted ? "fa fa-heart" : "fa fa-heart-o"}
+                    aria-hidden="true"
+                  />
                 </a>
               </div>
             </div>
-            <a
-              href="#quickview"
-              onClick={handleQuickView}
+            <Link
+              href={`/product/${product.slug}`}
               className="button quick-wiew-button"
-              title="Quick View"
+              title="View Details"
+              aria-label={`View ${product.name} details`}
             >
-              Quick View
-            </a>
+              <svg
+                width="17"
+                height="17"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+                style={{ display: "block" }}
+              >
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </Link>
             {!isOutOfStock && (
               <div className="loop-form-add-to-cart">
                 <button
                   type="button"
                   onClick={handleAddToCart}
                   className="single_add_to_cart_button button"
+                  title="Add to Bag"
+                  aria-label="Add to Bag"
                 >
-                  Add to cart
+                  <svg
+                    width="17"
+                    height="17"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                    style={{ display: "block" }}
+                  >
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <path d="M16 10a4 4 0 0 1-8 0" />
+                  </svg>
                 </button>
               </div>
             )}

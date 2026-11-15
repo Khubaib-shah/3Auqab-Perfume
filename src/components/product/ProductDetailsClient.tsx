@@ -7,7 +7,11 @@ import "yet-another-react-lightbox/styles.css";
 import toast from "react-hot-toast";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import ProductCard from "@/components/product/ProductCard";
-import { Product } from "@/data/products";
+import {
+  Product,
+  getProductPriceForSize,
+  getProductOldPriceForSize,
+} from "@/data/products";
 import { useShopStore } from "@/store/useShopStore";
 import { useAdminStore } from "@/store/useAdminStore";
 
@@ -31,19 +35,21 @@ export default function ProductDetailsClient({
   const { addToCart, toggleWishlist, wishlist } = useShopStore();
   const isWishlisted = wishlist.includes(product.id);
 
-  const [activeImage, setActiveImage] = useState(
-    product.gallery[0] || product.image
+  const [selectedSize, setSelectedSize] = useState(
+    product.sizes[0] || "15ml"
   );
+  const activeImage = product.image;
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 });
-  const [selectedFinish, setSelectedFinish] = useState(
-    product.bottleFinishes[0]?.label || "Amber Gold"
-  );
-  const [selectedSize, setSelectedSize] = useState(
-    product.sizes[0] || "100ml"
-  );
   const [quantity, setQuantity] = useState(1);
+
+  const handleSelectSize = (sz: string) => {
+    setSelectedSize(sz);
+  };
+
+  const currentPrice = getProductPriceForSize(product, selectedSize);
+  const currentOldPrice = getProductOldPriceForSize(product, selectedSize);
   const [activeTab, setActiveTab] = useState<
     "descriptions" | "information" | "reviews"
   >("descriptions");
@@ -86,7 +92,7 @@ export default function ProductDetailsClient({
       toast.error(`${product.name} is currently out of stock.`);
       return;
     }
-    addToCart(product, quantity, selectedSize, selectedFinish);
+    addToCart(product, quantity, selectedSize, "");
     toast.success(`${product.name} (${selectedSize}) added to your bag!`);
   };
 
@@ -139,9 +145,17 @@ export default function ProductDetailsClient({
                 <div className="details-thumd">
                   <div
                     className="image-preview-container image-thick-box image_preview_container"
-                    onMouseEnter={() => setIsZoomed(true)}
+                    onMouseEnter={() => {
+                      if (typeof window !== "undefined" && window.innerWidth > 991) {
+                        setIsZoomed(true);
+                      }
+                    }}
                     onMouseLeave={() => setIsZoomed(false)}
-                    onMouseMove={handleMouseMove}
+                    onMouseMove={(e) => {
+                      if (typeof window !== "undefined" && window.innerWidth > 991) {
+                        handleMouseMove(e);
+                      }
+                    }}
                     style={{
                       position: "relative",
                       overflow: "hidden",
@@ -186,41 +200,6 @@ export default function ProductDetailsClient({
                       <i className="fa fa-search" aria-hidden="true"></i>
                     </a>
                   </div>
-                  <div className="product-preview image-small product_preview">
-                    <div
-                      id="thumbnails"
-                      className="thumbnails_carousel"
-                      style={{
-                        display: "flex",
-                        gap: "10px",
-                        marginTop: "12px",
-                      }}
-                    >
-                      {product.gallery.map((imgUrl, index) => (
-                        <a
-                          key={index}
-                          href="#thumb"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setActiveImage(imgUrl);
-                          }}
-                          className={activeImage === imgUrl ? "active" : ""}
-                          style={{
-                            flex: 1,
-                            border:
-                              activeImage === imgUrl
-                                ? "2px solid #ab8e66"
-                                : "1px solid #eee",
-                          }}
-                        >
-                          <img
-                            src={imgUrl}
-                            alt={`${product.name} view ${index + 1}`}
-                          />
-                        </a>
-                      ))}
-                    </div>
-                  </div>
                 </div>
 
                 <div className="details-infor">
@@ -237,9 +216,39 @@ export default function ProductDetailsClient({
                       {product.inStock ? "In Stock" : "Out of Stock"}
                     </a>
                   </div>
-                  <div className="price">
-                    <span>
-                      {settings.currency} {product.price}
+                  <div
+                    className="price"
+                    style={{
+                      display: "flex",
+                      alignItems: "baseline",
+                      flexWrap: "wrap",
+                      gap: "8px",
+                      margin: "14px 0",
+                    }}
+                  >
+                    {currentOldPrice && (
+                      <del style={{ color: "#999", fontSize: "16px" }}>
+                        {settings.currency} {currentOldPrice.toLocaleString()}
+                      </del>
+                    )}
+                    <ins
+                      style={{
+                        color: "#ab8e66",
+                        fontWeight: 700,
+                        fontSize: "26px",
+                        textDecoration: "none",
+                      }}
+                    >
+                      {settings.currency} {currentPrice.toLocaleString()}
+                    </ins>
+                    <span
+                      style={{
+                        fontSize: "13px",
+                        color: "#666",
+                        fontWeight: 500,
+                      }}
+                    >
+                      ({selectedSize} bottle)
                     </span>
                   </div>
                   <div className="product-details-description">
@@ -251,45 +260,51 @@ export default function ProductDetailsClient({
                     </ul>
                   </div>
                   <div className="variations">
-                    <div className="attribute attribute_color">
-                      <div className="color-text text-attribute">
-                        Bottle Finish: <span>{selectedFinish}</span>
-                      </div>
-                      <div className="list-color list-item">
-                        {product.bottleFinishes.map((f) => (
-                          <a
-                            key={f.label}
-                            href="#finish"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setSelectedFinish(f.label);
-                            }}
-                            className={`${f.className} ${
-                              selectedFinish === f.label ? "active" : ""
-                            }`}
-                            title={f.label}
-                          ></a>
-                        ))}
-                      </div>
-                    </div>
                     <div className="attribute attribute_size">
-                      <div className="size-text text-attribute">
-                        Bottle Volume:
+                      <div
+                        className="size-text text-attribute"
+                        style={{ marginBottom: "8px" }}
+                      >
+                        Select Bottle Size:{" "}
+                        <span style={{ color: "#ab8e66", fontWeight: 700 }}>
+                          {selectedSize}
+                        </span>
                       </div>
-                      <div className="list-size list-item">
-                        {product.sizes.map((sz) => (
-                          <a
-                            key={sz}
-                            href="#size"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setSelectedSize(sz);
-                            }}
-                            className={selectedSize === sz ? "active" : ""}
-                          >
-                            {sz}
-                          </a>
-                        ))}
+                      <div
+                        className="list-size list-item"
+                        style={{
+                          display: "flex",
+                          gap: "8px",
+                          flexWrap: "wrap",
+                        }}
+                      >
+                        {product.sizes.map((sz) => {
+                          const szPrice = getProductPriceForSize(product, sz);
+                          const isActive = selectedSize === sz;
+                          return (
+                            <a
+                              key={sz}
+                              href="#size"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                handleSelectSize(sz);
+                              }}
+                              className={`bottle-size-btn ${isActive ? "active" : ""}`}
+                            >
+                              <span style={{ fontSize: "14px" }}>{sz}</span>
+                              <span
+                                style={{
+                                  fontSize: "11px",
+                                  opacity: 0.85,
+                                  fontWeight: 500,
+                                  marginTop: "2px",
+                                }}
+                              >
+                                {settings.currency} {szPrice.toLocaleString()}
+                              </span>
+                            </a>
+                          );
+                        })}
                       </div>
                     </div>
                   </div>
@@ -705,7 +720,7 @@ export default function ProductDetailsClient({
       <Lightbox
         open={lightboxOpen}
         close={() => setLightboxOpen(false)}
-        slides={product.gallery.map((src) => ({ src }))}
+        slides={[{ src: product.image }]}
       />
     </div>
   );

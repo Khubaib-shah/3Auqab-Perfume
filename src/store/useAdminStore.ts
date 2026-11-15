@@ -8,6 +8,7 @@ import {
   OrderStatus,
   PaymentStatus,
 } from "@/data/initialStoreSeed";
+import { initialPerfumeCatalog } from "@/data/perfumeCatalog";
 
 interface AdminStoreState extends DatabaseSchema {
   isHydrated: boolean;
@@ -108,6 +109,7 @@ export const useAdminStore = create<AdminStoreState>()((set, get) => ({
       set({
         ...initialSeed,
         ...data,
+        products: initialPerfumeCatalog,
         vouchers: data.vouchers || initialSeed.vouchers,
         promoBanners: data.promoBanners || initialSeed.promoBanners,
         isHydrated: true,

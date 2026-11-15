@@ -85,8 +85,10 @@ export default function WishlistClient() {
                     transition: "all 0.2s ease",
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = "#e53e3e";
-                    e.currentTarget.style.color = "#e53e3e";
+                    if (typeof window !== "undefined" && window.innerWidth > 991) {
+                      e.currentTarget.style.borderColor = "#e53e3e";
+                      e.currentTarget.style.color = "#e53e3e";
+                    }
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.borderColor = "#e0e0e0";

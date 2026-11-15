@@ -47,7 +47,7 @@ export default function CheckoutClient() {
   });
 
   const totalPrice = cart.reduce(
-    (sum, item) => sum + item.product.price * item.quantity,
+    (sum, item) => sum + (item.price ?? item.product.price) * item.quantity,
     0
   );
 
@@ -68,8 +68,8 @@ export default function CheckoutClient() {
       productName: item.product.name,
       sku: item.product.sku,
       variantSize: item.selectedSize,
-      variantFinish: item.selectedFinish,
-      unitPrice: item.product.price,
+      variantFinish: item.selectedFinish || "Standard",
+      unitPrice: item.price ?? item.product.price,
       quantity: item.quantity,
       image: item.product.orderThumb || item.product.image,
     }));
@@ -123,15 +123,16 @@ export default function CheckoutClient() {
                     {item.product.name}
                   </Link>
                 </h5>
-                <span className="attributes-select attributes-color">
-                  {item.selectedFinish},
-                </span>
-                <span className="attributes-select attributes-size">
-                  {item.selectedSize}
+                <span
+                  className="attributes-select attributes-size"
+                  style={{ display: "block", color: "#888", fontSize: "12px" }}
+                >
+                  Size: {item.selectedSize}
                 </span>
                 <div className="price">
-                  {settings.currency} {item.product.price}
-                  <span className="count">x{item.quantity}</span>
+                  {settings.currency}{" "}
+                  {(item.price ?? item.product.price).toLocaleString()}
+                  <span className="count"> x{item.quantity}</span>
                 </div>
               </div>
             </li>

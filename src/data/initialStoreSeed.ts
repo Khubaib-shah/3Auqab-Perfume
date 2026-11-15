@@ -1,6 +1,7 @@
 import { siteConfig } from "@/data/siteConfig";
 import { Product } from "@/data/products";
 import { BlogPost } from "@/data/blogs";
+import { initialPerfumeCatalog } from "@/data/perfumeCatalog";
 
 export interface AnnouncementItem {
   id: string;
@@ -260,8 +261,54 @@ export function getInitialDatabaseSeed(): DatabaseSchema {
     })),
     heroSlides: [...siteConfig.heroSlides],
     testimonials: [],
-    categories: [],
-    products: [],
+    categories: [
+      {
+        id: "cat-1",
+        name: "New Arrivals",
+        slug: "new-arrivals",
+        isActive: true,
+        showInNav: true,
+        sortOrder: 1,
+        description: "Latest luxury fragrances crafted by 3Uqab Perfume (Three Uqab).",
+      },
+      {
+        id: "cat-2",
+        name: "Arabian Oud",
+        slug: "arabian-oud",
+        isActive: true,
+        showInNav: true,
+        sortOrder: 2,
+        description: "Authentic Arabian Oud and precious attars crafted by 3Uqab Perfume (Three Uqab).",
+      },
+      {
+        id: "cat-3",
+        name: "Unisex Collection",
+        slug: "unisex",
+        isActive: true,
+        showInNav: true,
+        sortOrder: 3,
+        description: "Versatile luxury Eau de Parfum crafted by 3Uqab Perfume (Three Uqab).",
+      },
+      {
+        id: "cat-4",
+        name: "Men's Fragrances",
+        slug: "mens-fragrances",
+        isActive: true,
+        showInNav: true,
+        sortOrder: 4,
+        description: "Commanding and fresh masculine perfumes crafted by 3Uqab Perfume (Three Uqab).",
+      },
+      {
+        id: "cat-5",
+        name: "Women's Fragrances",
+        slug: "womens-fragrances",
+        isActive: true,
+        showInNav: true,
+        sortOrder: 5,
+        description: "Enchanting floral and oriental perfumes crafted by 3Uqab Perfume (Three Uqab).",
+      },
+    ],
+    products: [...initialPerfumeCatalog],
     blogs: [],
     orders: [],
     messages: [],

@@ -1,9 +1,11 @@
 import type { MetadataRoute } from "next";
 import { readDbAsync } from "@/lib/db";
+import { initialPerfumeCatalog } from "@/data/perfumeCatalog";
+import { siteConfig } from "@/data/siteConfig";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const db = await readDbAsync();
-  const baseUrl = db.settings.url || "https://3uqab.com";
+  const baseUrl = siteConfig.url || "https://3uqab.com";
 
   const staticPages = [
     "",
@@ -21,7 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: route === "" ? 1 : 0.8,
   }));
 
-  const productPages = db.products.map((product) => ({
+  const productPages = initialPerfumeCatalog.map((product) => ({
     url: `${baseUrl}/product/${product.slug}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,

@@ -21,8 +21,8 @@ export default function ProductsModule() {
   const [slug, setSlug] = useState("");
   const [sku, setSku] = useState("");
   const [category, setCategory] = useState("Unisex Collection");
-  const [price, setPrice] = useState<number>(45);
-  const [oldPrice, setOldPrice] = useState<number>(65);
+  const [price, setPrice] = useState<number>(600);
+  const [oldPrice, setOldPrice] = useState<number>(750);
   const [stockQuantity, setStockQuantity] = useState<number>(25);
   const [inStock, setInStock] = useState<boolean>(true);
   const [isNew, setIsNew] = useState<boolean>(true);
@@ -31,7 +31,7 @@ export default function ProductsModule() {
   const [blackCardImage, setBlackCardImage] = useState(
     "/assets/images/product-item-black-1.jpg"
   );
-  const [sizesText, setSizesText] = useState("30ml, 50ml, 100ml");
+  const [sizesText, setSizesText] = useState("15ml, 30ml, 50ml, 100ml");
   const [topNotes, setTopNotes] = useState("");
   const [heartNotes, setHeartNotes] = useState("");
   const [baseNotes, setBaseNotes] = useState("");
@@ -78,17 +78,17 @@ export default function ProductsModule() {
     setEditingId(null);
     setName("");
     setSlug("");
-    setSku(`3AUQ-${String(products.length + 1).padStart(2, "0")}-EDP`);
+    setSku(`3UQ-${String(products.length + 1).padStart(2, "0")}-EDP`);
     setCategory(categories[0]?.name || "Unisex Collection");
-    setPrice(45);
-    setOldPrice(65);
+    setPrice(600);
+    setOldPrice(750);
     setStockQuantity(30);
     setInStock(true);
     setIsNew(true);
     setIsWeeklyFeatured(true);
     setImage("/assets/images/product-item-1.jpg");
     setBlackCardImage("/assets/images/product-item-black-1.jpg");
-    setSizesText("30ml, 50ml, 100ml");
+    setSizesText("15ml, 30ml, 50ml, 100ml");
     setTopNotes("Bergamot, Saffron, Pink Pepper");
     setHeartNotes("Damask Rose, Jasmine, Orris");
     setBaseNotes("Royal Oud, Vanilla, White Musk");
@@ -187,13 +187,14 @@ export default function ProductsModule() {
         heart: heartNotes,
         base: baseNotes,
       },
-      sizes: parsedSizes.length > 0 ? parsedSizes : ["50ml", "100ml"],
-      bottleFinishes: [
-        { label: "Amber Gold", className: "color1" },
-        { label: "Obsidian Black", className: "color2" },
-        { label: "Royal Bronze", className: "color3" },
-        { label: "Crystal Clear", className: "color4" },
-      ],
+      sizes: parsedSizes.length > 0 ? parsedSizes : ["15ml", "30ml", "50ml", "100ml"],
+      sizePrices: {
+        "15ml": 600,
+        "30ml": 1200,
+        "50ml": 2000,
+        "100ml": 4000,
+      },
+      bottleFinishes: [],
     };
 
     const nextList = editingId

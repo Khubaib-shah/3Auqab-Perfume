@@ -5,6 +5,10 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import { useShopStore } from "@/store/useShopStore";
 import { siteConfig } from "@/data/siteConfig";
+import {
+  getProductPriceForSize,
+  getProductOldPriceForSize,
+} from "@/data/products";
 
 export default function QuickViewModal() {
   const {
@@ -16,18 +20,29 @@ export default function QuickViewModal() {
   } = useShopStore();
 
   const [activeImage, setActiveImage] = useState<string>("");
-  const [selectedSize, setSelectedSize] = useState<string>("100ml");
-  const [selectedFinish, setSelectedFinish] = useState<string>("Amber Gold");
+  const [selectedSize, setSelectedSize] = useState<string>("15ml");
   const [quantity, setQuantity] = useState<number>(1);
+
+  const getPhotoForSize = (prod: typeof quickViewProduct, size: string) => {
+    if (!prod) return "";
+    if (prod.sizeImages && prod.sizeImages[size]) {
+      return prod.sizeImages[size];
+    }
+    const sizeIdx = prod.sizes.indexOf(size);
+    if (sizeIdx !== -1 && prod.gallery[sizeIdx]) {
+      return prod.gallery[sizeIdx];
+    }
+    return prod.gallery[0] || prod.image;
+  };
 
   useEffect(() => {
     if (quickViewProduct) {
+      const initialSize = quickViewProduct.sizes[0] || "15ml";
+      setSelectedSize(initialSize);
       setActiveImage(
-        quickViewProduct.gallery[0] || quickViewProduct.image
-      );
-      setSelectedSize(quickViewProduct.sizes[0] || "100ml");
-      setSelectedFinish(
-        quickViewProduct.bottleFinishes[0]?.label || "Amber Gold"
+        getPhotoForSize(quickViewProduct, initialSize) ||
+          quickViewProduct.gallery[0] ||
+          quickViewProduct.image
       );
       setQuantity(1);
     }
@@ -35,18 +50,41 @@ export default function QuickViewModal() {
 
   if (!quickViewProduct) return null;
 
+  const handleSelectSize = (sz: string) => {
+    setSelectedSize(sz);
+    const targetImg = getPhotoForSize(quickViewProduct, sz);
+    if (targetImg) {
+      setActiveImage(targetImg);
+    }
+  };
+
+  const handleSelectThumbnail = (imgUrl: string, index: number) => {
+    setActiveImage(imgUrl);
+    if (quickViewProduct.sizes[index]) {
+      setSelectedSize(quickViewProduct.sizes[index]);
+    }
+  };
+
   const isWishlisted = wishlist.includes(quickViewProduct.id);
   const isOutOfStock =
     quickViewProduct.inStock === false ||
-    (typeof (quickViewProduct as unknown as { stockQuantity?: number }).stockQuantity === "number" &&
-      (quickViewProduct as unknown as { stockQuantity: number }).stockQuantity <= 0);
+    (typeof (quickViewProduct as unknown as { stockQuantity?: number })
+      .stockQuantity === "number" &&
+      (quickViewProduct as unknown as { stockQuantity: number })
+        .stockQuantity <= 0);
+
+  const currentPrice = getProductPriceForSize(quickViewProduct, selectedSize);
+  const currentOldPrice = getProductOldPriceForSize(
+    quickViewProduct,
+    selectedSize
+  );
 
   const handleAdd = () => {
     if (isOutOfStock) {
       toast.error(`${quickViewProduct.name} is currently out of stock.`);
       return;
     }
-    addToCart(quickViewProduct, quantity, selectedSize, selectedFinish);
+    addToCart(quickViewProduct, quantity, selectedSize, "");
     toast.success(`${quickViewProduct.name} (${selectedSize}) added to bag!`);
     closeQuickView();
   };
@@ -92,7 +130,8 @@ export default function QuickViewModal() {
             border: "1px solid #e5e5e5",
             background: "#ffffff",
             color: "#222222",
-            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif',
+            fontFamily:
+              '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif',
             fontSize: "20px",
             lineHeight: 0,
             display: "inline-flex",
@@ -141,34 +180,61 @@ export default function QuickViewModal() {
                   justifyContent: "center",
                 }}
               >
-                {quickViewProduct.gallery.map((img, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() => setActiveImage(img)}
-                    style={{
-                      border:
-                        activeImage === img
+                {quickViewProduct.gallery.map((img, i) => {
+                  const mappedSize = quickViewProduct.sizes[i];
+                  const isCurrent = activeImage === img;
+                  return (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => handleSelectThumbnail(img, i)}
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        border: isCurrent
                           ? "2px solid #ab8e66"
                           : "1px solid #eee",
-                      padding: "2px",
-                      background: "#fff",
-                      cursor: "pointer",
-                      width: "68px",
-                    }}
-                  >
-                    <img
-                      src={img}
-                      alt={`${quickViewProduct.name} ${i + 1}`}
-                      style={{ width: "100%", height: "auto" }}
-                    />
-                  </button>
-                ))}
+                        padding: "3px",
+                        background: "#fff",
+                        cursor: "pointer",
+                        width: "68px",
+                        borderRadius: "4px",
+                      }}
+                      title={
+                        mappedSize
+                          ? `${mappedSize} Bottle View`
+                          : `View ${i + 1}`
+                      }
+                    >
+                      <img
+                        src={img}
+                        alt={`${quickViewProduct.name} ${i + 1}`}
+                        style={{ width: "100%", height: "auto" }}
+                      />
+                      {mappedSize && (
+                        <span
+                          style={{
+                            fontSize: "10px",
+                            fontWeight: isCurrent ? 700 : 500,
+                            color: isCurrent ? "#ab8e66" : "#666",
+                            marginTop: "2px",
+                          }}
+                        >
+                          {mappedSize}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
           <div className="col-md-6 col-sm-12">
-            <div className="details-infor" style={{ width: "100%", paddingLeft: 0 }}>
+            <div
+              className="details-infor"
+              style={{ width: "100%", paddingLeft: 0 }}
+            >
               <h1 className="product-title">
                 <Link
                   href={`/product/${quickViewProduct.slug}`}
@@ -191,10 +257,39 @@ export default function QuickViewModal() {
                   {quickViewProduct.inStock ? "In Stock" : "Out of Stock"}
                 </a>
               </div>
-              <div className="price">
-                <span>
-                  {siteConfig.currency}
-                  {quickViewProduct.price}
+              <div
+                className="price"
+                style={{
+                  display: "flex",
+                  alignItems: "baseline",
+                  flexWrap: "wrap",
+                  gap: "8px",
+                  margin: "12px 0",
+                }}
+              >
+                {currentOldPrice && (
+                  <del style={{ color: "#999", fontSize: "15px" }}>
+                    {siteConfig.currency} {currentOldPrice.toLocaleString()}
+                  </del>
+                )}
+                <ins
+                  style={{
+                    color: "#ab8e66",
+                    fontWeight: 700,
+                    fontSize: "24px",
+                    textDecoration: "none",
+                  }}
+                >
+                  {siteConfig.currency} {currentPrice.toLocaleString()}
+                </ins>
+                <span
+                  style={{
+                    fontSize: "13px",
+                    color: "#666",
+                    fontWeight: 500,
+                  }}
+                >
+                  ({selectedSize} bottle)
                 </span>
               </div>
               <div className="product-details-description">
@@ -205,43 +300,72 @@ export default function QuickViewModal() {
                 </ul>
               </div>
               <div className="variations">
-                <div className="attribute attribute_color">
-                  <div className="color-text text-attribute">
-                    Bottle Finish: <span>{selectedFinish}</span>
-                  </div>
-                  <div className="list-color list-item">
-                    {quickViewProduct.bottleFinishes.map((finish) => (
-                      <a
-                        key={finish.label}
-                        href="#finish"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setSelectedFinish(finish.label);
-                        }}
-                        className={`${finish.className} ${
-                          selectedFinish === finish.label ? "active" : ""
-                        }`}
-                        title={finish.label}
-                      ></a>
-                    ))}
-                  </div>
-                </div>
                 <div className="attribute attribute_size">
-                  <div className="size-text text-attribute">Bottle Volume:</div>
-                  <div className="list-size list-item">
-                    {quickViewProduct.sizes.map((sz) => (
-                      <a
-                        key={sz}
-                        href="#size"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setSelectedSize(sz);
-                        }}
-                        className={selectedSize === sz ? "active" : ""}
-                      >
-                        {sz}
-                      </a>
-                    ))}
+                  <div
+                    className="size-text text-attribute"
+                    style={{ marginBottom: "8px" }}
+                  >
+                    Select Bottle Size:{" "}
+                    <span style={{ color: "#ab8e66", fontWeight: 700 }}>
+                      {selectedSize}
+                    </span>
+                  </div>
+                  <div
+                    className="list-size list-item"
+                    style={{
+                      display: "flex",
+                      gap: "8px",
+                      flexWrap: "wrap",
+                    }}
+                  >
+                    {quickViewProduct.sizes.map((sz) => {
+                      const szPrice = getProductPriceForSize(
+                        quickViewProduct,
+                        sz
+                      );
+                      const isActive = selectedSize === sz;
+                      return (
+                        <a
+                          key={sz}
+                          href="#size"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleSelectSize(sz);
+                          }}
+                          className={isActive ? "active" : ""}
+                          style={{
+                            padding: "6px 12px",
+                            height: "auto",
+                            borderRadius: "4px",
+                            fontWeight: 600,
+                            display: "inline-flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            textAlign: "center",
+                            lineHeight: "1.3",
+                            border: isActive
+                              ? "2px solid #ab8e66"
+                              : "1px solid #ddd",
+                            background: isActive ? "#faf7f2" : "#fff",
+                            color: isActive ? "#ab8e66" : "#333",
+                            cursor: "pointer",
+                            transition: "all 0.2s ease",
+                          }}
+                        >
+                          <span style={{ fontSize: "13px" }}>{sz}</span>
+                          <span
+                            style={{
+                              fontSize: "10px",
+                              opacity: 0.85,
+                              fontWeight: 500,
+                              marginTop: "2px",
+                            }}
+                          >
+                            {siteConfig.currency} {szPrice.toLocaleString()}
+                          </span>
+                        </a>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -269,49 +393,42 @@ export default function QuickViewModal() {
                     </a>
                   </div>
                 </div>
-                <div className="quantity-add-to-cart">
+                {!isOutOfStock && (
                   <div className="quantity">
                     <div className="control">
-                      <a
+                      <button
+                        type="button"
                         className="btn-number qtyminus quantity-minus"
-                        href="#minus"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setQuantity((q) => Math.max(1, q - 1));
-                        }}
+                        onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                       >
                         -
-                      </a>
+                      </button>
                       <input
                         type="text"
                         value={quantity}
                         readOnly
-                        title="Qty"
                         className="input-qty qty"
                         size={4}
                       />
-                      <a
+                      <button
+                        type="button"
                         className="btn-number qtyplus quantity-plus"
-                        href="#plus"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setQuantity((q) => q + 1);
-                        }}
+                        onClick={() => setQuantity((q) => q + 1)}
                       >
                         +
-                      </a>
+                      </button>
                     </div>
                   </div>
-                  <button
-                    type="button"
-                    onClick={handleAdd}
-                    disabled={isOutOfStock}
-                    className="single_add_to_cart_button button"
-                    style={isOutOfStock ? { opacity: 0.6, cursor: "not-allowed" } : undefined}
-                  >
-                    {isOutOfStock ? "Out of Stock" : "Add to cart"}
-                  </button>
-                </div>
+                )}
+                <button
+                  type="button"
+                  onClick={handleAdd}
+                  disabled={isOutOfStock}
+                  className="single_add_to_cart_button button"
+                  style={isOutOfStock ? { opacity: 0.5, cursor: "not-allowed" } : undefined}
+                >
+                  {isOutOfStock ? "Out of Stock" : "Add to Bag"}
+                </button>
               </div>
             </div>
           </div>
