@@ -46,7 +46,7 @@ export default function AdminDashboardClient() {
   const handleGateLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (loginAdmin(loginEmail, loginPassword)) {
-      toast.success("Logged in to 3Auqab Dashboard!");
+      toast.success("Logged in to 3Uqab Dashboard!");
     } else {
       toast.error("Invalid email or password.");
     }
@@ -77,7 +77,7 @@ export default function AdminDashboardClient() {
                 margin: "0 0 6px 0",
               }}
             >
-              3<span style={{ color: "#ab8e66" }}>AUQAB</span> ADMIN
+              3<span style={{ color: "#ab8e66" }}>UQAB</span> ADMIN
             </h2>
             <p style={{ fontSize: "13px", color: "#888888", margin: 0 }}>
               Sign in with owner email and password
@@ -93,7 +93,7 @@ export default function AdminDashboardClient() {
                 required
                 value={loginEmail}
                 onChange={(e) => setLoginEmail(e.target.value)}
-                placeholder="auqab@owner.com"
+                placeholder="uqab@owner.com"
               />
             </div>
             <div className="admin-form-group">
@@ -216,7 +216,7 @@ export default function AdminDashboardClient() {
         <div className="admin-sidebar-brand">
           <div>
             <h2 className="admin-brand-title">
-              3<span>AUQAB</span>
+              3<span>UQAB</span>
             </h2>
             <span className="admin-brand-subtitle">Store Dashboard</span>
           </div>
@@ -279,7 +279,7 @@ export default function AdminDashboardClient() {
               <i className="fa fa-bars"></i>
             </button>
             <div className="admin-breadcrumb">
-              3Auqab /{" "}
+              3Uqab /{" "}
               <strong>
                 {navItems.find((n) => n.key === activeModule)?.label}
               </strong>

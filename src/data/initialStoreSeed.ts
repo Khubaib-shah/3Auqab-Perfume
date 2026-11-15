@@ -21,6 +21,7 @@ export interface HeroSlideItem {
   codeValue?: string;
   btnClass: string;
   bgImage?: string;
+  link?: string;
   isActive: boolean;
 }
 
@@ -251,8 +252,13 @@ export function getInitialDatabaseSeed(): DatabaseSchema {
       popularTags: [...siteConfig.popularTags],
       logo: "/assets/images/logo.webp",
     },
-    announcements: [],
-    heroSlides: [],
+    announcements: (siteConfig.announcements || []).map((text, idx) => ({
+      id: `ann-${idx + 1}`,
+      text,
+      isActive: true,
+      sortOrder: idx + 1,
+    })),
+    heroSlides: [...siteConfig.heroSlides],
     testimonials: [],
     categories: [],
     products: [],
@@ -263,7 +269,7 @@ export function getInitialDatabaseSeed(): DatabaseSchema {
     vouchers: [
       {
         id: "vouch-1",
-        code: "3AUQAB",
+        code: "3UQAB",
         discountType: "PERCENTAGE",
         discountValue: 20,
         minOrderAmount: 0,
@@ -281,39 +287,11 @@ export function getInitialDatabaseSeed(): DatabaseSchema {
       },
     ],
     promoBanners: {
-      homeCard1: {
-        subtitle: "Limited Edition",
-        title: "Oud & Attar\n30% Off",
-        code: "3AUQAB",
-        link: "/shop",
-      },
-      homeCard2: {
-        subtitle: "Luxury Gift Bundles",
-        title: "Signature\nScents",
-        code: "3AUQAB",
-        link: "/shop",
-      },
-      homeFullwidth: {
-        subtitle: "3Auqab Exclusive",
-        title: "Royal Collection Sale",
-        highlightText: "20%",
-        tagline: "Handcrafted 100ml Eau de Parfum",
-        link: "/shop",
-      },
-      shopSlide1: {
-        subtitle: "Elevate Your Presence!",
-        title: "Flash Sale Up To\n20% Off",
-        code: "3AUQAB",
-        link: "/shop",
-      },
-      shopSlide2: {
-        title: "Royal Oud Collection",
-        description:
-          "Experience authentic Dubai & French perfumery craftsmanship",
-        priceLabel: "Bundle Price:",
-        priceValue: "Rs 8,500",
-        link: "/shop",
-      },
+      homeCard1: { ...siteConfig.promoBanners.homeCard1 },
+      homeCard2: { ...siteConfig.promoBanners.homeCard2 },
+      homeFullwidth: { ...siteConfig.promoBanners.homeFullwidth },
+      shopSlide1: { ...siteConfig.promoBanners.shopSlide1 },
+      shopSlide2: { ...siteConfig.promoBanners.shopSlide2 },
     },
   };
 }

@@ -48,17 +48,17 @@ export default function ContentModule() {
       homeCard1: {
         subtitle: "Limited Edition",
         title: "Oud & Attar\n30% Off",
-        code: "3AUQAB",
+        code: "3UQAB",
         link: "/shop",
       },
       homeCard2: {
         subtitle: "Luxury Gift Bundles",
         title: "Signature\nScents",
-        code: "3AUQAB",
+        code: "3UQAB",
         link: "/shop",
       },
       homeFullwidth: {
-        subtitle: "3Auqab Exclusive",
+        subtitle: "3Uqab Exclusive",
         title: "Royal Collection Sale",
         highlightText: "20%",
         tagline: "Handcrafted 100ml Eau de Parfum",
@@ -67,7 +67,7 @@ export default function ContentModule() {
       shopSlide1: {
         subtitle: "Elevate Your Presence!",
         title: "Flash Sale Up To\n20% Off",
-        code: "3AUQAB",
+        code: "3UQAB",
         link: "/shop",
       },
       shopSlide2: {
@@ -601,7 +601,7 @@ export default function ContentModule() {
                     })
                   }
                   folder="banners"
-                  fileName="3auqab-promo-card-1"
+                  fileName="3uqab-promo-card-1"
                 />
               </div>
 
@@ -687,7 +687,7 @@ export default function ContentModule() {
                     })
                   }
                   folder="banners"
-                  fileName="3auqab-promo-card-2"
+                  fileName="3uqab-promo-card-2"
                 />
               </div>
             </div>
@@ -808,7 +808,7 @@ export default function ContentModule() {
                   })
                 }
                 folder="banners"
-                fileName="3auqab-promo-fullwidth"
+                fileName="3uqab-promo-fullwidth"
               />
             </div>
           </div>
@@ -1246,8 +1246,8 @@ export default function ContentModule() {
                 folder="banners"
                 fileName={
                   editingHero.titleLine1
-                    ? `3auqab-banner-${editingHero.titleLine1}-${editingHero.titleLine2}`
-                    : "3auqab-banner"
+                    ? `3uqab-banner-${editingHero.titleLine1}-${editingHero.titleLine2}`
+                    : "3uqab-banner"
                 }
               />
               <div className="admin-grid-2">
@@ -1384,7 +1384,7 @@ export default function ContentModule() {
                 value={testAvatar}
                 onChange={setTestAvatar}
                 folder="reviews"
-                fileName={testName ? `3auqab-review-${testName}` : "3auqab-review"}
+                fileName={testName ? `3uqab-review-${testName}` : "3uqab-review"}
               />
               <div className="admin-form-group">
                 <label className="admin-label">Review Text *</label>

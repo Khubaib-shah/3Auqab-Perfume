@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo } from "react";
+import { siteConfig } from "@/data/siteConfig";
 import { useAdminStore } from "@/store/useAdminStore";
 import { HeroSlider } from "./HeroSlider";
 import { TopPromoBanners } from "./TopPromoBanners";
@@ -14,20 +15,21 @@ import { InstagramFeed } from "./InstagramFeed";
 
 export default function HomeClient() {
   const settings = useAdminStore((s) => s.settings);
-  const allHeroSlides = useAdminStore((s) => s.heroSlides);
   const allTestimonials = useAdminStore((s) => s.testimonials);
   const products = useAdminStore((s) => s.products);
   const allBlogs = useAdminStore((s) => s.blogs);
-  const promoBanners = useAdminStore((s) => s.promoBanners);
   const subscribeNewsletterOnServer = useAdminStore(
     (s) => s.subscribeNewsletterOnServer
   );
 
+  // Static Banners: instantly rendered from siteConfig without relying on or waiting for backend responses.
+  // All banner configurations can be updated in a single file: `src/data/siteConfig.ts`
+  const heroSlides = siteConfig.heroSlides;
+  const card1 = siteConfig.promoBanners.homeCard1;
+  const card2 = siteConfig.promoBanners.homeCard2;
+  const fullBanner = siteConfig.promoBanners.homeFullwidth;
+
   // Memoize filtered store slices
-  const heroSlides = useMemo(
-    () => allHeroSlides.filter((h) => h.isActive),
-    [allHeroSlides]
-  );
   const testimonials = useMemo(
     () => allTestimonials.filter((t) => t.isActive),
     [allTestimonials]
@@ -39,40 +41,6 @@ export default function HomeClient() {
   const featuredProducts = useMemo(
     () => products.slice(0, 8),
     [products]
-  );
-
-  const card1 = useMemo(
-    () =>
-      promoBanners?.homeCard1 || {
-        subtitle: "Limited Edition",
-        title: "Oud & Attar\n30% Off",
-        code: settings.promoCode || "3AUQAB",
-        link: "/shop",
-      },
-    [promoBanners?.homeCard1, settings.promoCode]
-  );
-
-  const card2 = useMemo(
-    () =>
-      promoBanners?.homeCard2 || {
-        subtitle: "Luxury Gift Bundles",
-        title: "Signature\nScents",
-        code: settings.promoCode || "3AUQAB",
-        link: "/shop",
-      },
-    [promoBanners?.homeCard2, settings.promoCode]
-  );
-
-  const fullBanner = useMemo(
-    () =>
-      promoBanners?.homeFullwidth || {
-        subtitle: "3Auqab Exclusive",
-        title: "Royal Collection",
-        highlightText: "20%",
-        tagline: "Handcrafted 100ml Eau de Parfum",
-        link: "/shop",
-      },
-    [promoBanners?.homeFullwidth]
   );
 
   return (

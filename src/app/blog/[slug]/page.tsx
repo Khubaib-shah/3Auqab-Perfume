@@ -13,7 +13,7 @@ interface PageProps {
 const fallbackBlog: BlogPost = {
   id: "blog-1",
   slug: "art-of-layering-oud-and-edp",
-  title: "3Auqab Perfume Journal",
+  title: "3Uqab Perfume Journal",
   category: "FRAGRANCE GUIDE",
   date: "August 17",
   author: "Tariq Al-Mansoor",
@@ -22,10 +22,10 @@ const fallbackBlog: BlogPost = {
   views: 100,
   commentsCount: 5,
   image: "/assets/images/blog2.jpg",
-  excerpt: "Explore luxury Arabian Oud and Eau de Parfum guides by 3Auqab.",
-  content: ["Explore luxury Arabian Oud and Eau de Parfum guides by 3Auqab."],
+  excerpt: "Explore luxury Arabian Oud and Eau de Parfum guides by 3Uqab.",
+  content: ["Explore luxury Arabian Oud and Eau de Parfum guides by 3Uqab."],
   quote: "A signature fragrance is an unforgettable memory.",
-  tags: ["3Auqab", "Arabian Oud", "Eau de Parfum"],
+  tags: ["3Uqab", "Arabian Oud", "Eau de Parfum"],
 };
 
 export async function generateMetadata({

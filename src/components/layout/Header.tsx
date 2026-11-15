@@ -219,11 +219,11 @@ export default function Header() {
                 <ul className="menu">
                   <li className="menu-item">
                     <Link href="/product/uqab-signature-edp">
-                      3Auqab Signature EDP
+                      3Uqab Signature EDP
                     </Link>
                   </li>
                   <li className="menu-item">
-                    <Link href="/product/uqab-rihla-edp">Auqab Rihla Eau</Link>
+                    <Link href="/product/uqab-rihla-edp">Uqab Rihla Eau</Link>
                   </li>
                   <li className="menu-item">
                     <Link href="/product/ambre-royal-extrait">
@@ -968,7 +968,7 @@ export default function Header() {
                   href="/product/uqab-signature-edp"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  3Auqab Signature EDP
+                  3Uqab Signature EDP
                 </Link>
               </li>
               <li className="menu-item">
@@ -976,7 +976,7 @@ export default function Header() {
                   href="/product/uqab-rihla-edp"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Auqab Rihla Eau
+                  Uqab Rihla Eau
                 </Link>
               </li>
             </ul>

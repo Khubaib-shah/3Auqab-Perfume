@@ -1,7 +1,7 @@
 <div align="center">
-  <img src="public/uploads/3auqab/settings/3auqab-logo.webp" alt="3Auqab Luxury Perfumes Logo" width="105" />
+  <img src="public/uploads/3uqab/settings/3uqab-logo.webp" alt="3Uqab Luxury Perfumes Logo" width="105" />
 
-  <h1>3Auqab Perfume (Three Auqab) — Luxury Fragrance E-Commerce &amp; Operations Platform</h1>
+  <h1>3Uqab Perfume (Three Uqab) — Luxury Fragrance E-Commerce &amp; Operations Platform</h1>
 
   <p>
     <strong>An enterprise-grade, mobile-first Next.js 16 luxury e-commerce boutique &amp; merchant management platform for artisanal French &amp; Arabian perfumery, featuring serverless PostgreSQL state persistence, instant optimistic cart &amp; local-storage wishlist, interactive fragrance pyramid discovery, dynamic promotions, and full back-office WhatsApp CRM order fulfillment.</strong>
@@ -33,7 +33,7 @@
 
 High-end luxury perfumery demands more than a conventional digital catalog—it requires olfactory storytelling (Top, Heart, and Base notes), custom bottle finish selections, real-time inventory synchronizations, zero-delay mobile navigation, resilient multi-environment database fallback, and frictionless merchant order fulfillment.
 
-**3Auqab Perfumes** solves this with a headless Next.js 16 architecture:
+**3Uqab Perfumes** solves this with a headless Next.js 16 architecture:
 
 - **Artisanal Fragrance Pyramid:** Structured olfactory profile representation allowing connoisseurs to explore top, middle, and lingering base notes with seamless single-row tab transitions across all screen sizes.
 - **Dual-Storage Resilience Engine:** Instant hydration from Neon Serverless PostgreSQL with automatic graceful degradation to an in-memory seed ledger if database connections fluctuate, preventing storefront downtime.
@@ -287,7 +287,7 @@ sequenceDiagram
 ### 4. Project Directory Structure
 
 ```text
-3Auqab/nextjs/
+3Uqab/nextjs/
 ├── docs/images/                 # Showcase screenshots & high-resolution visual previews
 ├── prisma/
 │   └── schema.prisma            # Production PostgreSQL relational schema (Prisma ORM)
@@ -296,7 +296,7 @@ sequenceDiagram
 │   │   ├── css/                 # Core stylesheets & third-party styles
 │   │   ├── fonts/               # Flaticon & FontAwesome luxury typography icon fonts
 │   │   └── images/              # Fragrance catalog pictures, banners & author avatars
-│   └── uploads/3auqab/settings/ # Brand golden emblem logo & uploaded merchant assets
+│   └── uploads/3uqab/settings/ # Brand golden emblem logo & uploaded merchant assets
 ├── src/
 │   ├── app/                     # Next.js 16 App Router pages & API handlers
 │   │   ├── api/                 # REST endpoints (store, orders, newsletter, contact, upload)
@@ -361,7 +361,7 @@ NEXT_PUBLIC_SITE_URL="http://localhost:3000"
 DATABASE_URL="postgresql://USER:PASSWORD@HOST/DATABASE?sslmode=require"
 
 # Admin Authentication
-ADMIN_DEFAULT_EMAIL="admin@3auqab.com"
+ADMIN_DEFAULT_EMAIL="admin@3uqab.com"
 ADMIN_DEFAULT_PASSWORD="YourSecurePasswordHere"
 ```
 
@@ -397,7 +397,7 @@ npm start
 
 Hi, I'm **Khubaib Shah** (`syedkhubaibshah@icloud.com`) — a software engineer passionate about architecting high-performance, visually captivating full-stack web applications and robust digital commerce platforms.
 
-While building **3Auqab Perfume**, my focus was on crafting a true luxury digital experience that balances aesthetic grandeur with rigorous engineering standards:
+While building **3Uqab Perfume**, my focus was on crafting a true luxury digital experience that balances aesthetic grandeur with rigorous engineering standards:
 - **Resilient Architectural Fundamentals:** Building zero-downtime serverless database bridges with automatic seed fallbacks, atomic checkout mutations, and strict TypeScript data contracts.
 - **Micro-Interaction Polish & Mobile Ergonomics:** Designing fluid 800ms touch-swipe carousels, instant optimistic cart/wishlist persistence, typeahead olfactory search, and responsive thumb-friendly mobile app navigation.
 - **Operations & Merchant Enablement:** Equipping business operators with real-time analytics, inventory management, and one-click WhatsApp customer communication drawers that turn incoming leads into completed deliveries.

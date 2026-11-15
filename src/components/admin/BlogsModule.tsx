@@ -21,7 +21,7 @@ export default function BlogsModule() {
   const [image, setImage] = useState("/assets/images/blog-grid-1.jpg");
   const [excerpt, setExcerpt] = useState("");
   const [quote, setQuote] = useState("");
-  const [tagsText, setTagsText] = useState("3Auqab, Oud, Eau de Parfum");
+  const [tagsText, setTagsText] = useState("3Uqab, Oud, Eau de Parfum");
   const [contentText, setContentText] = useState("");
   const [isPublished, setIsPublished] = useState(true);
 
@@ -35,7 +35,7 @@ export default function BlogsModule() {
     setImage("/assets/images/blog-grid-1.jpg");
     setExcerpt("");
     setQuote("A great perfume leaves a lasting memory.");
-    setTagsText("3Auqab, Three Auqab, Oud");
+    setTagsText("3Uqab, Three Uqab, Oud");
     setContentText("");
     setIsPublished(true);
     setModalOpen(true);
@@ -283,7 +283,7 @@ export default function BlogsModule() {
                 value={image}
                 onChange={setImage}
                 folder="blogs"
-                fileName={title || slug || "3auqab-blog"}
+                fileName={title || slug || "3uqab-blog"}
               />
 
               <div className="admin-form-group">

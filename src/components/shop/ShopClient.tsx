@@ -22,20 +22,8 @@ export default function ShopClient() {
     (s) => s.subscribeNewsletterOnServer
   );
 
-  const shopSlide1 = promoBanners?.shopSlide1 || {
-    subtitle: "Elevate Your Presence!",
-    title: "Flash Sale Up To\n20% Off",
-    code: settings.promoCode || "3AUQAB",
-    link: "/shop",
-  };
-  const shopSlide2 = promoBanners?.shopSlide2 || {
-    title: "Royal Oud Collection",
-    description:
-      "Experience authentic Dubai & French perfumery craftsmanship",
-    priceLabel: "Bundle Price:",
-    priceValue: `${settings.currency} 8,500`,
-    link: "/shop",
-  };
+  const shopSlide1 = siteConfig.promoBanners.shopSlide1;
+  const shopSlide2 = siteConfig.promoBanners.shopSlide2;
 
   const [bannerSlide, setBannerSlide] = useState(0);
 
@@ -312,7 +300,7 @@ export default function ShopClient() {
                   <h3 className="custom_blog_title">
                     {initialQuery
                       ? `Search Results for "${initialQuery}"`
-                      : "Three Auqab Fragrances"}
+                      : "Three Uqab Fragrances"}
                   </h3>
                   {initialQuery && (
                     <button

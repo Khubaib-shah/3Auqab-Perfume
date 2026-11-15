@@ -1,15 +1,15 @@
-# 3Auqab Perfume: Admin Dashboard Design System (`DESIGN.md`)
+# 3Uqab Perfume: Admin Dashboard Design System (`DESIGN.md`)
 
 > **CRITICAL INSTRUCTION FOR AI AGENTS & DEVELOPERS**
 > Before writing any Admin Dashboard UI component, read this file completely.
-> The Admin Dashboard MUST look like a native extension of the **3Auqab (Three Auqab Perfume)** luxury storefront (`style.css` & `globals.css`).
+> The Admin Dashboard MUST look like a native extension of the **3Uqab (Three Uqab Perfume)** luxury storefront (`style.css` & `globals.css`).
 > Do **NOT** generate generic "AI SaaS" dashboards (no Indigo/Violet `#6366f1` buttons, no Tailwind `rounded-xl` cards, no heavy `shadow-lg` floating boxes, no glassmorphism, and no neon gradients).
 
 ---
 
 ## 1. Core Brand Philosophy: "Editorial Parisian & Arabian Atelier"
 
-The 3Auqab storefront combines **sharp architectural containers (`border-radius: 0px`)** with **soft pill-shaped interactive controls (`border-radius: 30px`)**, framed in **Warm Bronze Gold (`#ab8e66`)**, **Obsidian Black (`#111111`)**, **Alabaster Stone (`#f3f3f3`)**, and **Crisp White (`#ffffff`)**, set exclusively in the **Jost** geometric sans-serif typeface.
+The 3Uqab storefront combines **sharp architectural containers (`border-radius: 0px`)** with **soft pill-shaped interactive controls (`border-radius: 30px`)**, framed in **Warm Bronze Gold (`#ab8e66`)**, **Obsidian Black (`#111111`)**, **Alabaster Stone (`#f3f3f3`)**, and **Crisp White (`#ffffff`)**, set exclusively in the **Jost** geometric sans-serif typeface.
 
 ### Strict Anti-AI-Slop Rules
 1. **No Blue/Indigo/Purple Primary Accents**: The primary brand color is `#ab8e66` (Warm Bronze Gold) and secondary action color is `#111111` (Obsidian Black). Never use default Tailwind `blue-600`, `indigo-500`, or `violet-600`.
@@ -110,11 +110,11 @@ Every major card or form section title in the dashboard should use the storefron
 * **Left Sidebar (`260px` fixed on desktop, slide-over drawer on mobile)**:
   * Background: `#111111` (matches `.form-contact-information` and dark luxury footer) OR `#ffffff` with `1px solid #f1f1f1` right border.
   * Recommended: **Dark Obsidian Sidebar (`#111111`)** with white/muted text (`#cccccc`) and **Brand Gold (`#ab8e66`)** active bar on the left (`border-left: 3px solid #ab8e66; background: #1a1a1a; color: #ffffff`).
-  * Top of Sidebar: 3Auqab Logo + `"ADMIN ATELIER"` subtitle in `11px` uppercase `#ab8e66` (`letter-spacing: 0.15em`).
+  * Top of Sidebar: 3Uqab Logo + `"ADMIN ATELIER"` subtitle in `11px` uppercase `#ab8e66` (`letter-spacing: 0.15em`).
 * **Top Header Bar (`64px` height)**:
   * Background: `#ffffff`
   * Border Bottom: `1px solid #f1f1f1`
-  * Left: Breadcrumb matching storefront `.breadcrumb` (`Dashboard > Orders > #3AUQ-10042`).
+  * Left: Breadcrumb matching storefront `.breadcrumb` (`Dashboard > Orders > #3UQAB-10042`).
   * Right: Quick "View Live Store" pill button (`border: 1px solid #e9e9e9; border-radius: 30px`), Pending Orders notification bell with gold badge count, and Admin profile name.
 * **Main Workspace Canvas**:
   * Background: `#f3f3f3` (or `#fafafa`) so `#ffffff` sharp cards stand out cleanly.

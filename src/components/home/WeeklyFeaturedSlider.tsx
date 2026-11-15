@@ -101,7 +101,7 @@ function WeeklyFeaturedSliderComponent({ products }: WeeklyFeaturedSliderProps) 
             <div className="head-text-group">
               <h3 className="title">Weekly Featured</h3>
               <div className="subtitle">
-                Explore our most-loved 3Auqab fragrances this week
+                Explore our most-loved 3Uqab fragrances this week
               </div>
             </div>
             <div className="weekly-nav-arrows">

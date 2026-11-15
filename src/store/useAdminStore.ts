@@ -53,7 +53,7 @@ const initialSeed = getInitialDatabaseSeed();
 function broadcastStoreSync(data: DatabaseSchema) {
   if (typeof window !== "undefined" && "BroadcastChannel" in window) {
     try {
-      const channel = new BroadcastChannel("3auqab_realtime_sync");
+      const channel = new BroadcastChannel("3uqab_realtime_sync");
       channel.postMessage(data);
       channel.close();
     } catch {
@@ -70,9 +70,12 @@ export const useAdminStore = create<AdminStoreState>()((set, get) => ({
 
   loginAdmin: (email, password) => {
     const cleanEmail = email.trim().toLowerCase();
-    if (cleanEmail === "auqab@owner.com" && password === "3Auqab1122@@") {
+    const isEmailValid = cleanEmail === "uqab@owner.com" || cleanEmail === "auqab@owner.com";
+    const isPasswordValid = password === "3Uqab1122@@" || password === "3Auqab1122@@";
+
+    if (isEmailValid && isPasswordValid) {
       if (typeof window !== "undefined") {
-        localStorage.setItem("3auqab_admin_session", "authenticated");
+        localStorage.setItem("3uqab_admin_session", "authenticated");
       }
       set({ isAuthenticated: true });
       return true;
@@ -82,6 +85,7 @@ export const useAdminStore = create<AdminStoreState>()((set, get) => ({
 
   logoutAdmin: () => {
     if (typeof window !== "undefined") {
+      localStorage.removeItem("3uqab_admin_session");
       localStorage.removeItem("3auqab_admin_session");
     }
     set({ isAuthenticated: false });
@@ -90,7 +94,9 @@ export const useAdminStore = create<AdminStoreState>()((set, get) => ({
   hydrateFromServer: async (force = false) => {
     if (!force && get().isHydrated) return;
     if (typeof window !== "undefined") {
-      const savedAuth = localStorage.getItem("3auqab_admin_session");
+      const savedAuth =
+        localStorage.getItem("3uqab_admin_session") ||
+        localStorage.getItem("3auqab_admin_session");
       if (savedAuth === "authenticated") {
         set({ isAuthenticated: true });
       }

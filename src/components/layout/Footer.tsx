@@ -142,7 +142,7 @@ export default function Footer() {
                   <h2 className="widgettitle">Information</h2>
                   <ul className="menu">
                     <li className="menu-item">
-                      <Link href="/about">About 3Auqab</Link>
+                      <Link href="/about">About 3Uqab</Link>
                     </li>
                     <li className="menu-item">
                       <Link href="/shop">Track Order</Link>

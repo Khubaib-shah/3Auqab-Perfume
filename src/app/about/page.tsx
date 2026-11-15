@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const teamMembers = [
   {
     name: "Tariq Al-Mansoor",
-    role: "Founder & Master Perfumer, 3Auqab",
+    role: "Founder & Master Perfumer, 3Uqab",
     avatar: "/assets/images/member3.png",
   },
   {
@@ -122,7 +122,7 @@ export default function AboutPage() {
                     </div>
                   </div>
                   <h2 className="custom_blog_title center">
-                    3Auqab (Three Auqab) Master Perfumers
+                    3Uqab (Three Uqab) Master Perfumers
                   </h2>
                   <div className="team-member-slider nav-center owl-slick">
                     <div className="row">

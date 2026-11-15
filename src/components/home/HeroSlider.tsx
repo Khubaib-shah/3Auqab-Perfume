@@ -108,7 +108,7 @@ function HeroSliderComponent({ slides }: HeroSliderProps) {
                           </div>
                         )}
                         <Link
-                          href="/shop"
+                          href={slide.link || "/shop"}
                           className={`button ${slide.btnClass} bgroud-style`}
                         >
                           Shop now

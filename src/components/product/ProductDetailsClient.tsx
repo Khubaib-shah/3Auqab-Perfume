@@ -673,7 +673,7 @@ export default function ProductDetailsClient({
                     <div className="Testimonial-inner">
                       <div className="comment">
                         {storeTestimonials[0]?.text ||
-                          "3Auqab Perfumes deliver extraordinary sillage and authentic Arabian luxury in every bottle."}
+                          "3Uqab Perfumes deliver extraordinary sillage and authentic Arabian luxury in every bottle."}
                       </div>
                       <div className="author">
                         <div className="avt">

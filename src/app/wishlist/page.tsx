@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import WishlistClient from "@/components/wishlist/WishlistClient";
 
 export const metadata: Metadata = {
-  title: "My Wishlist | Three Auqab Luxury Fragrances",
+  title: "My Wishlist | Three Uqab Luxury Fragrances",
   description: "View and manage your favorite fragrances and signature perfumes.",
 };
 

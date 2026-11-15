@@ -38,7 +38,7 @@ export default function SettingsModule() {
     apiKey: "",
     apiSecret: "",
     uploadPreset: "",
-    rootFolder: "3auqab",
+    rootFolder: "3uqab",
   };
 
   return (
@@ -68,7 +68,7 @@ export default function SettingsModule() {
               value={formState.logo || "/assets/images/logo.webp"}
               onChange={(url) => setFormState({ ...formState, logo: url })}
               folder="settings"
-              fileName="3auqab-logo"
+              fileName="3uqab-logo"
             />
             <div className="admin-grid-2">
               <div className="admin-form-group">
@@ -283,12 +283,12 @@ export default function SettingsModule() {
           <p style={{ fontSize: "13px", marginBottom: "16px" }}>
             All images (PNG, JPG, or pasted URLs) are converted to{" "}
             <strong>.webp</strong> and uploaded into subfolders inside{" "}
-            <strong>{cloud.rootFolder || "3auqab"}/</strong>:{" "}
-            <code>{cloud.rootFolder || "3auqab"}/products</code>,{" "}
-            <code>{cloud.rootFolder || "3auqab"}/banners</code>,{" "}
-            <code>{cloud.rootFolder || "3auqab"}/blogs</code>,{" "}
-            <code>{cloud.rootFolder || "3auqab"}/categories</code>,{" "}
-            <code>{cloud.rootFolder || "3auqab"}/reviews</code>.
+            <strong>{cloud.rootFolder || "3uqab"}/</strong>:{" "}
+            <code>{cloud.rootFolder || "3uqab"}/products</code>,{" "}
+            <code>{cloud.rootFolder || "3uqab"}/banners</code>,{" "}
+            <code>{cloud.rootFolder || "3uqab"}/blogs</code>,{" "}
+            <code>{cloud.rootFolder || "3uqab"}/categories</code>,{" "}
+            <code>{cloud.rootFolder || "3uqab"}/reviews</code>.
           </p>
 
           <div className="admin-grid-2">
@@ -312,7 +312,7 @@ export default function SettingsModule() {
               <input
                 type="text"
                 className="admin-input"
-                placeholder="3auqab"
+                placeholder="3uqab"
                 value={cloud.rootFolder}
                 onChange={(e) =>
                   setFormState({
@@ -362,7 +362,7 @@ export default function SettingsModule() {
               <input
                 type="text"
                 className="admin-input"
-                placeholder="e.g. 3auqab_unsigned"
+                placeholder="e.g. 3uqab_unsigned"
                 value={cloud.uploadPreset}
                 onChange={(e) =>
                   setFormState({

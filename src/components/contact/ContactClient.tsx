@@ -45,7 +45,7 @@ export default function ContactClient() {
       <div className="page-main-content">
         <div className="google-map">
           <iframe
-            title="3Auqab Perfume Location"
+            title="3Uqab Perfume Location"
             width="100%"
             height="500"
             id="gmap_canvas"

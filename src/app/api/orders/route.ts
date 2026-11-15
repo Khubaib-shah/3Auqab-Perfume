@@ -31,7 +31,7 @@ export async function POST(request: Request) {
       orderNumber,
       firstName: body.firstName || "Guest",
       lastName: body.lastName || "Customer",
-      email: body.email || "customer@3auqab.com",
+      email: body.email || "customer@3uqab.com",
       phone: body.phone || "+92 300 0000000",
       whatsapp: cleanWhatsapp || "923000000000",
       country: body.country || "Pakistan",
@@ -54,7 +54,7 @@ export async function POST(request: Request) {
       statusHistory: [
         {
           status: "PENDING",
-          note: `Order placed on 3Auqab Storefront (${
+          note: `Order placed on 3Uqab Storefront (${
             body.paymentMethod === "CARD" ? "Card Paid" : "Cash on Delivery"
           }).`,
           timestamp: nowStr,

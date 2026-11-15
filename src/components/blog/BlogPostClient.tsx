@@ -41,14 +41,14 @@ export default function BlogPostClient({
       id: 1,
       author: "Zainab Al-Mansoor",
       date: "2 days ago",
-      text: "Very helpful guide! Layering 3Auqab Signature EDP over a drop of pure oud oil makes the fragrance last all day long.",
+      text: "Very helpful guide! Layering 3Uqab Signature EDP over a drop of pure oud oil makes the fragrance last all day long.",
       likes: 12,
     },
     {
       id: 2,
       author: "Bilal Ahmed",
       date: "4 days ago",
-      text: "3Auqab Perfumes have become my daily go-to. Looking forward to trying Ambre Royal next.",
+      text: "3Uqab Perfumes have become my daily go-to. Looking forward to trying Ambre Royal next.",
       likes: 9,
     },
   ]);
@@ -81,7 +81,7 @@ export default function BlogPostClient({
     e.preventDefault();
     if (!sidebarEmail.trim()) return;
     await subscribeNewsletterOnServer(sidebarEmail, "Blog Sidebar");
-    toast.success("Subscribed to 3Auqab Perfume Journal!");
+    toast.success("Subscribed to 3Uqab Perfume Journal!");
     setSidebarEmail("");
   };
 

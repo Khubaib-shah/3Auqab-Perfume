@@ -23,11 +23,11 @@ function InstagramFeedComponent({ facebookUrl = "#" }: InstagramFeedProps) {
                     href={facebookUrl}
                     target="_blank"
                     rel="noreferrer"
-                    aria-label={`3Auqab Perfume Instagram post ${num}`}
+                    aria-label={`3Uqab Perfume Instagram post ${num}`}
                   >
                     <img
                       src={`/assets/images/item-instagram-${num}.jpg`}
-                      alt={`3Auqab Perfume Instagram ${num}`}
+                      alt={`3Uqab Perfume Instagram ${num}`}
                     />
                   </a>
                   <span className="text">

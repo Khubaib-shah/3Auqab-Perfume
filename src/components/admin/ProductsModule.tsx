@@ -93,7 +93,7 @@ export default function ProductsModule() {
     setHeartNotes("Damask Rose, Jasmine, Orris");
     setBaseNotes("Royal Oud, Vanilla, White Musk");
     setDescriptionText(
-      "Long-lasting luxury Eau de Parfum by 3Auqab Perfume (Three Auqab)."
+      "Long-lasting luxury Eau de Parfum by 3Uqab Perfume (Three Uqab)."
     );
     setGallery([
       "/assets/images/details-item-1.jpg",
@@ -451,7 +451,7 @@ export default function ProductsModule() {
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="e.g. 3Auqab Royal Oudh"
+                    placeholder="e.g. 3Uqab Royal Oudh"
                   />
                 </div>
                 <div className="admin-form-group">
@@ -461,7 +461,7 @@ export default function ProductsModule() {
                     className="admin-input"
                     value={slug}
                     onChange={(e) => setSlug(e.target.value)}
-                    placeholder="3auqab-royal-oudh"
+                    placeholder="3uqab-royal-oudh"
                   />
                 </div>
               </div>
@@ -545,7 +545,7 @@ export default function ProductsModule() {
                   value={image}
                   onChange={setImage}
                   folder="products"
-                  fileName={name || slug || "3auqab-product"}
+                  fileName={name || slug || "3uqab-product"}
                 />
                 <ImageUploadField
                   label="Featured Image"
@@ -555,7 +555,7 @@ export default function ProductsModule() {
                   fileName={
                     name || slug
                       ? `${name || slug}-featured`
-                      : "3auqab-product-featured"
+                      : "3uqab-product-featured"
                   }
                 />
               </div>
@@ -682,7 +682,7 @@ export default function ProductsModule() {
                             fileName={
                               name || slug
                                 ? `${name || slug}-gallery-${idx + 1}`
-                                : `3auqab-product-gallery-${idx + 1}`
+                                : `3uqab-product-gallery-${idx + 1}`
                             }
                             placeholder="Paste image URL or upload image"
                           />

@@ -21,12 +21,12 @@ interface ImageUploadFieldProps {
 }
 
 const DEFAULT_SEO_NAMES: Record<UploadSubfolder, string> = {
-  products: "3auqab-product",
-  banners: "3auqab-banner",
-  blogs: "3auqab-blog",
-  categories: "3auqab-category",
-  reviews: "3auqab-review",
-  settings: "3auqab-logo",
+  products: "3uqab-product",
+  banners: "3uqab-banner",
+  blogs: "3uqab-blog",
+  categories: "3uqab-category",
+  reviews: "3uqab-review",
+  settings: "3uqab-logo",
 };
 
 function formatSeoSlug(raw: string | undefined, folder: UploadSubfolder): string {
@@ -177,7 +177,7 @@ export default function ImageUploadField({
       }
 
       onChange(data.url);
-      toast.success(`Uploaded as ${seoSlug}.webp in 3auqab/${folder}!`);
+      toast.success(`Uploaded as ${seoSlug}.webp in 3uqab/${folder}!`);
     } catch (err) {
       toast.error(
         err instanceof Error ? err.message : "Failed to upload image"
@@ -210,7 +210,7 @@ export default function ImageUploadField({
         const data = await res.json();
         if (res.ok && data.url) {
           onChange(data.url);
-          toast.success(`Saved as ${seoSlug}.webp in 3auqab/${folder}!`);
+          toast.success(`Saved as ${seoSlug}.webp in 3uqab/${folder}!`);
           setIsUploading(false);
           return;
         }
@@ -230,7 +230,7 @@ export default function ImageUploadField({
         throw new Error(data.error || "URL conversion failed");
       }
       onChange(data.url);
-      toast.success(`Saved as ${seoSlug}.webp in 3auqab/${folder}!`);
+      toast.success(`Saved as ${seoSlug}.webp in 3uqab/${folder}!`);
     } catch (err) {
       toast.error(
         err instanceof Error ? err.message : "Could not process image URL"
@@ -277,7 +277,7 @@ export default function ImageUploadField({
             letterSpacing: "0.04em",
           }}
         >
-          3auqab/{folder}/{seoSlug}.webp
+          3uqab/{folder}/{seoSlug}.webp
         </span>
       </div>
 

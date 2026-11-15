@@ -1,4 +1,4 @@
-// 3Auqab Perfume (Three Auqab) - Production PostgreSQL Schema
+// 3Uqab Perfume (Three Uqab) - Production PostgreSQL Schema
 
 generator client {
   provider = "prisma-client-js"
@@ -27,19 +27,19 @@ model AdminUser {
 
 model StoreSetting {
   id                    String   @id @default("default")
-  brandName             String   @default("3Auqab Perfume")
-  shortName             String   @default("3Auqab")
-  fullName              String   @default("Three Auqab Perfume")
+  brandName             String   @default("3Uqab Perfume")
+  shortName             String   @default("3Uqab")
+  fullName              String   @default("Three Uqab Perfume")
   tagline               String   @default("Luxury Arabian & French Eau de Parfum")
   description           String   @db.Text
-  siteUrl               String   @default("https://3auqab.com")
-  promoCode             String   @default("3AUQAB")
+  siteUrl               String   @default("https://3uqab.com")
+  promoCode             String   @default("3UQAB")
   currencySymbol        String   @default("Rs")
   freeShippingThreshold Float    @default(5000)
   flatShippingRate      Float    @default(250)
   whatsappNumber        String   @default("923149784156")
   phone                 String   @default("(+92) 314 9784156")
-  email                 String   @default("info@3auqab.com")
+  email                 String   @default("info@3uqab.com")
   address               String   @default("Perfume Souk Boulevard, Dubai, UAE & nationwide delivery")
   mapEmbedUrl           String   @db.Text
   facebookUrl           String?

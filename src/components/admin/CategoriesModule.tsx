@@ -74,7 +74,7 @@ export default function CategoriesModule() {
         name: name.trim(),
         slug: generatedSlug,
         description:
-          description.trim() || `3Auqab ${name.trim()} collection.`,
+          description.trim() || `3Uqab ${name.trim()} collection.`,
         image: image.trim(),
         isActive: true,
         showInNav,
@@ -247,7 +247,7 @@ export default function CategoriesModule() {
                 value={image}
                 onChange={setImage}
                 folder="categories"
-                fileName={name || slug ? `3auqab-${name || slug}` : "3auqab-category"}
+                fileName={name || slug ? `3uqab-${name || slug}` : "3uqab-category"}
               />
               <div className="admin-form-group">
                 <label className="admin-label">Short Description</label>

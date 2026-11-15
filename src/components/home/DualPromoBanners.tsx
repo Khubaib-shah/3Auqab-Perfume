@@ -2,8 +2,11 @@
 
 import React, { memo } from "react";
 import Link from "next/link";
+import { siteConfig } from "@/data/siteConfig";
 
 function DualPromoBannersComponent() {
+  const { card1, card2 } = siteConfig.dualPromoBanners;
+
   return (
     <div className="banner-wrapp rows-space-30">
       <div className="container">
@@ -13,16 +16,14 @@ function DualPromoBannersComponent() {
               <div className="item-banner style16">
                 <div className="inner">
                   <div className="banner-content">
-                    <h3 className="title">
-                      Scents for <br />
-                      Every Mood
+                    <h3 className="title" style={{ whiteSpace: "pre-line" }}>
+                      {card1.title}
                     </h3>
-                    <div className="description">
-                      Unisex & Oriental <br />
-                      New Arrivals
+                    <div className="description" style={{ whiteSpace: "pre-line" }}>
+                      {card1.subtitle}
                     </div>
-                    <Link href="/shop" className="button btn-view-the-look">
-                      Shop now
+                    <Link href={card1.link || "/shop"} className="button btn-view-the-look">
+                      {card1.buttonText || "Shop now"}
                     </Link>
                   </div>
                 </div>
@@ -35,13 +36,14 @@ function DualPromoBannersComponent() {
               <div className="item-banner style15">
                 <div className="inner">
                   <div className="banner-content">
-                    <h3 className="title">Signature Oud Sale</h3>
-                    <div className="description">
-                      3Auqab luxury, all-day <br />
-                      long-lasting projection!
+                    <h3 className="title" style={{ whiteSpace: "pre-line" }}>
+                      {card2.title}
+                    </h3>
+                    <div className="description" style={{ whiteSpace: "pre-line" }}>
+                      {card2.subtitle}
                     </div>
-                    <Link href="/shop" className="button btn-view-the-look">
-                      Shop now
+                    <Link href={card2.link || "/shop"} className="button btn-view-the-look">
+                      {card2.buttonText || "Shop now"}
                     </Link>
                   </div>
                 </div>

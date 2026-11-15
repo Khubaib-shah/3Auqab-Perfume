@@ -21,7 +21,7 @@ export default function StorefrontShell({
     let channel: BroadcastChannel | null = null;
     if (typeof window !== "undefined" && "BroadcastChannel" in window) {
       try {
-        channel = new BroadcastChannel("3auqab_realtime_sync");
+        channel = new BroadcastChannel("3uqab_realtime_sync");
         channel.onmessage = (event) => {
           if (event.data && typeof event.data === "object") {
             useAdminStore.setState({ ...event.data, isHydrated: true });

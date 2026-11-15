@@ -3,7 +3,7 @@ import { readDbAsync } from "@/lib/db";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const db = await readDbAsync();
-  const baseUrl = db.settings.url || "https://3auqab.com";
+  const baseUrl = db.settings.url || "https://3uqab.com";
 
   const staticPages = [
     "",

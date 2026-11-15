@@ -77,7 +77,7 @@ export default function CheckoutClient() {
     const orderRecord = await createOrderOnServer({
       firstName: shippingData?.firstName || "Guest",
       lastName: shippingData?.lastName || "Customer",
-      email: shippingData?.email || "customer@3auqab.com",
+      email: shippingData?.email || "customer@3uqab.com",
       phone: shippingData?.phone || "+92 300 0000000",
       whatsapp: shippingData?.phone || "",
       country: shippingData?.country || "Pakistan",

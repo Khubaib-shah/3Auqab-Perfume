@@ -16,12 +16,12 @@ const ALLOWED_SUBFOLDERS = [
 type AllowedSubfolder = (typeof ALLOWED_SUBFOLDERS)[number];
 
 const DEFAULT_NAMES: Record<AllowedSubfolder, string> = {
-  products: "3auqab-product",
-  banners: "3auqab-banner",
-  blogs: "3auqab-blog",
-  categories: "3auqab-category",
-  reviews: "3auqab-review",
-  settings: "3auqab-logo",
+  products: "3uqab-product",
+  banners: "3uqab-banner",
+  blogs: "3uqab-blog",
+  categories: "3uqab-category",
+  reviews: "3uqab-review",
+  settings: "3uqab-logo",
 };
 
 function sanitizeSubfolder(folder?: string): AllowedSubfolder {
@@ -62,7 +62,7 @@ async function getCloudinaryCredentials() {
   const rootFolder = (
     process.env.CLOUDINARY_ROOT_FOLDER ||
     saved?.rootFolder ||
-    "3auqab"
+    "3uqab"
   ).replace(/^\/+|\/+$/g, "");
 
   return {
@@ -70,7 +70,7 @@ async function getCloudinaryCredentials() {
     apiKey: apiKey.trim(),
     apiSecret: apiSecret.trim(),
     uploadPreset: uploadPreset.trim(),
-    rootFolder: rootFolder || "3auqab",
+    rootFolder: rootFolder || "3uqab",
   };
 }
 
@@ -174,7 +174,7 @@ export async function POST(request: Request) {
         }
       }
 
-      // Local fallback inside public/uploads/3auqab/<subFolder>/<seoPublicId>.webp
+      // Local fallback inside public/uploads/3uqab/<subFolder>/<seoPublicId>.webp
       const fileName = `${seoPublicId}.webp`;
       const relDir = path.join("uploads", creds.rootFolder, subFolder);
       const absDir = path.join(process.cwd(), "public", relDir);

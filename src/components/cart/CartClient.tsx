@@ -65,7 +65,7 @@ export default function CartClient() {
             : `${settings.currency} ${found.discountValue} off`
         }`
       );
-    } else if (cleanCode === (settings.promoCode || "3AUQAB").toUpperCase()) {
+    } else if (cleanCode === (settings.promoCode || "3UQAB").toUpperCase() || cleanCode === "3AUQAB") {
       setAppliedVoucher({
         code: cleanCode,
         discountType: "PERCENTAGE",
@@ -227,7 +227,7 @@ export default function CartClient() {
                                   value={coupon}
                                   onChange={(e) => setCoupon(e.target.value)}
                                   className="input-text"
-                                  placeholder={`e.g. ${settings.promoCode || "3AUQAB"}`}
+                                  placeholder={`e.g. ${settings.promoCode || "3UQAB"}`}
                                 />
                                 <a
                                   href="#coupon"

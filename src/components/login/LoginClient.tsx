@@ -56,7 +56,7 @@ export default function LoginClient() {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            placeholder="auqab@owner.com"
+                            placeholder="uqab@owner.com"
                             className="input-text"
                           />
                         </p>
