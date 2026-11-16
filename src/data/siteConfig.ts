@@ -92,11 +92,24 @@ export const siteConfig = {
 
   // Contact Information
   contact: {
-    address: "45 Al Wasl Road, Jumeirah, Dubai, UAE",
-    phone: "(+971) 4 123 4567",
-    email: "concierge@3uqab.com",
+    address:
+      "Shop # 17, Ground Floor, City Residency & Shopping Galleria, Aga Khan III Road (Garden Road), Garden East, Saddar, Karachi, Pakistan",
+    streetAddress:
+      "Shop # 17, Ground Floor, City Residency & Shopping Galleria, Aga Khan III Road (Garden Road)",
+    addressLocality: "Garden East, Saddar, Karachi",
+    addressRegion: "Sindh",
+    postalCode: "74400",
+    addressCountry: "PK",
+    phone: "(+92) 300 1234567",
+    email: "info@3uqab.com",
     mapEmbedUrl:
-      "https://maps.google.com/maps?q=Jumeirah%20Dubai&t=&z=13&ie=UTF8&iwloc=&output=embed",
+      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6302.435736831678!2d67.02174945219986!3d24.870722126230422!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33f66e2e280b7%3A0xd1b6da56d974eac!2zQ2l0eSBSZXNpZGVuY3kgYW5kIFNob3BwaW5nIEdhbGxlcmlhINiz2bnbjCDYsduM2LLbjNqI2YbYs9uMINin24zZhtqIINi02KfZvtmG2q8g2q_bjNmE2LHbjNin!5e0!3m2!1sen!2s!4v1794864674866!5m2!1sen!2s",
+    mapDirectionsUrl:
+      "https://www.google.com/maps/search/?api=1&query=City+Residency+and+Shopping+Galleria+Karachi",
+    coordinates: {
+      latitude: 24.870722,
+      longitude: 67.021749,
+    },
   },
 
   // Social Channels

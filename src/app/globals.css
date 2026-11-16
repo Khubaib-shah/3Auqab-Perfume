@@ -191,7 +191,14 @@ body {
   padding: 0 !important;
 }
 
-.hero-slick-track,
+.hero-slick-track {
+  display: flex !important;
+  width: 100%;
+  align-items: stretch !important;
+  transition: transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
 .testimonial-slick-track {
   display: flex !important;
   width: 100%;
@@ -200,11 +207,23 @@ body {
 }
 
 .hero-slick-track > .slider-item {
-  display: block !important;
+  display: flex !important;
+  flex-direction: column !important;
   flex: 0 0 100%;
   width: 100%;
   max-width: 100%;
   padding: 0 !important;
+}
+
+.hero-slick-track > .slider-item > .slider-inner {
+  flex: 1 0 auto !important;
+  width: 100% !important;
+  min-height: 100% !important;
+  background-position: center bottom !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  display: flex !important;
+  align-items: center !important;
 }
 
 .testimonial-slick-track > .testimonial-item {
@@ -237,8 +256,8 @@ body {
   max-width: 480px;
   padding-left: 20px !important;
   padding-right: 20px !important;
-  padding-top: 145px;
-  padding-bottom: 155px;
+  padding-top: 155px !important;
+  padding-bottom: 165px !important;
 }
 
 .slider-item.style4 .title-big,
@@ -1244,8 +1263,8 @@ body {
 
 .logo img,
 .header .logo img {
-  max-width: 175px !important;
-  max-height: 50px !important;
+  max-width: 220px !important;
+  max-height: 72px !important;
   width: auto !important;
   height: auto !important;
   object-fit: contain !important;
@@ -1301,9 +1320,9 @@ body {
   .header-device-mobile .mobile-emblem-logo,
   .header-device-mobile .logo img {
     width: auto !important;
-    height: 52px !important;
-    max-width: 130px !important;
-    max-height: 52px !important;
+    height: 64px !important;
+    max-width: 150px !important;
+    max-height: 64px !important;
     object-fit: contain !important;
     background: transparent !important;
     border-radius: 0 !important;
@@ -1367,7 +1386,7 @@ body {
   /* Indent mobile breadcrumbs so they flow gracefully next to the hanging seal logo */
   .breadcrumb-trail,
   .main-content .breadcrumb-trail {
-    padding-left: 76px !important;
+    padding-left: 88px !important;
   }
 }
 

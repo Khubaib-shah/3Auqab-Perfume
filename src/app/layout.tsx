@@ -46,6 +46,14 @@ export default function RootLayout({
     alternateName: [siteConfig.shortName, siteConfig.fullName, "Three Uqab"],
     url: siteConfig.url,
     sameAs: [siteConfig.socials.facebook],
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: siteConfig.contact.streetAddress,
+      addressLocality: siteConfig.contact.addressLocality,
+      addressRegion: siteConfig.contact.addressRegion,
+      postalCode: siteConfig.contact.postalCode,
+      addressCountry: siteConfig.contact.addressCountry,
+    },
     contactPoint: {
       "@type": "ContactPoint",
       telephone: siteConfig.contact.phone,

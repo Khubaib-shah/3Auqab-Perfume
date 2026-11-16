@@ -45,12 +45,15 @@ export default function ContactClient() {
       <div className="page-main-content">
         <div className="google-map">
           <iframe
-            title="3Uqab Perfume Location"
+            title="3Uqab Perfume Location - City Residency and Shopping Galleria, Karachi"
             width="100%"
             height="500"
             id="gmap_canvas"
             src={siteConfig.contact.mapEmbedUrl}
             style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="strict-origin-when-cross-origin"
           ></iframe>
         </div>
         <div className="container">
@@ -156,6 +159,18 @@ export default function ContactClient() {
                           <span className="icon"></span>
                           <span className="text">
                             {siteConfig.contact.address}
+                            <br />
+                            <a
+                              href={siteConfig.contact.mapDirectionsUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              style={{
+                                display: "inline-block",
+                                marginTop: "6px",
+                                color: "#bfa15f",
+                              }}
+                            >Get Directions on Google Maps &rarr;
+                            </a>
                           </span>
                         </div>
                         <div className="item phone">

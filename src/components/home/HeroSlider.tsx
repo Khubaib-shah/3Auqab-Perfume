@@ -79,7 +79,7 @@ function HeroSliderComponent({ slides }: HeroSliderProps) {
                         ? {
                             backgroundImage: `url(${slide.bgImage})`,
                             backgroundSize: "cover",
-                            backgroundPosition: "center",
+                            backgroundPosition: "center bottom",
                           }
                         : undefined
                     }
