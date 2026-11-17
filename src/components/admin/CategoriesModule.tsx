@@ -24,7 +24,7 @@ export default function CategoriesModule() {
     setName("");
     setSlug("");
     setDescription("");
-    setImage("/assets/images/product-item-1.jpg");
+    setImage("/assets/images/products/3uqab-perfume-product-placeholder-1.jpg");
     setShowInNav(true);
     setModalOpen(true);
   };
@@ -34,7 +34,7 @@ export default function CategoriesModule() {
     setName(cat.name);
     setSlug(cat.slug);
     setDescription(cat.description);
-    setImage(cat.image || "/assets/images/product-item-1.jpg");
+    setImage(cat.image || "/assets/images/products/3uqab-perfume-product-placeholder-1.jpg");
     setShowInNav(cat.showInNav);
     setModalOpen(true);
   };

@@ -93,7 +93,7 @@ export default function ContentModule() {
   const [testName, setTestName] = useState("");
   const [testRole, setTestRole] = useState("");
   const [testAvatar, setTestAvatar] = useState(
-    "/assets/images/testimonial-1.png"
+    "/assets/images/team/3uqab-perfume-testimonial-1.png"
   );
   const [testText, setTestText] = useState("");
 
@@ -244,7 +244,7 @@ export default function ContentModule() {
     setEditingTestId(null);
     setTestName("");
     setTestRole("");
-    setTestAvatar("/assets/images/testimonial-1.png");
+    setTestAvatar("/assets/images/team/3uqab-perfume-testimonial-1.png");
     setTestText("");
     setTestModalOpen(true);
   };
@@ -269,7 +269,7 @@ export default function ContentModule() {
               ...t,
               name: testName.trim(),
               role: testRole.trim() || "Buyer",
-              avatar: testAvatar.trim() || "/assets/images/testimonial-1.png",
+              avatar: testAvatar.trim() || "/assets/images/team/3uqab-perfume-testimonial-1.png",
               text: testText.trim(),
             }
           : t
@@ -281,7 +281,7 @@ export default function ContentModule() {
         id: `test-${Date.now()}`,
         name: testName.trim(),
         role: testRole.trim() || "Buyer",
-        avatar: testAvatar.trim() || "/assets/images/testimonial-1.png",
+        avatar: testAvatar.trim() || "/assets/images/team/3uqab-perfume-testimonial-1.png",
         text: testText.trim(),
         isActive: true,
       };

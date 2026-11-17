@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useAdminStore } from "@/store/useAdminStore";
 import { AdminBlogPost } from "@/data/initialStoreSeed";
+import { assetsConfig } from "@/config";
 import ImageUploadField from "./ImageUploadField";
 
 export default function BlogsModule() {
@@ -18,8 +19,8 @@ export default function BlogsModule() {
   const [category, setCategory] = useState("FRAGRANCE GUIDE");
   const [author, setAuthor] = useState("Tariq Al-Mansoor");
   const [authorRole, setAuthorRole] = useState("Perfumer");
-  const [authorAvatar, setAuthorAvatar] = useState("/assets/images/avt-blog1.png");
-  const [image, setImage] = useState("/assets/images/blog-grid-1.jpg");
+  const [authorAvatar, setAuthorAvatar] = useState(assetsConfig.placeholders.avatar);
+  const [image, setImage] = useState(assetsConfig.placeholders.banner);
   const [excerpt, setExcerpt] = useState("");
   const [quote, setQuote] = useState("");
   const [tagsText, setTagsText] = useState("3Uqab, Oud, Eau de Parfum");
@@ -33,8 +34,8 @@ export default function BlogsModule() {
     setCategory("FRAGRANCE GUIDE");
     setAuthor("Tariq Al-Mansoor");
     setAuthorRole("Perfumer");
-    setAuthorAvatar("/assets/images/avt-blog1.png");
-    setImage("/assets/images/blog-grid-1.jpg");
+    setAuthorAvatar(assetsConfig.placeholders.avatar);
+    setImage(assetsConfig.placeholders.banner);
     setExcerpt("");
     setQuote("A great perfume leaves a lasting memory.");
     setTagsText("3Uqab, Three Uqab, Oud");
@@ -50,7 +51,7 @@ export default function BlogsModule() {
     setCategory(post.category);
     setAuthor(post.author);
     setAuthorRole(post.authorRole);
-    setAuthorAvatar(post.authorAvatar || "/assets/images/avt-blog1.png");
+    setAuthorAvatar(post.authorAvatar || assetsConfig.placeholders.avatar);
     setImage(post.image);
     setExcerpt(post.excerpt);
     setQuote(post.quote);
@@ -81,12 +82,12 @@ export default function BlogsModule() {
       date: existing?.date || "November 14, 10:00 am",
       author: author.trim() || "Tariq Al-Mansoor",
       authorRole: authorRole.trim() || "Perfumer",
-      authorAvatar: authorAvatar.trim() || "/assets/images/avt-blog1.png",
+      authorAvatar: authorAvatar.trim() || assetsConfig.placeholders.avatar,
       views: existing?.views ?? 120,
       commentsCount: existing?.commentsCount ?? 14,
-      image: image.trim() || "/assets/images/blog-grid-1.jpg",
-      sliderThumb: image.trim() || "/assets/images/slider-blog-thumb-5.jpg",
-      sidebarThumb: image.trim() || "/assets/images/sidebar-post1.jpg",
+      image: image.trim() || assetsConfig.placeholders.banner,
+      sliderThumb: image.trim() || assetsConfig.placeholders.banner,
+      sidebarThumb: image.trim() || assetsConfig.placeholders.banner,
       excerpt: excerpt.trim(),
       content: contentText
         .split(/\n+/)

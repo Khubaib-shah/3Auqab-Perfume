@@ -22,7 +22,7 @@ export default function NotFound() {
             <div className="site-main">
               <section className="error-404 not-found">
                 <div className="images">
-                  <img src="/assets/images/404.png" alt="404 Not Found" />
+                  <img src="/assets/images/ui/3uqab-404-not-found.png" alt="404 Not Found" />
                 </div>
                 <div className="text-404">
                   <h1 className="page-title">Error 404 Not Found</h1>

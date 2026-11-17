@@ -518,7 +518,7 @@ export default function ProductDetailsClient({
                                   className="avatar"
                                 >
                                   <img
-                                    src="/assets/images/avartar.png"
+                                    src="/assets/images/team/3uqab-default-customer-avatar.png"
                                     alt={rev.author}
                                   />
                                 </a>
@@ -719,7 +719,7 @@ export default function ProductDetailsClient({
                           <img
                             src={
                               storeTestimonials[0]?.avatar ||
-                              "/assets/images/member1.png"
+                              "/assets/images/team/3uqab-customer-review-avatar-1.png"
                             }
                             alt={storeTestimonials[0]?.name || "Customer"}
                           />

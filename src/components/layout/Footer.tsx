@@ -121,7 +121,7 @@ export default function Footer() {
                     className="newsletter-form-wrap"
                   >
                     <div className="list">
-                      Sign up for exclusive Arabian Oud launches and <br />{" "}
+                      Subscribe for exclusive Arabian Oud launches and <br />{" "}
                       private member fragrance offers
                     </div>
                     <input
@@ -215,9 +215,8 @@ export default function Footer() {
         <div className="wapper">
           {/* 1. Home */}
           <div
-            className={`footer-device-mobile-item device-home ${
-              pathname === "/" ? "active" : ""
-            }`}
+            className={`footer-device-mobile-item device-home ${pathname === "/" ? "active" : ""
+              }`}
           >
             <Link href="/">
               <span className="icon">
@@ -229,9 +228,8 @@ export default function Footer() {
 
           {/* 2. Shop */}
           <div
-            className={`footer-device-mobile-item device-shop ${
-              pathname.startsWith("/shop") ? "active" : ""
-            }`}
+            className={`footer-device-mobile-item device-shop ${pathname.startsWith("/shop") ? "active" : ""
+              }`}
           >
             <Link href="/shop">
               <span className="icon">
@@ -253,9 +251,8 @@ export default function Footer() {
 
           {/* 4. Wishlist */}
           <div
-            className={`footer-device-mobile-item device-wishlist ${
-              pathname.startsWith("/wishlist") ? "active" : ""
-            }`}
+            className={`footer-device-mobile-item device-wishlist ${pathname.startsWith("/wishlist") ? "active" : ""
+              }`}
           >
             <Link href="/wishlist">
               <span className="icon">
@@ -270,9 +267,8 @@ export default function Footer() {
 
           {/* 5. Cart */}
           <div
-            className={`footer-device-mobile-item device-cart ${
-              pathname.startsWith("/cart") ? "active" : ""
-            }`}
+            className={`footer-device-mobile-item device-cart ${pathname.startsWith("/cart") ? "active" : ""
+              }`}
           >
             <Link href="/cart">
               <span className="icon">

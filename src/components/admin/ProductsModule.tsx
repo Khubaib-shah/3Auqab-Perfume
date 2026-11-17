@@ -31,7 +31,7 @@ export default function ProductsModule() {
   const [inStock, setInStock] = useState<boolean>(true);
   const [isNew, setIsNew] = useState<boolean>(true);
   const [isWeeklyFeatured, setIsWeeklyFeatured] = useState<boolean>(true);
-  const [image, setImage] = useState("/assets/images/product-item-1.jpg");
+  const [image, setImage] = useState("/assets/images/products/3uqab-perfume-product-placeholder-1.jpg");
   const [topNotes, setTopNotes] = useState("");
   const [heartNotes, setHeartNotes] = useState("");
   const [baseNotes, setBaseNotes] = useState("");
@@ -144,10 +144,10 @@ export default function ProductsModule() {
       isWeeklyFeatured,
       inStock: inStock && Number(stockQuantity) > 0,
       stockQuantity: Number(stockQuantity) || 0,
-      image: image.trim() || "/assets/images/product-item-1.jpg",
-      orderThumb: image.trim() || "/assets/images/item-order1.jpg",
-      cartThumb: image.trim() || "/assets/images/cart-item-1.jpg",
-      gallery: [image.trim() || "/assets/images/product-item-1.jpg"],
+      image: image.trim() || "/assets/images/products/3uqab-perfume-product-placeholder-1.jpg",
+      orderThumb: image.trim() || "/assets/images/products/item-order1.jpg",
+      cartThumb: image.trim() || "/assets/images/products/cart-item-1.jpg",
+      gallery: [image.trim() || "/assets/images/products/3uqab-perfume-product-placeholder-1.jpg"],
       shortBullets: [
         `Top Notes: ${topNotes.trim() || "Bergamot, Fresh Citrus"}`,
         `Heart Notes: ${heartNotes.trim() || "Floral Jasmine, Rose"}`,

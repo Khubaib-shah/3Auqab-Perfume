@@ -26,8 +26,17 @@ export const metadata: Metadata = {
     type: "website",
   },
   icons: {
-    icon: siteConfig.assets.favicon || "/assets/images/favicon.png",
+    icon: [
+      { url: siteConfig.assets.favicons.ico },
+      { url: siteConfig.assets.favicons.icon16, sizes: "16x16", type: "image/png" },
+      { url: siteConfig.assets.favicons.icon32, sizes: "32x32", type: "image/png" },
+    ],
+    shortcut: siteConfig.assets.favicons.ico,
+    apple: [
+      { url: siteConfig.assets.favicons.appleTouchIcon, sizes: "180x180", type: "image/png" },
+    ],
   },
+  manifest: siteConfig.assets.favicons.manifest,
 };
 
 export default function RootLayout({

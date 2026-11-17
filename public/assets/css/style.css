@@ -140,7 +140,7 @@ q p {
 }
 
 blockquote::before {
-	content: url('../images/quote-item.png');
+	content: url('../images/ui/quote-item.png');
 	display: block;
 }
 
@@ -2331,7 +2331,7 @@ table tr:last-child th {
 }
 
 .submenu.menu-page {
-	background-image: url(../images/mega-bg.jpg);
+	background-image: url(../images/banners/3uqab-perfume-megamenu-background.jpg);
 	background-repeat: no-repeat;
 	background-size: cover;
 	padding: 50px 0 40px;
@@ -5955,7 +5955,7 @@ ul.list-products {
 /*about page*/
 /*banner about*/
 .header-banner.banner-image .banner-wrap {
-	background-image: url(../images/about-background.jpg) !important;
+	background-image: url(../images/banners/3uqab-karachi-perfume-atelier-about-banner.jpg) !important;
 	background-position: center !important;
 	background-repeat: no-repeat !important;
 	background-size: cover !important;
@@ -6505,7 +6505,7 @@ ul.list-products {
 }
 
 .end-checkout .icon::before {
-	content: url("../images/icon-checkout.png");
+	content: url("../images/ui/3uqab-order-confirmed-icon.png");
 }
 
 .end-checkout .title-checkend {
@@ -7214,7 +7214,7 @@ ul.list-products {
 }
 
 .slider-item.style1 .slider-inner {
-	background-image: url(../images/slider-thumb1.jpg);
+	background-image: url(../images/banners/slider-thumb1.jpg);
 }
 
 .slider-item.style1 .slider-inner .slider-infor,
@@ -7228,7 +7228,7 @@ ul.list-products {
 }
 
 .slider-item.style2 .slider-inner {
-	background-image: url(../images/slider-thumb2.jpg);
+	background-image: url(../images/banners/slider-thumb2.jpg);
 }
 
 .slider-item.style2 .slider-inner .slider-infor {
@@ -7242,7 +7242,7 @@ ul.list-products {
 }
 
 .slider-item.style3 .slider-inner {
-	background-image: url(../images/slider-thumb3.jpg);
+	background-image: url(../images/banners/slider-thumb3.jpg);
 }
 
 .home-slider.style1 {
@@ -7285,7 +7285,7 @@ ul.list-products {
 	padding-right: 30px;
 	padding-bottom: 36px;
 	padding-left: 30px;
-	background-image: url(../images/newsletter-bg.jpg);
+	background-image: url(../images/banners/3uqab-perfume-newsletter-background.jpg);
 	background-position: right center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -7697,7 +7697,7 @@ ul.list-products {
 }
 
 #slvj-close-icon {
-	background-image: url(../images/close-icon.png);
+	background-image: url(../images/ui/close-icon.png);
 	width: 30px;
 	height: 30px;
 }
@@ -7991,7 +7991,7 @@ ul.list-products {
 }
 
 .slider-item.style4 .slider-inner {
-	background-image: url(../images/slider-thumb-full-1.jpg);
+	background-image: url(../images/banners/3uqab-luxury-french-arabian-attar-hero-1.jpg);
 	border-radius: 0;
 }
 
@@ -8004,7 +8004,7 @@ ul.list-products {
 }
 
 .slider-item.style5 .slider-inner {
-	background-image: url(../images/slider-thumb-full-2.jpg);
+	background-image: url(../images/banners/3uqab-signature-oud-collection-hero-2.jpg);
 	border-radius: 0;
 }
 
@@ -8042,7 +8042,7 @@ ul.list-products {
 }
 
 .slider-item.style6 .slider-inner {
-	background-image: url(../images/slider-thumb-full-3.jpg);
+	background-image: url(../images/banners/3uqab-royal-amber-smoky-woods-hero-3.jpg);
 }
 
 .slider-item.style6 .slider-inner .slider-infor {
@@ -8089,7 +8089,7 @@ ul.list-products {
 }
 
 .slider-item.style7 .slider-inner {
-	background-image: url(../images/slider-thumb4.jpg);
+	background-image: url(../images/banners/slider-thumb4.jpg);
 }
 
 .slider-item.style7 .slider-inner .slider-infor {
@@ -8100,7 +8100,7 @@ ul.list-products {
 }
 
 .slider-item.style8 .slider-inner {
-	background-image: url(../images/slider-thumb5.jpg);
+	background-image: url(../images/banners/slider-thumb5.jpg);
 }
 
 .slider-item.style8 .slider-inner .slider-infor {
@@ -8111,7 +8111,7 @@ ul.list-products {
 }
 
 .slider-item.style9 .slider-inner {
-	background-image: url(../images/slider-thumb6.jpg);
+	background-image: url(../images/banners/slider-thumb6.jpg);
 }
 
 .slider-item.style9 .slider-inner .slider-infor {
@@ -9705,7 +9705,7 @@ body.vertical-menu-open .vertical-menu-overlay {
 }
 
 .sevice-item .quick-install {
-	background: rgba(0, 0, 0, 0.3) url(../images/play.png) no-repeat scroll 24px 20px;
+	background: rgba(0, 0, 0, 0.3) url(../images/ui/play.png) no-repeat scroll 24px 20px;
 	border-radius: 50%;
 	cursor: pointer;
 	display: inline-block;
@@ -9862,7 +9862,7 @@ body.vertical-menu-open .vertical-menu-overlay {
 .header.style9 .bar-open-menu.active:before {
 	display: inline-block;
 	position: absolute;
-	content: url(../images/hover-menu.png);
+	content: url(../images/ui/hover-menu.png);
 	width: 100%;
 	top: 0;
 	border: 0;
@@ -10123,7 +10123,7 @@ body.vertical-menu-open .vertical-menu-overlay {
 }
 
 .full-width .item-banner.style1 .inner {
-	background-image: url(../images/banner-01_full_width.jpg);
+	background-image: url(../images/banners/3uqab-royal-collection-fullwidth-banner.png);
 }
 
 .item-banner.style1 .banner-content {
@@ -10213,7 +10213,7 @@ body.vertical-menu-open .vertical-menu-overlay {
 }
 
 .full-width .item-banner.style2 .inner {
-	background-image: url(../images/banner-02_full_width.jpg);
+	background-image: url(../images/banners/3uqab-shop-oud-collection-banner.jpg);
 }
 
 .item-banner.style2 .banner-content {
@@ -10295,7 +10295,7 @@ body.vertical-menu-open .vertical-menu-overlay {
 
 /*banner home 02*/
 .item-banner.style4 .inner {
-	background-image: url(../images/banner-home-2.jpg);
+	background-image: url(../images/banners/banner-home-2.jpg);
 	background-size: cover;
 	background-position: 65% center;
 }
@@ -10320,7 +10320,7 @@ body.vertical-menu-open .vertical-menu-overlay {
 }
 
 .item-banner.style5 .inner {
-	background-image: url(../images/banner-home-3.jpg);
+	background-image: url(../images/banners/banner-home-3.jpg);
 	background-size: cover;
 	background-position: 65% center;
 }
@@ -10354,7 +10354,7 @@ body.vertical-menu-open .vertical-menu-overlay {
 }
 
 .item-banner.style6 .inner {
-	background-image: url(../images/banner-home-4.jpg);
+	background-image: url(../images/banners/banner-home-4.jpg);
 	border-radius: 0;
 }
 
@@ -10373,7 +10373,7 @@ body.vertical-menu-open .vertical-menu-overlay {
 
 /*banner home 03*/
 .item-banner.style7 .inner {
-	background-image: url(../images/banner-home-5.jpg);
+	background-image: url(../images/banners/banner-home-5.jpg);
 }
 
 .item-banner.style7 .banner-content {
@@ -10396,7 +10396,7 @@ body.vertical-menu-open .vertical-menu-overlay {
 }
 
 .item-banner.style8 .inner {
-	background-image: url(../images/banner-home-6.jpg);
+	background-image: url(../images/banners/banner-home-6.jpg);
 }
 
 .item-banner.style8 .banner-content {
@@ -10450,11 +10450,11 @@ iframe {
 }
 
 .item-banner.style9 .inner {
-	background-image: url(../images/banner-home-7.jpg);
+	background-image: url(../images/banners/banner-home-7.jpg);
 }
 
 .item-banner.style9.type1 .inner {
-	background-image: url(../images/banner-home-71.jpg);
+	background-image: url(../images/banners/banner-home-71.jpg);
 }
 
 .item-banner.style9 .banner-content {
@@ -10711,7 +10711,7 @@ iframe {
 }
 
 .item-banner.style21 .inner {
-	background-image: url(../images/banner-home-19.jpg);
+	background-image: url(../images/banners/banner-home-19.jpg);
 	border-radius: 0;
 	background-size: cover;
 }
@@ -10783,11 +10783,11 @@ iframe {
 
 /*banner home 09*/
 .item-banner.style12 .inner {
-	background-image: url(../images/banner-home-10.jpg);
+	background-image: url(../images/banners/3uqab-oud-attar-offer-banner.jpg);
 }
 
 .item-banner.style12.type2 .inner {
-	background-image: url(../images/banner-home-11.jpg);
+	background-image: url(../images/banners/3uqab-luxury-gift-bundles-banner.jpg);
 }
 
 .item-banner.style12 .banner-content {
@@ -10844,7 +10844,7 @@ iframe {
 }
 
 .item-banner.style14 .inner {
-	background-image: url(../images/banner-home-12.jpg);
+	background-image: url(../images/banners/3uqab-scents-for-every-mood-banner.jpg);
 	background-size: cover;
 }
 
@@ -10878,7 +10878,7 @@ iframe {
 }
 
 .item-banner.style15 .inner {
-	background-image: url(../images/banner-home-13.png);
+	background-image: url(../images/banners/3uqab-signature-oud-sale-banner.png);
 	overflow: hidden;
 	background-position: 25% center;
 }
@@ -10910,7 +10910,7 @@ iframe {
 }
 
 .item-banner.style16 .inner {
-	background-image: url(../images/banner-home-14.jpg);
+	background-image: url(../images/banners/banner-home-14.jpg);
 }
 
 .item-banner.style16 .banner-content {
@@ -10938,7 +10938,7 @@ iframe {
 }
 
 .item-banner.style17 .inner {
-	background-image: url(../images/banner-home-15.jpg);
+	background-image: url(../images/banners/banner-home-15.jpg);
 }
 
 .item-banner.style17 .banner-content {
@@ -10976,7 +10976,7 @@ iframe {
 
 /*banner home 10*/
 .item-banner.style10 .inner {
-	background-image: url(../images/banner-home-8.jpg);
+	background-image: url(../images/banners/banner-home-8.jpg);
 }
 
 .item-banner.style10 .banner-content {
@@ -11003,7 +11003,7 @@ iframe {
 }
 
 .item-banner.style11 .inner {
-	background-image: url(../images/banner-home-9.jpg);
+	background-image: url(../images/banners/banner-home-9.jpg);
 }
 
 .item-banner.style11 .banner-content {

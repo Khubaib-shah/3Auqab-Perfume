@@ -640,12 +640,10 @@ export default function Header() {
                       src={siteConfig.logo}
                       alt={siteConfig.name}
                       style={{
-                        maxWidth: "220px",
-                        maxHeight: "72px",
-                        width: "auto",
+                        width: "105px",
                         height: "auto",
                         objectFit: "contain",
-                        display: "inline-block",
+                        display: "block",
                       }}
                     />
                   </Link>

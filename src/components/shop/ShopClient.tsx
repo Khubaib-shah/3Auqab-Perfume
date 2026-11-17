@@ -368,7 +368,7 @@ export default function ShopClient() {
                           alignItems: "center",
                           width: "100%",
                           minHeight: "100%",
-                          backgroundImage: `url(${shopSlide2.image || "/assets/images/banner-02_full_width.jpg"})`,
+                          backgroundImage: `url(${shopSlide2.image || "/assets/images/banners/3uqab-shop-oud-collection-banner.jpg"})`,
                           backgroundSize: "cover",
                           backgroundPosition: "center bottom",
                           backgroundRepeat: "no-repeat",

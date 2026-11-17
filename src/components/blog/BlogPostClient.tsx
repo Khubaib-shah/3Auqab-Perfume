@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { BlogPost } from "@/data/blogs";
 import { siteConfig } from "@/data/siteConfig";
+import { assetsConfig } from "@/config";
 import { useAdminStore } from "@/store/useAdminStore";
 
 interface BlogPostClientProps {
@@ -301,7 +302,7 @@ export default function BlogPostClient({
                           <div className="author">
                             <div className="avt">
                               <img
-                                src="/assets/images/avt-blog1.png"
+                                src={assetsConfig.placeholders.avatar}
                                 alt={c.author}
                               />
                             </div>
