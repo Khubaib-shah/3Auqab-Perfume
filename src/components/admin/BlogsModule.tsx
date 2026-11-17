@@ -18,6 +18,7 @@ export default function BlogsModule() {
   const [category, setCategory] = useState("FRAGRANCE GUIDE");
   const [author, setAuthor] = useState("Tariq Al-Mansoor");
   const [authorRole, setAuthorRole] = useState("Perfumer");
+  const [authorAvatar, setAuthorAvatar] = useState("/assets/images/avt-blog1.png");
   const [image, setImage] = useState("/assets/images/blog-grid-1.jpg");
   const [excerpt, setExcerpt] = useState("");
   const [quote, setQuote] = useState("");
@@ -32,6 +33,7 @@ export default function BlogsModule() {
     setCategory("FRAGRANCE GUIDE");
     setAuthor("Tariq Al-Mansoor");
     setAuthorRole("Perfumer");
+    setAuthorAvatar("/assets/images/avt-blog1.png");
     setImage("/assets/images/blog-grid-1.jpg");
     setExcerpt("");
     setQuote("A great perfume leaves a lasting memory.");
@@ -48,6 +50,7 @@ export default function BlogsModule() {
     setCategory(post.category);
     setAuthor(post.author);
     setAuthorRole(post.authorRole);
+    setAuthorAvatar(post.authorAvatar || "/assets/images/avt-blog1.png");
     setImage(post.image);
     setExcerpt(post.excerpt);
     setQuote(post.quote);
@@ -78,12 +81,12 @@ export default function BlogsModule() {
       date: existing?.date || "November 14, 10:00 am",
       author: author.trim() || "Tariq Al-Mansoor",
       authorRole: authorRole.trim() || "Perfumer",
-      authorAvatar: "/assets/images/avt-blog1.png",
+      authorAvatar: authorAvatar.trim() || "/assets/images/avt-blog1.png",
       views: existing?.views ?? 120,
       commentsCount: existing?.commentsCount ?? 14,
       image: image.trim() || "/assets/images/blog-grid-1.jpg",
-      sliderThumb: "/assets/images/slider-blog-thumb-5.jpg",
-      sidebarThumb: "/assets/images/sidebar-post1.jpg",
+      sliderThumb: image.trim() || "/assets/images/slider-blog-thumb-5.jpg",
+      sidebarThumb: image.trim() || "/assets/images/sidebar-post1.jpg",
       excerpt: excerpt.trim(),
       content: contentText
         .split(/\n+/)
@@ -257,7 +260,7 @@ export default function BlogsModule() {
                 </div>
               </div>
 
-              <div className="admin-grid-2">
+              <div className="admin-grid-3">
                 <div className="admin-form-group">
                   <label className="admin-label">Category</label>
                   <input
@@ -268,7 +271,7 @@ export default function BlogsModule() {
                   />
                 </div>
                 <div className="admin-form-group">
-                  <label className="admin-label">Author</label>
+                  <label className="admin-label">Author Name</label>
                   <input
                     type="text"
                     className="admin-input"
@@ -276,15 +279,38 @@ export default function BlogsModule() {
                     onChange={(e) => setAuthor(e.target.value)}
                   />
                 </div>
+                <div className="admin-form-group">
+                  <label className="admin-label">Author Role</label>
+                  <input
+                    type="text"
+                    className="admin-input"
+                    value={authorRole}
+                    onChange={(e) => setAuthorRole(e.target.value)}
+                    placeholder="e.g. Perfumer / Fragrance Specialist"
+                  />
+                </div>
               </div>
 
-              <ImageUploadField
-                label="Blog Image *"
-                value={image}
-                onChange={setImage}
-                folder="blogs"
-                fileName={title || slug || "3uqab-blog"}
-              />
+              <div className="admin-grid-2">
+                <ImageUploadField
+                  label="Blog Cover Image *"
+                  value={image}
+                  onChange={setImage}
+                  folder="blogs"
+                  fileName={title || slug || "3uqab-blog"}
+                />
+                <ImageUploadField
+                  label="Author Avatar / Photo"
+                  value={authorAvatar}
+                  onChange={setAuthorAvatar}
+                  folder="blogs"
+                  fileName={
+                    author
+                      ? `${author.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-avatar`
+                      : "author-avatar"
+                  }
+                />
+              </div>
 
               <div className="admin-form-group">
                 <label className="admin-label">Short Summary *</label>

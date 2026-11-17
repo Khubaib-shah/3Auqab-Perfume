@@ -202,7 +202,7 @@ export const siteConfig = {
       highlightText: "20%",
       tagline: "Handcrafted 100ml Eau de Parfum",
       link: "/shop",
-      image: "/assets/images/banner-01_full_width.jpg",
+      image: "/assets/images/banner-01_full_width.png",
     },
     shopSlide1: {
       subtitle: "Elevate Your Presence!",
