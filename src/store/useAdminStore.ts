@@ -109,7 +109,10 @@ export const useAdminStore = create<AdminStoreState>()((set, get) => ({
       set({
         ...initialSeed,
         ...data,
-        products: initialPerfumeCatalog,
+        products:
+          Array.isArray(data.products) && data.products.length > 0
+            ? data.products
+            : initialPerfumeCatalog,
         vouchers: data.vouchers || initialSeed.vouchers,
         promoBanners: data.promoBanners || initialSeed.promoBanners,
         isHydrated: true,

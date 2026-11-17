@@ -38,10 +38,10 @@ export default function HomeClient() {
     () => allBlogs.filter((b) => b.isPublished),
     [allBlogs]
   );
-  const featuredProducts = useMemo(
-    () => products.slice(0, 8),
-    [products]
-  );
+  const featuredProducts = useMemo(() => {
+    const newItems = products.filter((p) => p.isNew);
+    return newItems.length > 0 ? newItems.slice(0, 8) : products.slice(0, 8);
+  }, [products]);
 
   return (
     <div className="fullwidth-template">

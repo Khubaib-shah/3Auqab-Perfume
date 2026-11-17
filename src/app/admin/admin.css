@@ -755,6 +755,12 @@
   gap: 18px;
 }
 
+.admin-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
 .admin-overview-split {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -804,7 +810,8 @@
 
 @media (max-width: 767px) {
   .admin-grid-2,
-  .admin-grid-3 {
+  .admin-grid-3,
+  .admin-grid-4 {
     grid-template-columns: 1fr;
   }
   .admin-page-header {

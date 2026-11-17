@@ -21,41 +21,22 @@ export default function ProductsModule() {
   const [slug, setSlug] = useState("");
   const [sku, setSku] = useState("");
   const [category, setCategory] = useState("Unisex Collection");
-  const [price, setPrice] = useState<number>(600);
   const [oldPrice, setOldPrice] = useState<number>(750);
+  const [size15Price, setSize15Price] = useState<number>(600);
+  const [size30Price, setSize30Price] = useState<number>(1200);
+  const [size50Price, setSize50Price] = useState<number>(2000);
+  const [size100Price, setSize100Price] = useState<number>(4000);
   const [stockQuantity, setStockQuantity] = useState<number>(25);
   const [inStock, setInStock] = useState<boolean>(true);
   const [isNew, setIsNew] = useState<boolean>(true);
   const [isWeeklyFeatured, setIsWeeklyFeatured] = useState<boolean>(true);
   const [image, setImage] = useState("/assets/images/product-item-1.jpg");
-  const [blackCardImage, setBlackCardImage] = useState(
-    "/assets/images/product-item-black-1.jpg"
-  );
-  const [sizesText, setSizesText] = useState("15ml, 30ml, 50ml, 100ml");
   const [topNotes, setTopNotes] = useState("");
   const [heartNotes, setHeartNotes] = useState("");
   const [baseNotes, setBaseNotes] = useState("");
   const [descriptionText, setDescriptionText] = useState("");
-  const [gallery, setGallery] = useState<string[]>([]);
-
-  const handleAddGalleryPhoto = () => {
-    setGallery((prev) => [
-      ...prev,
-      `/assets/images/details-item-${Math.min(4, prev.length + 1)}.jpg`,
-    ]);
-  };
-
-  const handleUpdateGalleryPhoto = (index: number, newUrl: string) => {
-    setGallery((prev) => {
-      const copy = [...prev];
-      copy[index] = newUrl;
-      return copy;
-    });
-  };
-
-  const handleRemoveGalleryPhoto = (index: number) => {
-    setGallery((prev) => prev.filter((_, i) => i !== index));
-  };
+  const [rating, setRating] = useState<number>(5);
+  const [reviewsCount, setReviewsCount] = useState<number>(12);
 
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
@@ -80,27 +61,24 @@ export default function ProductsModule() {
     setSlug("");
     setSku(`3UQ-${String(products.length + 1).padStart(2, "0")}-EDP`);
     setCategory(categories[0]?.name || "Unisex Collection");
-    setPrice(600);
     setOldPrice(750);
+    setSize15Price(600);
+    setSize30Price(1200);
+    setSize50Price(2000);
+    setSize100Price(4000);
     setStockQuantity(30);
     setInStock(true);
     setIsNew(true);
     setIsWeeklyFeatured(true);
     setImage("/assets/images/product-item-1.jpg");
-    setBlackCardImage("/assets/images/product-item-black-1.jpg");
-    setSizesText("15ml, 30ml, 50ml, 100ml");
     setTopNotes("Bergamot, Saffron, Pink Pepper");
     setHeartNotes("Damask Rose, Jasmine, Orris");
     setBaseNotes("Royal Oud, Vanilla, White Musk");
     setDescriptionText(
       "Long-lasting luxury Eau de Parfum by 3Uqab Perfume (Three Uqab)."
     );
-    setGallery([
-      "/assets/images/details-item-1.jpg",
-      "/assets/images/details-item-2.jpg",
-      "/assets/images/details-item-3.jpg",
-      "/assets/images/details-item-4.jpg",
-    ]);
+    setRating(5);
+    setReviewsCount(12);
     setModalOpen(true);
   };
 
@@ -110,24 +88,24 @@ export default function ProductsModule() {
     setSlug(prod.slug);
     setSku(prod.sku);
     setCategory(prod.category);
-    setPrice(prod.price);
     setOldPrice(prod.oldPrice || 0);
+    setSize15Price(prod.sizePrices?.["15ml"] ?? prod.price ?? 600);
+    setSize30Price(prod.sizePrices?.["30ml"] ?? 1200);
+    setSize50Price(prod.sizePrices?.["50ml"] ?? 2000);
+    setSize100Price(prod.sizePrices?.["100ml"] ?? 4000);
     setStockQuantity(prod.stockQuantity ?? 20);
     setInStock(prod.inStock);
     setIsNew(Boolean(prod.isNew));
     setIsWeeklyFeatured(prod.isWeeklyFeatured !== false);
     setImage(prod.image);
-    setBlackCardImage(prod.blackCardImage || prod.image);
-    setSizesText(prod.sizes.join(", "));
-    setTopNotes(prod.notes.top);
-    setHeartNotes(prod.notes.heart);
-    setBaseNotes(prod.notes.base);
-    setDescriptionText(prod.description.join("\n\n"));
-    setGallery(
-      Array.isArray(prod.gallery) && prod.gallery.length > 0
-        ? [...prod.gallery]
-        : [prod.image]
+    setTopNotes(prod.notes?.top || "");
+    setHeartNotes(prod.notes?.heart || "");
+    setBaseNotes(prod.notes?.base || "");
+    setDescriptionText(
+      Array.isArray(prod.description) ? prod.description.join("\n\n") : ""
     );
+    setRating(prod.rating || 5);
+    setReviewsCount(prod.reviewsCount || 12);
     setModalOpen(true);
   };
 
@@ -145,55 +123,48 @@ export default function ProductsModule() {
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/(^-|-$)/g, "");
 
-    const parsedSizes = sizesText
-      .split(",")
-      .map((s) => s.trim())
-      .filter(Boolean);
+    const activeSizes = ["15ml", "30ml", "50ml", "100ml"];
+    const sizePricesMap: Record<string, number> = {
+      "15ml": Number(size15Price) || 600,
+      "30ml": Number(size30Price) || 1200,
+      "50ml": Number(size50Price) || 2000,
+      "100ml": Number(size100Price) || 4000,
+    };
 
     const newProductObj: AdminProduct = {
       id: editingId || `prod-${Date.now()}`,
       slug: generatedSlug,
       name: name.trim(),
-      sku: sku.trim() || "3AUQ-EDP",
+      sku: sku.trim() || `3UQ-${String(products.length + 1).padStart(2, "0")}-EDP`,
       category,
-      price: Number(price) || 0,
+      price: Number(size15Price) || 600,
       oldPrice: Number(oldPrice) > 0 ? Number(oldPrice) : undefined,
-      rating: 5,
-      reviewsCount: 12,
+      rating: Number(rating) || 5,
+      reviewsCount: Number(reviewsCount) || 12,
       isNew,
       isWeeklyFeatured,
       inStock: inStock && Number(stockQuantity) > 0,
       stockQuantity: Number(stockQuantity) || 0,
       image: image.trim() || "/assets/images/product-item-1.jpg",
-      blackCardImage:
-        blackCardImage.trim() || "/assets/images/product-item-black-1.jpg",
-      orderThumb: "/assets/images/item-order1.jpg",
-      cartThumb: "/assets/images/cart-item-1.jpg",
-      gallery:
-        gallery.filter((g) => Boolean(g && g.trim())).length > 0
-          ? gallery.filter((g) => Boolean(g && g.trim()))
-          : [image.trim() || "/assets/images/product-item-1.jpg"],
+      orderThumb: image.trim() || "/assets/images/item-order1.jpg",
+      cartThumb: image.trim() || "/assets/images/cart-item-1.jpg",
+      gallery: [image.trim() || "/assets/images/product-item-1.jpg"],
       shortBullets: [
-        `Top Notes: ${topNotes}`,
-        `Heart Notes: ${heartNotes}`,
-        `Base Notes: ${baseNotes}`,
+        `Top Notes: ${topNotes.trim() || "Bergamot, Fresh Citrus"}`,
+        `Heart Notes: ${heartNotes.trim() || "Floral Jasmine, Rose"}`,
+        `Base Notes: ${baseNotes.trim() || "Amber, Musk, Cedarwood"}`,
       ],
       description: descriptionText
         .split(/\n+/)
         .map((p) => p.trim())
         .filter(Boolean),
       notes: {
-        top: topNotes,
-        heart: heartNotes,
-        base: baseNotes,
+        top: topNotes.trim(),
+        heart: heartNotes.trim(),
+        base: baseNotes.trim(),
       },
-      sizes: parsedSizes.length > 0 ? parsedSizes : ["15ml", "30ml", "50ml", "100ml"],
-      sizePrices: {
-        "15ml": 600,
-        "30ml": 1200,
-        "50ml": 2000,
-        "100ml": 4000,
-      },
+      sizes: activeSizes,
+      sizePrices: sizePricesMap,
       bottleFinishes: [],
     };
 
@@ -493,43 +464,7 @@ export default function ProductsModule() {
                   </select>
                 </div>
                 <div className="admin-form-group">
-                  <label className="admin-label">Sizes</label>
-                  <input
-                    type="text"
-                    className="admin-input"
-                    value={sizesText}
-                    onChange={(e) => setSizesText(e.target.value)}
-                    placeholder="30ml, 50ml, 100ml"
-                  />
-                </div>
-              </div>
-
-              <div className="admin-grid-3">
-                <div className="admin-form-group">
-                  <label className="admin-label">
-                    Price ({settings.currency}) *
-                  </label>
-                  <input
-                    type="number"
-                    className="admin-input"
-                    required
-                    value={price}
-                    onChange={(e) => setPrice(Number(e.target.value))}
-                  />
-                </div>
-                <div className="admin-form-group">
-                  <label className="admin-label">
-                    Old Price ({settings.currency})
-                  </label>
-                  <input
-                    type="number"
-                    className="admin-input"
-                    value={oldPrice}
-                    onChange={(e) => setOldPrice(Number(e.target.value))}
-                  />
-                </div>
-                <div className="admin-form-group">
-                  <label className="admin-label">Stock *</label>
+                  <label className="admin-label">Stock Quantity *</label>
                   <input
                     type="number"
                     className="admin-input"
@@ -540,177 +475,144 @@ export default function ProductsModule() {
                 </div>
               </div>
 
-              <div className="admin-grid-2">
-                <ImageUploadField
-                  label="Main Image *"
-                  value={image}
-                  onChange={setImage}
-                  folder="products"
-                  fileName={name || slug || "3uqab-product"}
-                />
-                <ImageUploadField
-                  label="Featured Image"
-                  value={blackCardImage}
-                  onChange={setBlackCardImage}
-                  folder="products"
-                  fileName={
-                    name || slug
-                      ? `${name || slug}-featured`
-                      : "3uqab-product-featured"
-                  }
-                />
-              </div>
-
-              {/* Product Gallery Section */}
+              {/* Bottle Sizes & Dynamic Size-Specific Pricing */}
               <div
                 style={{
                   background: "#fafafa",
                   padding: "16px 18px",
-                  borderRadius: "14px",
+                  borderRadius: "12px",
                   border: "1px solid #e9ecef",
-                  marginBottom: "20px",
+                  marginBottom: "18px",
                 }}
               >
                 <div
                   style={{
                     display: "flex",
-                    alignItems: "center",
                     justifyContent: "space-between",
-                    marginBottom: "12px",
+                    alignItems: "center",
+                    marginBottom: "10px",
                     flexWrap: "wrap",
-                    gap: "8px",
+                    gap: "6px",
                   }}
                 >
-                  <div>
+                  <label
+                    className="admin-label"
+                    style={{ fontWeight: 700, margin: 0, fontSize: "13px" }}
+                  >
+                    Bottle Sizes & Prices ({settings.currency}) *
+                  </label>
+                  <span style={{ fontSize: "11px", color: "#888" }}>
+                    Shown on product page size selectors & checkout
+                  </span>
+                </div>
+                <div className="admin-grid-4">
+                  <div className="admin-form-group" style={{ marginBottom: 0 }}>
                     <label
                       className="admin-label"
-                      style={{ margin: 0, fontWeight: 700, fontSize: "13px" }}
+                      style={{ fontSize: "11px", color: "#555" }}
                     >
-                      Product Gallery Photos ({gallery.length})
+                      15ml Bottle Price ({settings.currency}) *
                     </label>
-                    <p
-                      style={{
-                        margin: "2px 0 0",
-                        fontSize: "12px",
-                        color: "#777",
-                      }}
+                    <input
+                      type="number"
+                      className="admin-input"
+                      required
+                      value={size15Price}
+                      onChange={(e) => setSize15Price(Number(e.target.value))}
+                    />
+                  </div>
+                  <div className="admin-form-group" style={{ marginBottom: 0 }}>
+                    <label
+                      className="admin-label"
+                      style={{ fontSize: "11px", color: "#555" }}
                     >
-                      Add multiple bottle angles, packaging, and detail photos.
-                    </p>
+                      30ml Bottle Price ({settings.currency}) *
+                    </label>
+                    <input
+                      type="number"
+                      className="admin-input"
+                      required
+                      value={size30Price}
+                      onChange={(e) => setSize30Price(Number(e.target.value))}
+                    />
                   </div>
-                  <button
-                    type="button"
-                    onClick={handleAddGalleryPhoto}
-                    className="btn-admin btn-admin-sm btn-admin-outline"
-                    style={{ height: "32px", fontSize: "12px" }}
-                  >
-                    + Add More Photos
-                  </button>
+                  <div className="admin-form-group" style={{ marginBottom: 0 }}>
+                    <label
+                      className="admin-label"
+                      style={{ fontSize: "11px", color: "#555" }}
+                    >
+                      50ml Bottle Price ({settings.currency}) *
+                    </label>
+                    <input
+                      type="number"
+                      className="admin-input"
+                      required
+                      value={size50Price}
+                      onChange={(e) => setSize50Price(Number(e.target.value))}
+                    />
+                  </div>
+                  <div className="admin-form-group" style={{ marginBottom: 0 }}>
+                    <label
+                      className="admin-label"
+                      style={{ fontSize: "11px", color: "#555" }}
+                    >
+                      100ml Bottle Price ({settings.currency}) *
+                    </label>
+                    <input
+                      type="number"
+                      className="admin-input"
+                      required
+                      value={size100Price}
+                      onChange={(e) => setSize100Price(Number(e.target.value))}
+                    />
+                  </div>
                 </div>
+              </div>
 
-                {gallery.length === 0 ? (
-                  <div
-                    style={{
-                      textAlign: "center",
-                      padding: "20px",
-                      color: "#999",
-                      fontSize: "13px",
-                      border: "1px dashed #ddd",
-                      borderRadius: "10px",
-                      background: "#fff",
-                    }}
-                  >
-                    No extra gallery photos yet. Click &quot;+ Add More Photos&quot; to add photos.
-                  </div>
-                ) : (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "12px",
-                    }}
-                  >
-                    {gallery.map((photoUrl, idx) => (
-                      <div
-                        key={idx}
-                        style={{
-                          display: "flex",
-                          alignItems: "flex-end",
-                          gap: "12px",
-                          background: "#fff",
-                          padding: "12px 14px",
-                          borderRadius: "10px",
-                          border: "1px solid #e5e5e5",
-                        }}
-                      >
-                        <div
-                          style={{
-                            width: "50px",
-                            height: "50px",
-                            borderRadius: "8px",
-                            overflow: "hidden",
-                            background: "#f5f5f5",
-                            flexShrink: 0,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            border: "1px solid #eee",
-                          }}
-                        >
-                          <img
-                            src={photoUrl || "/assets/images/product-item-1.jpg"}
-                            alt={`Gallery ${idx + 1}`}
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              objectFit: "cover",
-                            }}
-                            onError={(e) => {
-                              (e.target as HTMLImageElement).src =
-                                "/assets/images/product-item-1.jpg";
-                            }}
-                          />
-                        </div>
+              <div className="admin-grid-3">
+                <div className="admin-form-group">
+                  <label className="admin-label">
+                    Old Price / Strike-through ({settings.currency})
+                  </label>
+                  <input
+                    type="number"
+                    className="admin-input"
+                    value={oldPrice}
+                    onChange={(e) => setOldPrice(Number(e.target.value))}
+                    placeholder="e.g. 750 (optional)"
+                  />
+                </div>
+                <div className="admin-form-group">
+                  <label className="admin-label">Rating (1 to 5)</label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="5"
+                    step="0.1"
+                    className="admin-input"
+                    value={rating}
+                    onChange={(e) => setRating(Number(e.target.value))}
+                  />
+                </div>
+                <div className="admin-form-group">
+                  <label className="admin-label">Reviews Count</label>
+                  <input
+                    type="number"
+                    className="admin-input"
+                    value={reviewsCount}
+                    onChange={(e) => setReviewsCount(Number(e.target.value))}
+                  />
+                </div>
+              </div>
 
-                        <div style={{ flex: 1 }}>
-                          <ImageUploadField
-                            label={`Gallery Photo ${idx + 1}`}
-                            value={photoUrl}
-                            onChange={(newUrl) =>
-                              handleUpdateGalleryPhoto(idx, newUrl)
-                            }
-                            folder="products"
-                            fileName={
-                              name || slug
-                                ? `${name || slug}-gallery-${idx + 1}`
-                                : `3uqab-product-gallery-${idx + 1}`
-                            }
-                            placeholder="Paste image URL or upload image"
-                          />
-                        </div>
-
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveGalleryPhoto(idx)}
-                          className="admin-modal-close"
-                          style={{
-                            width: "32px",
-                            height: "32px",
-                            minWidth: "32px",
-                            minHeight: "32px",
-                            fontSize: "18px",
-                            color: "#c0392b",
-                            borderColor: "#f5c6cb",
-                            marginBottom: "16px",
-                          }}
-                          title="Remove Photo"
-                        >
-                          ×
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
+              <div className="admin-form-group">
+                <ImageUploadField
+                  label="Product Bottle Image *"
+                  value={image}
+                  onChange={setImage}
+                  folder="products"
+                  fileName={name || slug || "3uqab-product"}
+                />
               </div>
 
               <div className="admin-grid-3">
@@ -721,6 +623,7 @@ export default function ProductsModule() {
                     className="admin-input"
                     value={topNotes}
                     onChange={(e) => setTopNotes(e.target.value)}
+                    placeholder="e.g. Bergamot, Saffron"
                   />
                 </div>
                 <div className="admin-form-group">
@@ -730,6 +633,7 @@ export default function ProductsModule() {
                     className="admin-input"
                     value={heartNotes}
                     onChange={(e) => setHeartNotes(e.target.value)}
+                    placeholder="e.g. Jasmine, Damask Rose"
                   />
                 </div>
                 <div className="admin-form-group">
@@ -739,6 +643,7 @@ export default function ProductsModule() {
                     className="admin-input"
                     value={baseNotes}
                     onChange={(e) => setBaseNotes(e.target.value)}
+                    placeholder="e.g. Oud, Amber, White Musk"
                   />
                 </div>
               </div>
@@ -747,8 +652,10 @@ export default function ProductsModule() {
                 <label className="admin-label">Description</label>
                 <textarea
                   className="admin-textarea"
+                  rows={4}
                   value={descriptionText}
                   onChange={(e) => setDescriptionText(e.target.value)}
+                  placeholder="Fragrance description and story..."
                 />
               </div>
 

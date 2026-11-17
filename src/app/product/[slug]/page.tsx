@@ -2,9 +2,26 @@ import type { Metadata } from "next";
 import ProductDetailsClient from "@/components/product/ProductDetailsClient";
 import { initialPerfumeCatalog } from "@/data/perfumeCatalog";
 import { siteConfig } from "@/data/siteConfig";
+import { readDbAsync } from "@/lib/db";
+import { Product } from "@/data/products";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
+}
+
+export const dynamicParams = true;
+
+async function getProductBySlug(slug: string): Promise<Product | null> {
+  try {
+    const db = await readDbAsync();
+    const all =
+      Array.isArray(db.products) && db.products.length > 0
+        ? db.products
+        : initialPerfumeCatalog;
+    return all.find((p) => p.slug === slug) || null;
+  } catch {
+    return initialPerfumeCatalog.find((p) => p.slug === slug) || null;
+  }
 }
 
 export function generateStaticParams() {
@@ -18,6 +35,7 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const product =
+    (await getProductBySlug(slug)) ||
     initialPerfumeCatalog.find((p) => p.slug === slug) ||
     initialPerfumeCatalog[0];
 
@@ -35,6 +53,7 @@ export async function generateMetadata({
 export default async function ProductDetailsPage({ params }: PageProps) {
   const { slug } = await params;
   const product =
+    (await getProductBySlug(slug)) ||
     initialPerfumeCatalog.find((p) => p.slug === slug) ||
     initialPerfumeCatalog[0];
 
