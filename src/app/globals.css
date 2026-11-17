@@ -1739,33 +1739,9 @@ body {
   text-decoration: underline;
 }
 
-/* Shop Top Control Refinements */
+/* Shop Top Control: Mobile & Small Screens Only (Hidden entirely on large screens) */
 .shop-top-control {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #fafafa;
-  border: 1px solid #e9e9e9;
-  border-radius: 12px;
-  padding: 10px 16px;
-  margin-bottom: 24px;
-  gap: 12px;
-}
-
-/* Hide drawer filter button on large screens (> 991px) since desktop has full left sidebar */
-@media (min-width: 992px) {
-  .btn-open-filter-drawer {
-    display: none !important;
-  }
-  .shop-control-inline .icon-indicator {
-    display: none !important;
-  }
-  .shop-control-inline .label-text {
-    font-size: 13px;
-    font-weight: 600;
-    color: #444;
-    margin-right: 8px;
-  }
+  display: none !important;
 }
 
 /* Small Screens (<= 991px): single inline horizontal toolbar with icons & white filter button */
@@ -1777,9 +1753,11 @@ body {
     justify-content: space-between !important;
     flex-wrap: nowrap !important;
     padding: 8px 10px !important;
+    margin-bottom: 24px !important;
     gap: 8px !important;
     background: #ffffff !important;
     border: 1px solid #eeeeee !important;
+    border-radius: 12px !important;
   }
 
   /* Do not show Showing X of Y on mobile */

@@ -439,7 +439,8 @@ export default function ShopClient() {
                 </div>
               )}
 
-              <div className="shop-top-control">
+              {/* Small Screen Filtration & Sort Bar (Hidden entirely on large screens) */}
+              <div className="shop-top-control hidden-md hidden-lg">
                 {/* Advance Filters Button (Mobile only, white background, brand color icon) */}
                 <button
                   type="button"
@@ -454,10 +455,6 @@ export default function ShopClient() {
                     <span className="filter-badge">{nonSearchFiltersCount}</span>
                   )}
                 </button>
-
-                <div className="shop-matching-count-text">
-                  Showing all <strong>{allMatchingProducts.length}</strong> Fragrances
-                </div>
 
                 <div className="shop-top-right-controls">
                   <div className="filter-choice select-form shop-control-inline">
