@@ -65,7 +65,7 @@ export default function SettingsModule() {
             <h3 className="admin-card-title">Brand Details</h3>
             <ImageUploadField
               label="Store Logo"
-              value={formState.logo || "/assets/images/logo.webp"}
+              value={formState.logo || "/assets/images/logo.png"}
               onChange={(url) => setFormState({ ...formState, logo: url })}
               folder="settings"
               fileName="3uqab-logo"

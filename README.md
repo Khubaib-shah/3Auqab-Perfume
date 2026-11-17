@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="public/uploads/3uqab/settings/3uqab-logo.webp" alt="3Uqab Luxury Perfumes Logo" width="105" />
+  <img src="public/uploads/3uqab/settings/3uqab-logo.png" alt="3Uqab Luxury Perfumes Logo" width="105" />
 
   <h1>3Uqab Perfume (Three Uqab) — Luxury Fragrance E-Commerce &amp; Operations Platform</h1>
 

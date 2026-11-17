@@ -86,6 +86,15 @@ function LatestNewsSliderComponent({ posts }: LatestNewsSliderProps) {
                                 <img
                                   src={post.authorAvatar}
                                   alt={post.author}
+                                  style={{
+                                    width: 32,
+                                    height: 32,
+                                    borderRadius: "50%",
+                                    objectFit: "cover",
+                                    aspectRatio: "1/1",
+                                    flexShrink: 0,
+                                    display: "inline-block",
+                                  }}
                                 />
                                 {post.author}
                               </span>

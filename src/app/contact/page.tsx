@@ -5,7 +5,7 @@ import { siteConfig } from "@/data/siteConfig";
 export const metadata: Metadata = {
   title: "Visit Our Karachi Store & Contact Us | 3Uqab Perfume",
   description:
-    "Visit 3Uqab Perfume at Shop # 17, Ground Floor, City Residency & Shopping Galleria, Aga Khan III Road (Garden Road), Garden East, Saddar, Karachi. Handcrafted Arabian Oud, luxury Eau de Parfum & attars.",
+    "Visit 3Uqab Perfume at Shop # 70, Ground Floor, City Residency & Shopping Galleria, Aga Khan III Road (Garden Road), Garden East, Saddar, Karachi. Handcrafted Arabian Oud, luxury Eau de Parfum & attars.",
   keywords: [
     "3Uqab Perfume Karachi",
     "3Uqab Perfume store",
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Visit Our Karachi Store & Contact Us | 3Uqab Perfume",
     description:
-      "Shop # 17, Ground Floor, City Residency & Shopping Galleria, Aga Khan III Road (Garden Road), Garden East, Saddar, Karachi. Call (+92) 300 1234567.",
+      "Shop # 70, Ground Floor, City Residency & Shopping Galleria, Aga Khan III Road (Garden Road), Garden East, Saddar, Karachi. Call (+92) 300 1234567.",
     url: `${siteConfig.url}/contact`,
     type: "website",
   },
@@ -30,7 +30,7 @@ export default function ContactPage() {
     "@type": "Store",
     name: siteConfig.name,
     alternateName: [siteConfig.fullName, "3Uqab Fragrances Karachi"],
-    image: `${siteConfig.url}/assets/images/logo.webp`,
+    image: `${siteConfig.url}/assets/images/logo.png`,
     url: `${siteConfig.url}/contact`,
     telephone: siteConfig.contact.phone,
     email: siteConfig.contact.email,

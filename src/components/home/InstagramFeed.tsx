@@ -17,8 +17,11 @@ function InstagramFeedComponent({ facebookUrl = "#" }: InstagramFeedProps) {
         <div className="stelina-instagram">
           <div className="instagram owl-slick equal-container">
             <div className="instagram-grid">
-              {[1, 2, 3, 4, 5].map((num) => (
-                <div key={num} className="item-instagram">
+              {[1, 2, 3, 4, 5, 6].map((num) => (
+                <div
+                  key={num}
+                  className={`item-instagram ${num === 6 ? "item-instagram-extra" : ""}`}
+                >
                   <a
                     href={facebookUrl}
                     target="_blank"

@@ -251,7 +251,7 @@ export function getInitialDatabaseSeed(): DatabaseSchema {
       contact: { ...siteConfig.contact },
       socials: { ...siteConfig.socials },
       popularTags: [...siteConfig.popularTags],
-      logo: "/assets/images/logo.webp",
+      logo: "/assets/images/logo.png",
     },
     announcements: (siteConfig.announcements || []).map((text, idx) => ({
       id: `ann-${idx + 1}`,

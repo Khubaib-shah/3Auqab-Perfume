@@ -215,15 +215,16 @@ body {
   padding: 0 !important;
 }
 
-.hero-slick-track > .slider-item > .slider-inner {
-  flex: 1 0 auto !important;
+.hero-slick-track > .slider-item > .slider-inner,
+.home-slider.fullwidth .slider-item .slider-inner {
   width: 100% !important;
-  min-height: 100% !important;
-  background-position: center bottom !important;
-  background-size: cover !important;
+  aspect-ratio: 3416 / 1248 !important;
+  background-size: 100% 100% !important;
+  background-position: center center !important;
   background-repeat: no-repeat !important;
   display: flex !important;
   align-items: center !important;
+  box-sizing: border-box !important;
 }
 
 .testimonial-slick-track > .testimonial-item {
@@ -242,48 +243,90 @@ body {
 }
 
 .home-slider.fullwidth .slider-item .slider-inner .container {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  height: 100% !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 .slider-item.style4 .slider-inner .slider-infor,
 .slider-item.style5 .slider-inner .slider-infor,
 .slider-item.style6 .slider-inner .slider-infor {
   float: none !important;
-  width: 44%;
-  min-width: 380px;
-  max-width: 480px;
-  padding-left: 20px !important;
-  padding-right: 20px !important;
-  padding-top: 155px !important;
-  padding-bottom: 165px !important;
+  width: 44% !important;
+  min-width: 260px !important;
+  max-width: 480px !important;
+  padding: 0 20px !important;
+  margin-left: auto !important;
+  margin-right: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
 }
 
 .slider-item.style4 .title-big,
 .slider-item.style5 .title-big,
 .slider-item.style6 .title-big {
-  max-width: 100%;
-  line-height: 1.2;
+  color: #222222 !important;
+  font-size: clamp(14px, 2.5vw, 40px) !important;
+  line-height: 1.15 !important;
+  margin-bottom: clamp(3px, 1vw, 15px) !important;
+  max-width: 100% !important;
+}
+
+.slider-item .title-small,
+.slider-item.style4 .title-small,
+.slider-item.style5 .title-small,
+.slider-item.style6 .title-small {
+  color: #222222 !important;
+  font-weight: 600 !important;
+  font-size: clamp(9px, 1vw, 14px) !important;
+  letter-spacing: 1px !important;
+  margin-bottom: clamp(2px, 0.5vw, 8px) !important;
+}
+
+.slider-inner .when-code,
+.slider-inner .price {
+  color: #222222 !important;
+  font-weight: 500 !important;
+  font-size: clamp(9px, 1vw, 14px) !important;
+  margin-bottom: clamp(4px, 1.2vw, 20px) !important;
+}
+
+.slider-inner .when-code .number-code,
+.slider-inner .price .number-price {
+  color: #222222 !important;
+  font-weight: 700 !important;
+  font-size: clamp(11px, 1.2vw, 18px) !important;
+}
+
+.slider-inner .button {
+  color: #222222 !important;
+  border-bottom: 2px solid #222222 !important;
+  padding: clamp(4px, 0.7vw, 12px) clamp(10px, 1.5vw, 28px) !important;
+  font-size: clamp(9px, 0.85vw, 13px) !important;
+  width: fit-content !important;
+  line-height: 1.2 !important;
 }
 
 .home-slider.fullwidth .slick-dots {
   position: absolute !important;
-  bottom: 22px !important;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: clamp(6px, 1.8vw, 22px) !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
   margin-top: 0 !important;
-  z-index: 6;
+  z-index: 6 !important;
 }
 
 @media (max-width: 1199px) {
   .slider-item.style4 .slider-inner .slider-infor,
   .slider-item.style5 .slider-inner .slider-infor,
   .slider-item.style6 .slider-inner .slider-infor {
-    width: 46%;
-    min-width: 320px;
-    padding-top: 115px;
-    padding-bottom: 125px;
+    width: 48% !important;
+    min-width: 240px !important;
   }
 }
 
@@ -291,69 +334,77 @@ body {
   .slider-item.style4 .slider-inner .slider-infor,
   .slider-item.style5 .slider-inner .slider-infor,
   .slider-item.style6 .slider-inner .slider-infor {
-    width: 52%;
-    min-width: 280px;
-    padding-top: 90px;
-    padding-bottom: 100px;
+    width: 52% !important;
+    min-width: 220px !important;
   }
 }
 
 @media (max-width: 767px) {
+  .home-slider.fullwidth .slider-item .slider-inner {
+    aspect-ratio: 3416 / 1248 !important;
+    min-height: auto !important;
+  }
+
   .home-slider.fullwidth .slider-item .slider-inner .container {
-    display: flex !important;
-    justify-content: flex-end !important;
-    align-items: center !important;
-    padding-left: 0 !important;
-    padding-right: 16px !important;
+    padding-left: 8px !important;
+    padding-right: 12px !important;
   }
 
   .slider-item.style4 .slider-inner .slider-infor,
   .slider-item.style5 .slider-inner .slider-infor,
   .slider-item.style6 .slider-inner .slider-infor {
-    width: 60% !important;
+    width: 56% !important;
     min-width: 0 !important;
-    max-width: 60% !important;
+    max-width: 56% !important;
+    padding: 0 !important;
     margin-left: auto !important;
     margin-right: 0 !important;
-    padding: 55px 0 65px 10px !important;
-    background: transparent !important;
-    box-shadow: none !important;
   }
 
   .slider-item.style4 .title-big,
   .slider-item.style5 .title-big,
   .slider-item.style6 .title-big {
-    font-size: 20px !important;
+    font-size: clamp(11px, 3.2vw, 18px) !important;
+    line-height: 1.1 !important;
+    margin-bottom: 2px !important;
+  }
+
+  .slider-item.style4 .title-small,
+  .slider-item.style5 .title-small,
+  .slider-item.style6 .title-small {
+    font-size: clamp(7.5px, 1.8vw, 10px) !important;
+    margin-bottom: 1px !important;
+  }
+
+  .slider-inner .when-code,
+  .slider-inner .price {
+    font-size: clamp(7.5px, 1.8vw, 10px) !important;
+    margin-bottom: 2px !important;
+  }
+
+  .slider-inner .when-code .number-code,
+  .slider-inner .price .number-price {
+    font-size: clamp(8.5px, 2vw, 12px) !important;
+  }
+
+  .slider-inner .button {
+    font-size: clamp(7.5px, 1.8vw, 10px) !important;
+    padding: 2px 7px !important;
     line-height: 1.2 !important;
-    margin-bottom: 8px !important;
   }
 
-  .slider-item.style4 .stelina-subtitle,
-  .slider-item.style5 .stelina-subtitle,
-  .slider-item.style6 .stelina-subtitle {
-    font-size: 10px !important;
-    letter-spacing: 1px !important;
-    margin-bottom: 6px !important;
+  .home-slider.fullwidth .slick-dots {
+    bottom: 4px !important;
   }
 
-  .slider-item.style4 .price-set,
-  .slider-item.style5 .price-set,
-  .slider-item.style6 .price-set {
-    font-size: 11px !important;
-    margin-bottom: 12px !important;
+  .home-slider.fullwidth .slick-dots li {
+    margin: 0 2px !important;
   }
 
-  .slider-item.style4 .price-set .price,
-  .slider-item.style5 .price-set .price,
-  .slider-item.style6 .price-set .price {
-    font-size: 14px !important;
-  }
-
-  .slider-item.style4 .button.button-now,
-  .slider-item.style5 .button.button-now,
-  .slider-item.style6 .button.button-now {
-    font-size: 11px !important;
-    padding-bottom: 3px !important;
+  .home-slider.fullwidth .slick-dots li button {
+    width: 6px !important;
+    height: 6px !important;
+    font-size: 0 !important;
   }
 }
 
@@ -488,7 +539,11 @@ body {
   padding-right: 15px;
 }
 
-/* Dual Promo Banners (.item-banner.style16 & .item-banner.style15) */
+/* ==========================================================================
+   Dual Promo Banners (.item-banner.style16 & .item-banner.style15)
+   Desktop: original equal-height stretched layout
+   Mobile (<= 767px): 100% uncropped full image for Signature Oud Sale
+   ========================================================================== */
 @media (min-width: 768px) {
   .banner-wrapp.rows-space-30 .row {
     display: flex;
@@ -530,11 +585,49 @@ body {
   .item-banner.style16 {
     margin-bottom: 20px;
   }
+
+  .item-banner.style15 .inner {
+    width: 100% !important;
+    aspect-ratio: 1672 / 941 !important;
+    background-size: 100% 100% !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    box-sizing: border-box !important;
+    height: auto !important;
+  }
+
   .item-banner.style15 .banner-content {
-    width: 100%;
-    min-width: 0;
-    max-width: 100%;
-    padding: 35px 25px !important;
+    width: 52% !important;
+    max-width: 52% !important;
+    padding: 0 10px !important;
+    margin-left: auto !important;
+    margin-right: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+  }
+
+  .item-banner.style15 .title {
+    font-size: clamp(13px, 3.8vw, 20px) !important;
+    line-height: 1.18 !important;
+    margin-bottom: 3px !important;
+  }
+
+  .item-banner.style15 .description {
+    font-size: clamp(8.5px, 2.2vw, 11px) !important;
+    line-height: 1.3 !important;
+    margin-bottom: 6px !important;
+  }
+
+  .item-banner.style15 .button {
+    font-size: clamp(8px, 2vw, 10px) !important;
+    padding: 3px 8px !important;
+    width: fit-content !important;
+    height: auto !important;
   }
 }
 
@@ -859,49 +952,76 @@ body {
   padding: 0 15px;
   box-sizing: border-box;
   margin-bottom: 10px;
+  display: flex !important;
+  flex-direction: column !important;
 }
 
 @media (max-width: 991px) {
   .blog-slide-item {
-    flex: 0 0 100%;
-    max-width: 100%;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
   }
 }
 
+.stelina-blog-item.style2 {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
 .stelina-blog-item.style2 .stelina-blog-inner {
-  display: flex;
-  align-items: stretch;
-  background: #f5f5f5;
-  overflow: hidden;
-  height: 100%;
+  display: flex !important;
+  align-items: stretch !important;
+  background: #f5f5f5 !important;
+  overflow: hidden !important;
+  height: 275px !important;
+  min-height: 275px !important;
+  max-height: 275px !important;
 }
 
 .stelina-blog-item.style2 .post-thumb {
   float: none !important;
-  width: 47%;
-  flex-shrink: 0;
+  width: 48% !important;
+  flex: 0 0 48% !important;
+  height: 100% !important;
+  min-height: 275px !important;
+  max-height: 275px !important;
   margin: 0 !important;
+  position: relative !important;
+  overflow: hidden !important;
+  aspect-ratio: 1 / 1 !important;
 }
 
 .stelina-blog-item.style2 .post-thumb a {
-  display: block;
-  height: 100%;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  position: relative !important;
 }
 
 .stelina-blog-item.style2 .post-thumb img {
-  width: 100%;
-  height: 100%;
-  min-height: 275px;
-  object-fit: cover;
-  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 275px !important;
+  max-height: 275px !important;
+  aspect-ratio: 1 / 1 !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
 }
 
 .stelina-blog-item.style2 .blog-info {
-  width: 53%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 22px 24px 16px;
+  width: 52% !important;
+  flex: 1 1 52% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  padding: 22px 24px 16px !important;
+  height: 100% !important;
+  min-height: 275px !important;
+  max-height: 275px !important;
+  box-sizing: border-box !important;
 }
 
 .stelina-blog-item.style2 .post-top {
@@ -955,19 +1075,72 @@ body {
   .stelina-blog-wraap .row > div {
     margin-bottom: 25px;
   }
-}
 
-@media (max-width: 575px) {
   .stelina-blog-item.style2 .stelina-blog-inner {
-    flex-direction: column;
+    flex-direction: column !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    background: #ffffff !important;
+    border-radius: 8px !important;
+    border: 1px solid #eeeeee !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04) !important;
   }
-  .stelina-blog-item.style2 .post-thumb,
-  .stelina-blog-item.style2 .blog-info {
-    width: 100%;
+
+  .stelina-blog-item.style2 .post-thumb {
+    width: 100% !important;
+    height: 220px !important;
+    min-height: 220px !important;
+    max-height: 220px !important;
+    aspect-ratio: 16 / 9 !important;
+    position: relative !important;
+    overflow: hidden !important;
   }
+
   .stelina-blog-item.style2 .post-thumb img {
-    min-height: 220px;
-    max-height: 260px;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 220px !important;
+    max-height: 220px !important;
+    aspect-ratio: 16 / 9 !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    display: block !important;
+  }
+
+  .stelina-blog-item.style2 .blog-info {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    padding: 18px 20px 16px !important;
+    background: #ffffff !important;
+    box-sizing: border-box !important;
+  }
+
+  .stelina-blog-item.style2 .post-top {
+    margin: 0 0 10px 0 !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  .stelina-blog-item.style2 .post-top > a {
+    display: inline-block !important;
+    color: #ffffff !important;
+    background-color: #ab8e66 !important;
+    border-radius: 3px !important;
+    padding: 4px 10px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+  }
+
+  .stelina-blog-item.style2 .blog-title {
+    font-size: 18px !important;
+    line-height: 1.35 !important;
+    margin-bottom: 16px !important;
   }
 }
 
@@ -1005,15 +1178,36 @@ body {
   display: block !important;
 }
 
-@media (max-width: 991px) {
+/* Big screens (>= 992px): Show only 5 images (1 clean row of 5) */
+@media (min-width: 992px) {
   .instagram-wrapp .instagram-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  }
+  .instagram-wrapp .instagram-grid .item-instagram:nth-child(n+6),
+  .instagram-wrapp .instagram-grid .item-instagram-extra {
+    display: none !important;
   }
 }
 
+/* Small / medium screens (<= 991px): Show all 6 images (2 rows of 3) */
+@media (max-width: 991px) {
+  .instagram-wrapp .instagram-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+  .instagram-wrapp .instagram-grid .item-instagram:nth-child(n+6),
+  .instagram-wrapp .instagram-grid .item-instagram-extra {
+    display: block !important;
+  }
+}
+
+/* Mobile screens (<= 575px): Show all 6 images (3 rows of 2) */
 @media (max-width: 575px) {
   .instagram-wrapp .instagram-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  .instagram-wrapp .instagram-grid .item-instagram:nth-child(n+6),
+  .instagram-wrapp .instagram-grid .item-instagram-extra {
+    display: block !important;
   }
 }
 
@@ -1364,11 +1558,14 @@ body {
 /* ==========================================================================
    11c. GLOBAL BLOG AUTHOR AVATAR PERFECT CIRCULAR FIT
    ========================================================================== */
-.author-view .author {
+.author-view .author,
+.stelina-blog-item .blog-meta .author,
+.blog-meta .author {
   display: inline-flex !important;
   align-items: center !important;
   gap: 10px !important;
   float: none !important;
+  vertical-align: middle !important;
 }
 
 .author-view .avt {
@@ -1390,14 +1587,24 @@ body {
   margin: 0 !important;
 }
 
-.author-view .avt img {
-  width: 100% !important;
-  height: 100% !important;
+.author-view .avt img,
+.stelina-blog-item .blog-meta .author img,
+.blog-item .blog-meta .author img,
+.blog-meta .author img {
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  min-height: 32px !important;
+  max-width: 32px !important;
+  max-height: 32px !important;
   aspect-ratio: 1 / 1 !important;
   object-fit: cover !important;
   object-position: center !important;
   border-radius: 50% !important;
-  display: block !important;
+  display: inline-block !important;
+  flex-shrink: 0 !important;
+  margin: 0 4px 0 0 !important;
+  vertical-align: middle !important;
 }
 
 .author-view .name {
@@ -2807,8 +3014,16 @@ body {
     transform: none !important;
   }
 
-  /* 10. Carousel Nav Arrows: No hover transform */
-  .slick-arrow:hover,
+  /* 10. Carousel Nav Arrows: Keep vertical centering on hover, never shift down */
+  .slick-slider.nav-center > .slick-arrow:hover,
+  .owl-slick.nav-center > .slick-arrow:hover,
+  .stelina-blog .slick-slider > .slick-arrow:hover,
+  .stelina-blog .slick-slider > .slick-arrow:focus,
+  .stelina-blog .slick-slider > .slick-arrow:active {
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+  }
+
   .weekly-nav-arrows .slick-arrow:hover {
     transform: none !important;
   }
@@ -2818,4 +3033,544 @@ body {
     animation-play-state: running !important;
   }
 }
+
+/* ==========================================================================
+   17. CAROUSEL SLICK-ARROW POSITIONING & ZERO-HOVER-SHIFT (DESKTOP & MOBILE)
+   ========================================================================== */
+.slick-slider.nav-center > .slick-arrow,
+.slick-slider.nav-center > .slick-arrow:hover,
+.slick-slider.nav-center > .slick-arrow:focus,
+.slick-slider.nav-center > .slick-arrow:active,
+.owl-slick.nav-center > .slick-arrow,
+.owl-slick.nav-center > .slick-arrow:hover,
+.owl-slick.nav-center > .slick-arrow:focus,
+.owl-slick.nav-center > .slick-arrow:active,
+.stelina-blog .slick-slider > .slick-arrow,
+.stelina-blog .slick-slider > .slick-arrow:hover,
+.stelina-blog .slick-slider > .slick-arrow:focus,
+.stelina-blog .slick-slider > .slick-arrow:active {
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  margin-top: 0 !important;
+}
+
+/* Small Screens (<= 991px): Vertically center carousel arrows over image thumbnail so they NEVER overlap category badge */
+@media (max-width: 991px) {
+  .stelina-blog .slick-slider > .slick-arrow,
+  .stelina-blog:hover .slick-slider > .slick-arrow,
+  .stelina-blog .slick-slider > .slick-arrow:hover,
+  .stelina-blog .slick-slider > .slick-arrow:focus,
+  .stelina-blog .slick-slider > .slick-arrow:active,
+  .stelina-blog .owl-slick.nav-center > .slick-arrow {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 38px !important;
+    height: 38px !important;
+    line-height: 36px !important;
+    border-radius: 50% !important;
+    background: rgba(255, 255, 255, 0.94) !important;
+    border: 1px solid #e0e0e0 !important;
+    color: #222222 !important;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.18) !important;
+    top: 110px !important;
+    transform: translateY(-50%) !important;
+    z-index: 33 !important;
+    pointer-events: auto !important;
+    transition: none !important;
+  }
+
+  .stelina-blog .slick-slider > .slick-arrow:first-child,
+  .stelina-blog .owl-slick.nav-center > .slick-arrow:first-child {
+    left: 10px !important;
+    right: auto !important;
+  }
+
+  .stelina-blog .slick-slider > .slick-arrow:last-of-type,
+  .stelina-blog .owl-slick.nav-center > .slick-arrow:last-of-type,
+  .stelina-blog .slick-slider > .slick-arrow.fa-angle-right,
+  .stelina-blog .owl-slick.nav-center > .slick-arrow.fa-angle-right {
+    right: 10px !important;
+    left: auto !important;
+  }
+
+  .stelina-blog .slick-slider > .slick-arrow:hover,
+  .stelina-blog .slick-slider > .slick-arrow:focus,
+  .stelina-blog .slick-slider > .slick-arrow:active {
+    background: #ffffff !important;
+    color: #222222 !important;
+    border-color: #dcdcdc !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22) !important;
+    top: 110px !important;
+    transform: translateY(-50%) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+}
+
+/* ==========================================================================
+   18. ABOUT PAGE MASTER PERFUMERS AVATARS (PERFECT 1:1 CIRCLE FIT)
+   ========================================================================== */
+.stelina-team-member {
+  text-align: center !important;
+}
+
+.stelina-team-member .member_avatar {
+  width: 220px !important;
+  height: 220px !important;
+  max-width: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  margin: 0 auto 20px !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: #f8f8f8 !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important;
+  flex-shrink: 0 !important;
+}
+
+.stelina-team-member .member_avatar img {
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  border-radius: 50% !important;
+  display: block !important;
+}
+
+@media (max-width: 991px) {
+  .stelina-team-member .member_avatar {
+    width: 200px !important;
+    height: 200px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .stelina-team-member {
+    margin-bottom: 35px !important;
+  }
+  .stelina-team-member .member_avatar {
+    width: 180px !important;
+    height: 180px !important;
+  }
+}
+
+/* ==========================================================================
+   19. ABOUT PAGE 3 FEATURES ICONBOXES CENTER ALIGNMENT
+   ========================================================================== */
+.about-features-row {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  align-items: stretch !important;
+  margin-top: 20px !important;
+  margin-bottom: 20px !important;
+}
+
+.about-features-row > div {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.stelina-iconbox.layout1 {
+  text-align: center !important;
+  margin-top: 40px !important;
+  margin-bottom: 20px !important;
+  width: 100% !important;
+  max-width: 360px !important;
+}
+
+.stelina-iconbox.layout1 .iconbox-inner {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  width: 100% !important;
+}
+
+.stelina-iconbox.layout1 .icon-item {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 auto 16px !important;
+  text-align: center !important;
+}
+
+.stelina-iconbox.layout1 .icon-item .icon {
+  font-size: 52px !important;
+  color: #ab8e66 !important;
+  display: inline-block !important;
+  line-height: 1 !important;
+  position: static !important;
+}
+
+.stelina-iconbox.layout1 .content {
+  text-align: center !important;
+  width: 100% !important;
+}
+
+.stelina-iconbox.layout1 .content .title {
+  text-align: center !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  color: #222222 !important;
+  margin-bottom: 10px !important;
+}
+
+.stelina-iconbox.layout1 .content .text {
+  text-align: center !important;
+  font-size: 14px !important;
+  line-height: 1.65 !important;
+  color: #666666 !important;
+  max-width: 320px !important;
+  margin: 0 auto !important;
+}
+
+/* ==========================================================================
+   20. ABOUT PAGE HEADER BANNER CONTENT BREATHING ROOM
+   ========================================================================== */
+.header-banner.banner-image .banner-wrap .content-inner {
+  float: none !important;
+  padding-top: 75px !important;
+  padding-bottom: 75px !important;
+  padding-right: clamp(20px, 4vw, 50px) !important;
+  padding-left: 15px !important;
+  max-width: 520px !important;
+  margin-left: auto !important;
+  margin-right: clamp(25px, 5vw, 70px) !important;
+}
+
+.header-banner .title {
+  font-size: clamp(22px, 2.5vw, 36px) !important;
+  line-height: 1.22 !important;
+  margin-bottom: 15px !important;
+}
+
+.header-banner .sub-title {
+  font-size: clamp(13px, 1.1vw, 16px) !important;
+  line-height: 1.6 !important;
+  margin-bottom: 28px !important;
+  color: #666666 !important;
+}
+
+.header-banner .button {
+  font-size: 13px !important;
+  letter-spacing: 0.08em !important;
+}
+
+@media (max-width: 767px) {
+  .header-banner.banner-image .banner-wrap .content-inner {
+    margin-right: 15px !important;
+    padding: 40px 15px !important;
+    max-width: 100% !important;
+  }
+}
+
+/* ==========================================================================
+   21. FAQ ACCORDION SECTION (SEO & RESPONSIVE 2-WAY / 1-WAY LAYOUT)
+   Desktop (>= 992px): 2-Column (Left Image Card + Right Accordion)
+   Mobile (< 992px): 1-Column 100% Full Width (Image Hidden)
+   ========================================================================== */
+.faq-section-wrapper {
+  padding: 70px 0 65px;
+  background-color: #fbfaf8;
+  position: relative;
+  border-top: 1px solid #f0eee9;
+  border-bottom: 1px solid #f0eee9;
+}
+
+.faq-section-header {
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+.faq-section-subtitle {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #ab8e66;
+  margin-bottom: 8px;
+  font-family: "Jost", sans-serif;
+}
+
+.faq-section-title {
+  font-size: clamp(22px, 2.5vw, 32px);
+  font-weight: 600;
+  color: #222222;
+  text-transform: capitalize;
+  margin: 0 0 14px;
+  font-family: "Jost", sans-serif;
+  line-height: 1.25;
+}
+
+.faq-section-divider {
+  width: 50px;
+  height: 2px;
+  background-color: #ab8e66;
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+.faq-layout-row {
+  display: flex;
+  gap: 35px;
+  align-items: stretch;
+}
+
+.faq-image-col {
+  flex: 0 0 42%;
+  max-width: 42%;
+  display: flex;
+}
+
+.faq-accordion-col {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Desktop Image Showcase */
+.faq-image-card {
+  position: relative;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+  background: #ffffff;
+  display: flex;
+}
+
+.faq-image-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 480px;
+  overflow: hidden;
+}
+
+.faq-showcase-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  transition: transform 0.6s ease;
+}
+
+.faq-image-card:hover .faq-showcase-img {
+  transform: scale(1.03);
+}
+
+.faq-image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 30px 25px;
+  background: linear-gradient(
+    to top,
+    rgba(20, 20, 20, 0.88) 0%,
+    rgba(20, 20, 20, 0.5) 60%,
+    transparent 100%
+  );
+  color: #ffffff;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+.faq-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  background: #ab8e66;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  font-family: "Jost", sans-serif;
+}
+
+.faq-image-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 6px 0;
+  font-family: "Jost", sans-serif;
+}
+
+.faq-image-desc {
+  font-size: 13px;
+  color: #e5e5e5;
+  margin: 0 0 16px 0;
+  line-height: 1.5;
+  font-family: "Jost", sans-serif;
+}
+
+.faq-image-btn {
+  display: inline-block;
+  padding: 8px 20px;
+  background: #ffffff;
+  color: #222222;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  font-family: "Jost", sans-serif;
+}
+
+.faq-image-btn:hover {
+  background: #ab8e66;
+  color: #ffffff;
+}
+
+/* Accordion Component */
+.faq-accordion-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faq-accordion-item {
+  background: #ffffff;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.faq-accordion-item:hover {
+  border-color: #d8c3a5;
+}
+
+.faq-accordion-item.active {
+  border-color: #ab8e66;
+  box-shadow: 0 4px 16px rgba(171, 142, 102, 0.08);
+}
+
+.faq-accordion-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  gap: 15px;
+  font-family: "Jost", sans-serif;
+  transition: background-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.faq-accordion-header:hover {
+  background-color: #faf8f5;
+}
+
+.faq-item-title {
+  font-size: 15.5px;
+  font-weight: 600;
+  color: #222222;
+  line-height: 1.45;
+  transition: color 0.2s ease;
+  margin: 0;
+  font-family: "Jost", sans-serif;
+}
+
+.faq-accordion-item.active .faq-item-title {
+  color: #ab8e66;
+}
+
+.faq-icon-indicator {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  border-radius: 50%;
+  background: #f4f4f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666666;
+  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.faq-icon-indicator.open {
+  transform: rotate(180deg);
+  background-color: #ab8e66;
+  color: #ffffff;
+}
+
+.faq-accordion-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+
+.faq-accordion-body.open {
+  grid-template-rows: 1fr;
+}
+
+.faq-accordion-content {
+  overflow: hidden;
+}
+
+.faq-accordion-content p {
+  padding: 0 22px 20px 22px;
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.75;
+  color: #555555;
+  font-family: "Jost", sans-serif;
+}
+
+/* ==========================================================================
+   Small Screen Rules (< 992px)
+   Image is completely hidden, Accordion takes 100% full width
+   ========================================================================== */
+@media (max-width: 991px) {
+  .faq-section-wrapper {
+    padding: 50px 0 45px;
+  }
+
+  .faq-section-header {
+    margin-bottom: 30px;
+  }
+
+  .faq-image-col {
+    display: none !important;
+  }
+
+  .faq-accordion-col {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .faq-accordion-header {
+    padding: 16px 18px;
+  }
+
+  .faq-item-title {
+    font-size: 14.5px;
+  }
+
+  .faq-accordion-content p {
+    padding: 0 18px 18px 18px;
+    font-size: 13.5px;
+    line-height: 1.7;
+  }
+}
+
 

@@ -11,6 +11,7 @@ import { TestimonialsNewsletter } from "./TestimonialsNewsletter";
 import { DualPromoBanners } from "./DualPromoBanners";
 import { WeeklyFeaturedSlider } from "./WeeklyFeaturedSlider";
 import { LatestNewsSlider } from "./LatestNewsSlider";
+import { FaqAccordion } from "./FaqAccordion";
 import { InstagramFeed } from "./InstagramFeed";
 
 export default function HomeClient() {
@@ -72,7 +73,10 @@ export default function HomeClient() {
       {/* 8. Latest News & Blog Carousel */}
       <LatestNewsSlider posts={blogPosts} />
 
-      {/* 9. Instagram Social Feed */}
+      {/* 9. SEO-Friendly FAQ Accordion Section */}
+      <FaqAccordion />
+
+      {/* 10. Instagram Social Feed */}
       <InstagramFeed facebookUrl={settings.socials.facebook} />
     </div>
   );

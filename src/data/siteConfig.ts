@@ -74,7 +74,7 @@ export const siteConfig = {
   name: "3Uqab Perfume",
   shortName: "3Uqab",
   fullName: "Three Uqab",
-  logo: "/assets/images/logo.webp",
+  logo: "/assets/images/logo.png",
   whatsappNumber: "+923001234567",
   tagline: "Luxury Arabian Oud & Eau de Parfum",
   description:
@@ -86,18 +86,18 @@ export const siteConfig = {
 
   // Announcement Marquee (Top of Header)
   announcements: [
-    "✦ Free Shipping on All Orders Above Rs 5,000 Across Pakistan",
+    "✦ Free Delivery on All Orders Above Rs 3,000 in Karachi",
     "✦ Use Promo Code 3UQAB20 for 20% Off Your Entire Order",
     "✦ Pure Arabian Oud & Concentrated Attar — 100% Authentic & Long-Lasting",
-    "✦ Fast Express Cash on Delivery (COD) Nationwide",
+    "✦ Fast Express Cash on Delivery (COD) Exclusively in Karachi",
   ],
 
   // Contact Information
   contact: {
     address:
-      "Shop # 17, Ground Floor, City Residency & Shopping Galleria, Aga Khan III Road (Garden Road), Garden East, Saddar, Karachi, Pakistan",
+      "Shop # 70, Ground Floor, City Residency & Shopping Galleria, Aga Khan III Road (Garden Road), Garden East, Saddar, Karachi, Pakistan",
     streetAddress:
-      "Shop # 17, Ground Floor, City Residency & Shopping Galleria, Aga Khan III Road (Garden Road)",
+      "Shop # 70, Ground Floor, City Residency & Shopping Galleria, Aga Khan III Road (Garden Road)",
     addressLocality: "Garden East, Saddar, Karachi",
     addressRegion: "Sindh",
     postalCode: "74400",
