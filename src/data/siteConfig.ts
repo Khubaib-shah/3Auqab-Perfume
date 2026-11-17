@@ -42,6 +42,7 @@ export interface PromoBannersConfig {
     title: string;
     code: string;
     link: string;
+    image?: string;
   };
   shopSlide2: {
     title: string;
@@ -49,6 +50,7 @@ export interface PromoBannersConfig {
     priceLabel: string;
     priceValue: string;
     link: string;
+    image?: string;
   };
 }
 
@@ -207,6 +209,7 @@ export const siteConfig = {
       title: "Flash Sale Up To\n20% Off",
       code: "3UQAB20",
       link: "/shop",
+      image: "/assets/images/banner-01_full_width.jpg",
     },
     shopSlide2: {
       title: "Royal Oud Collection",
@@ -214,6 +217,7 @@ export const siteConfig = {
       priceLabel: "Bundle Price:",
       priceValue: "Rs 8,500",
       link: "/shop",
+      image: "/assets/images/banner-02_full_width.jpg",
     },
   } as PromoBannersConfig,
 

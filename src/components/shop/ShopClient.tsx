@@ -200,13 +200,15 @@ export default function ShopClient() {
             <div className="site-main">
               {/* Shop Banner Slider with Smooth Sliding Track */}
               <div
-                className="banner-shop banner-slider slick-slider"
+                className="banner-shop banner-slider slick-slider full-width"
                 style={{ overflow: "hidden", position: "relative" }}
               >
                 <div
+                  className="banner-slider-track"
                   style={{
                     display: "flex",
                     width: "100%",
+                    alignItems: "stretch",
                     transition:
                       "transform 700ms cubic-bezier(0.22, 1, 0.36, 1)",
                     transform: `translate3d(-${bannerSlide * 100}%, 0, 0)`,
@@ -214,14 +216,38 @@ export default function ShopClient() {
                   }}
                 >
                   <div
+                    className="banner-slide-item"
                     style={{
                       flex: "0 0 100%",
                       width: "100%",
                       maxWidth: "100%",
+                      display: "flex",
+                      flexDirection: "column",
                     }}
                   >
-                    <div className="item-banner style1">
-                      <div className="inner equal-element">
+                    <div
+                      className="item-banner style1"
+                      style={{
+                        flex: "1 0 auto",
+                        display: "flex",
+                        flexDirection: "column",
+                        height: "100%",
+                      }}
+                    >
+                      <div
+                        className="inner equal-element"
+                        style={{
+                          flex: "1 0 auto",
+                          display: "flex",
+                          alignItems: "center",
+                          width: "100%",
+                          minHeight: "100%",
+                          backgroundImage: `url(${shopSlide1.image || "/assets/images/banner-01_full_width.jpg"})`,
+                          backgroundSize: "cover",
+                          backgroundPosition: "center bottom",
+                          backgroundRepeat: "no-repeat",
+                        }}
+                      >
                         <div className="banner-content style1">
                           <h4 className="stelina-subtitle">
                             {shopSlide1.subtitle}
@@ -247,14 +273,38 @@ export default function ShopClient() {
                     </div>
                   </div>
                   <div
+                    className="banner-slide-item"
                     style={{
                       flex: "0 0 100%",
                       width: "100%",
                       maxWidth: "100%",
+                      display: "flex",
+                      flexDirection: "column",
                     }}
                   >
-                    <div className="item-banner style2">
-                      <div className="inner equal-element">
+                    <div
+                      className="item-banner style2"
+                      style={{
+                        flex: "1 0 auto",
+                        display: "flex",
+                        flexDirection: "column",
+                        height: "100%",
+                      }}
+                    >
+                      <div
+                        className="inner equal-element"
+                        style={{
+                          flex: "1 0 auto",
+                          display: "flex",
+                          alignItems: "center",
+                          width: "100%",
+                          minHeight: "100%",
+                          backgroundImage: `url(${shopSlide2.image || "/assets/images/banner-02_full_width.jpg"})`,
+                          backgroundSize: "cover",
+                          backgroundPosition: "center bottom",
+                          backgroundRepeat: "no-repeat",
+                        }}
+                      >
                         <div className="banner-content style2">
                           <h3 className="title">{shopSlide2.title}</h3>
                           <span

@@ -539,6 +539,82 @@ body {
 }
 
 /* ==========================================================================
+   7. SHOP PAGE BANNER SLIDER (.banner-shop)
+   ========================================================================== */
+.banner-shop.slick-slider {
+  overflow: hidden !important;
+  position: relative !important;
+  border-radius: 4px;
+}
+
+.banner-shop .banner-slider-track {
+  display: flex !important;
+  width: 100% !important;
+  align-items: stretch !important;
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.banner-shop .banner-slide-item {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 0 0 100% !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.banner-shop .item-banner {
+  flex: 1 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin-bottom: 0 !important;
+}
+
+.banner-shop .item-banner .inner {
+  flex: 1 0 auto !important;
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+  min-height: 100% !important;
+  background-size: cover !important;
+  background-position: center bottom !important;
+  background-repeat: no-repeat !important;
+  background-color: #f3f3f3 !important;
+}
+
+.banner-shop .item-banner.style1 .inner {
+  background-image: url(/assets/images/banner-01_full_width.jpg) !important;
+  background-position: center bottom !important;
+}
+
+.banner-shop .item-banner.style2 .inner {
+  background-image: url(/assets/images/banner-02_full_width.jpg) !important;
+  background-position: center bottom !important;
+}
+
+.banner-shop .item-banner.style1 .banner-content,
+.banner-shop .item-banner.style2 .banner-content {
+  padding-top: 75px !important;
+  padding-bottom: 75px !important;
+  width: 60%;
+  max-width: 550px;
+}
+
+@media (max-width: 767px) {
+  .banner-shop .item-banner.style1 .banner-content,
+  .banner-shop .item-banner.style2 .banner-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-top: 45px !important;
+    padding-bottom: 50px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+}
+
+/* ==========================================================================
    8. WEEKLY FEATURED SECTION (.stelina-product.layout1)
    ========================================================================== */
 .stelina-product.layout1 {
