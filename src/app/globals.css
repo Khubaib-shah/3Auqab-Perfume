@@ -3614,4 +3614,269 @@ body {
   }
 }
 
+/* ==========================================================================
+   22. CHECKOUT ORDER SUMMARY ON SMALL SCREENS
+   Desktop (>= 992px): untouched (form left, summary right)
+   Small screens (<= 991px): Your Order shown FIRST in compact horizontal rows
+   ========================================================================== */
+.product-line-total {
+  display: none;
+}
+
+@media (max-width: 991px) {
+  .checkout-form {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+
+  .checkout-form > .row-col-2 {
+    order: 1 !important;
+    width: 100% !important;
+    padding-left: 0 !important;
+    margin-bottom: 24px !important;
+  }
+
+  .checkout-form > .row-col-1 {
+    order: 2 !important;
+    width: 100% !important;
+    padding-right: 0 !important;
+  }
+
+  .your-order .list-product-order li.product-item-order {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding-bottom: 14px !important;
+    margin-bottom: 14px !important;
+    border-bottom: 1px solid #eeeeee !important;
+    overflow: visible !important;
+  }
+
+  .your-order .list-product-order li.product-item-order:last-child {
+    margin-bottom: 16px !important;
+  }
+
+  .your-order .list-product-order .product-thumb {
+    float: none !important;
+    width: 64px !important;
+    height: 64px !important;
+    min-width: 64px !important;
+    margin: 0 !important;
+    border-radius: 6px !important;
+    overflow: hidden !important;
+    border: 1px solid #f0f0f0 !important;
+  }
+
+  .your-order .list-product-order .product-thumb a,
+  .your-order .list-product-order .product-thumb img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  .your-order .list-product-order .product-order-inner {
+    flex: 1 !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3px !important;
+    overflow: visible !important;
+  }
+
+  .your-order .list-product-order .product-name {
+    order: 1 !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    margin: 0 !important;
+    line-height: 1.3 !important;
+  }
+
+  .your-order .list-product-order .price {
+    order: 2 !important;
+    font-size: 13px !important;
+    color: #333333 !important;
+    margin: 0 !important;
+  }
+
+  .your-order .list-product-order .attributes-size {
+    order: 3 !important;
+    font-size: 11.5px !important;
+    color: #888888 !important;
+    margin: 0 !important;
+  }
+
+  .your-order .list-product-order .product-line-total {
+    display: block !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: var(--color-heading) !important;
+    white-space: nowrap !important;
+    margin-left: auto !important;
+    text-align: right !important;
+  }
+
+  .your-order .order-total {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding-top: 12px !important;
+    margin-top: 0 !important;
+  }
+}
+
+/* ==========================================================================
+   23. SHOPPING CART LIST VIEW ON SMALL SCREENS
+   Preserves the horizontal list layout from desktop instead of stacking
+   ========================================================================== */
+@media (max-width: 991px) {
+  .cart-form .shop_table,
+  .cart-form .shop_table tbody {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .cart-form .shop_table tbody tr.cart_item {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    padding: 14px 36px 14px 12px !important;
+    position: relative !important;
+    width: 100% !important;
+    text-align: left !important;
+    box-sizing: border-box !important;
+  }
+
+  .cart-form .shop_table tbody tr.cart_item td.product-thumbnail {
+    display: block !important;
+    width: 56px !important;
+    min-width: 56px !important;
+    height: 56px !important;
+    padding: 0 !important;
+    flex-shrink: 0 !important;
+  }
+
+  .cart-form .shop_table tbody tr.cart_item td.product-thumbnail a,
+  .cart-form .shop_table tbody tr.cart_item td.product-thumbnail img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 6px !important;
+  }
+
+  .cart-form .shop_table tbody tr.cart_item td.product-name {
+    display: block !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    width: auto !important;
+    padding: 0 !important;
+    text-align: left !important;
+  }
+
+  .cart-form .shop_table tbody tr.cart_item td.product-name a.title {
+    font-size: 14px !important;
+    line-height: 1.3 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .cart-form .shop_table tbody tr.cart_item td.product-name .attributes-size {
+    font-size: 11px !important;
+    margin-top: 2px !important;
+  }
+
+  .cart-form .shop_table tbody tr.cart_item td.product-quantity {
+    display: block !important;
+    width: auto !important;
+    padding: 0 !important;
+    flex-shrink: 0 !important;
+  }
+
+  .cart-form .shop_table tbody tr.cart_item td.product-quantity .quantity {
+    margin: 0 !important;
+    transform: scale(0.86);
+    transform-origin: center;
+  }
+
+  .cart-form .shop_table tbody tr.cart_item td.product-price {
+    display: block !important;
+    width: auto !important;
+    padding: 0 !important;
+    text-align: right !important;
+    flex-shrink: 0 !important;
+    font-size: 13px !important;
+  }
+
+  .cart-form .shop_table tbody tr.cart_item td.product-price > div {
+    font-size: 10px !important;
+  }
+
+  .cart-form .shop_table tbody tr.cart_item td.product-remove {
+    display: block !important;
+    position: absolute !important;
+    right: 10px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: auto !important;
+    padding: 0 !important;
+  }
+
+  .cart-form .shop_table tbody tr:last-child {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .cart-form .shop_table tbody > tr > td.actions {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+    padding: 16px 14px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .cart-form .shop_table .actions .coupon {
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+    position: relative !important;
+    gap: 8px !important;
+  }
+
+  .cart-form .shop_table .actions .coupon label.coupon_code {
+    display: none !important;
+  }
+
+  .cart-form .shop_table .actions .coupon input[type="text"] {
+    flex: 1 !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    padding-right: 46px !important;
+  }
+
+  .cart-form .shop_table .actions .coupon .button {
+    position: absolute !important;
+    right: 4px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    margin: 0 !important;
+    width: 34px !important;
+    height: 34px !important;
+    line-height: 34px !important;
+  }
+
+  .cart-form .shop_table .actions .order-total {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    text-align: right !important;
+  }
+}
+
 

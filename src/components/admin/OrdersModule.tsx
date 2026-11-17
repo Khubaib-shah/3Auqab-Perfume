@@ -347,7 +347,7 @@ export default function OrdersModule() {
                   <div>
                     <strong style={{ color: "#222" }}>Address:</strong>{" "}
                     {selectedOrder.address}, {selectedOrder.city},{" "}
-                    {selectedOrder.state}, {selectedOrder.country}
+                    {selectedOrder.state}
                   </div>
                 </div>
               </div>
@@ -612,7 +612,7 @@ export default function OrdersModule() {
                 </div>
                 <div>
                   {invoiceOrder.address}, {invoiceOrder.city},{" "}
-                  {invoiceOrder.state}, {invoiceOrder.country}
+                  {invoiceOrder.state}
                 </div>
               </div>
 

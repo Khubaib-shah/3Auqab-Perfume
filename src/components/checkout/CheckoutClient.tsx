@@ -5,20 +5,20 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import Breadcrumb from "@/components/ui/Breadcrumb";
+import SearchableSelect from "@/components/ui/SearchableSelect";
 import { useShopStore } from "@/store/useShopStore";
 import { useAdminStore } from "@/store/useAdminStore";
 import { siteConfig } from "@/data/siteConfig";
 import { OrderRecord } from "@/data/initialStoreSeed";
+import pakistanLocations from "@/data/pakistanLocations.json";
 
 interface ShippingFormValues {
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
-  country: string;
   state: string;
   city: string;
-  zipCode: string;
   address: string;
   adminNotes: string;
 }
@@ -28,37 +28,32 @@ export default function CheckoutClient() {
   const settings = useAdminStore((s) => s.settings);
   const createOrderOnServer = useAdminStore((s) => s.createOrderOnServer);
 
-  const [step, setStep] = useState<"shipping" | "payment" | "completed">(
-    "shipping"
-  );
+  const [step, setStep] = useState<"shipping" | "completed">("shipping");
   const [paymentMethod, setPaymentMethod] = useState<"card" | "cod">("cod");
-  const [shippingData, setShippingData] = useState<ShippingFormValues | null>(
-    null
-  );
   const [placedOrder, setPlacedOrder] = useState<OrderRecord | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { register, handleSubmit } = useForm<ShippingFormValues>({
-    defaultValues: {
-      country: "Pakistan",
-      state: "Punjab",
-      city: "Lahore",
-    },
-  });
+  const { register, handleSubmit, watch, setValue } =
+    useForm<ShippingFormValues>({
+      defaultValues: {
+        state: "Sindh",
+        city: "Karachi",
+      },
+    });
+
+  const selectedProvince = watch("state");
+  const selectedCity = watch("city");
+  const provinceNames = pakistanLocations.provinces.map((p) => p.name);
+  const availableCities =
+    pakistanLocations.provinces.find((p) => p.name === selectedProvince)
+      ?.cities || pakistanLocations.provinces[0].cities;
 
   const totalPrice = cart.reduce(
     (sum, item) => sum + (item.price ?? item.product.price) * item.quantity,
     0
   );
 
-  const onProceedToPayment = (data: ShippingFormValues) => {
-    setShippingData(data);
-    setStep("payment");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const handleCompleteOrder = async (e: React.MouseEvent) => {
-    e.preventDefault();
+  const onSubmitOrder = async (data: ShippingFormValues) => {
     if (isSubmitting) return;
     setIsSubmitting(true);
 
@@ -75,17 +70,15 @@ export default function CheckoutClient() {
     }));
 
     const orderRecord = await createOrderOnServer({
-      firstName: shippingData?.firstName || "Guest",
-      lastName: shippingData?.lastName || "Customer",
-      email: shippingData?.email || siteConfig.contact.email,
-      phone: shippingData?.phone || "+92 300 0000000",
-      whatsapp: shippingData?.phone || "",
-      country: shippingData?.country || "Pakistan",
-      state: shippingData?.state || "Punjab",
-      city: shippingData?.city || "Lahore",
-      zipCode: shippingData?.zipCode || "",
-      address: shippingData?.address || "",
-      adminNotes: shippingData?.adminNotes || "",
+      firstName: data.firstName || "Guest",
+      lastName: data.lastName || "Customer",
+      email: data.email || siteConfig.contact.email,
+      phone: data.phone || "+92 300 0000000",
+      whatsapp: data.phone || "",
+      state: data.state || "Sindh",
+      city: data.city || "Karachi",
+      address: data.address || "",
+      adminNotes: data.adminNotes || "",
       items: itemsPayload,
       subtotal: totalPrice,
       shippingCost: 0,
@@ -135,6 +128,12 @@ export default function CheckoutClient() {
                   <span className="count"> x{item.quantity}</span>
                 </div>
               </div>
+              <div className="product-line-total">
+                {settings.currency}{" "}
+                {(
+                  (item.price ?? item.product.price) * item.quantity
+                ).toLocaleString()}
+              </div>
             </li>
           ))}
         </ul>
@@ -150,8 +149,8 @@ export default function CheckoutClient() {
 
   const storeWhatsappLink = placedOrder
     ? `https://wa.me/${siteConfig.whatsappNumber.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(
-        `Assalam o Alaikum ${siteConfig.name}! I just placed Order #${placedOrder.orderNumber} for ${settings.currency} ${placedOrder.totalAmount} (${placedOrder.paymentMethod}). Please confirm my delivery.`
-      )}`
+      `Assalam o Alaikum ${siteConfig.name}! I just placed Order #${placedOrder.orderNumber} for ${settings.currency} ${placedOrder.totalAmount} (${placedOrder.paymentMethod}). Please confirm my delivery.`
+    )}`
     : "#";
 
   return (
@@ -166,7 +165,7 @@ export default function CheckoutClient() {
         <div className="checkout-wrapp">
           {step === "shipping" && (
             <form
-              onSubmit={handleSubmit(onProceedToPayment)}
+              onSubmit={handleSubmit(onSubmitOrder)}
               className="shipping-address-form-wrapp"
             >
               <div className="shipping-address-form checkout-form">
@@ -205,7 +204,7 @@ export default function CheckoutClient() {
                       />
                     </p>
                     <p className="form-row form-row-last">
-                      <label className="text">Phone / WhatsApp Number *</label>
+                      <label className="text">Phone Number *</label>
                       <input
                         {...register("phone", { required: true })}
                         title="phone"
@@ -215,90 +214,33 @@ export default function CheckoutClient() {
                         required
                       />
                     </p>
-                    <p className="form-row forn-row-col forn-row-col-1">
-                      <label className="text">Country</label>
-                      <select
-                        {...register("country")}
-                        title="country"
-                        className="chosen-select"
-                        style={{
-                          width: "100%",
-                          height: "42px",
-                          border: "1px solid #eee",
-                          padding: "0 12px",
-                        }}
-                      >
-                        <option value="Pakistan">Pakistan</option>
-                        <option value="United Arab Emirates">
-                          United Arab Emirates
-                        </option>
-                        <option value="Saudi Arabia">Saudi Arabia</option>
-                        <option value="United Kingdom">United Kingdom</option>
-                        <option value="United States">United States</option>
-                      </select>
-                    </p>
-                    <p className="form-row forn-row-col forn-row-col-2">
-                      <label className="text">Province / State</label>
-                      <select
-                        {...register("state")}
-                        title="state"
-                        className="chosen-select"
-                        style={{
-                          width: "100%",
-                          height: "42px",
-                          border: "1px solid #eee",
-                          padding: "0 12px",
-                        }}
-                      >
-                        <option value="Punjab">Punjab</option>
-                        <option value="Sindh">Sindh</option>
-                        <option value="Islamabad Capital">
-                          Islamabad Capital
-                        </option>
-                        <option value="KPK">KPK</option>
-                        <option value="Dubai">Dubai</option>
-                        <option value="Abu Dhabi">Abu Dhabi</option>
-                        <option value="Riyadh">Riyadh</option>
-                      </select>
-                    </p>
-                    <p className="form-row forn-row-col forn-row-col-3">
-                      <label className="text">City</label>
-                      <select
-                        {...register("city")}
-                        title="city"
-                        className="chosen-select"
-                        style={{
-                          width: "100%",
-                          height: "42px",
-                          border: "1px solid #eee",
-                          padding: "0 12px",
-                        }}
-                      >
-                        <option value="Lahore">Lahore</option>
-                        <option value="Karachi">Karachi</option>
-                        <option value="Islamabad">Islamabad</option>
-                        <option value="Rawalpindi">Rawalpindi</option>
-                        <option value="Faisalabad">Faisalabad</option>
-                        <option value="Dubai">Dubai</option>
-                      </select>
-                    </p>
                     <p className="form-row form-row-first">
-                      <label className="text">Zip / Postal Code</label>
-                      <input
-                        {...register("zipCode")}
-                        title="zip"
-                        type="text"
-                        className="input-text"
+                      <label className="text">Province / State</label>
+                      <SearchableSelect
+                        title="state"
+                        options={provinceNames}
+                        value={selectedProvince}
+                        searchPlaceholder="Search province..."
+                        onChange={(newProv) => {
+                          setValue("state", newProv);
+                          const prov = pakistanLocations.provinces.find(
+                            (p) => p.name === newProv
+                          );
+                          if (prov && prov.cities.length > 0) {
+                            setValue("city", prov.cities[0]);
+                          }
+                        }}
+                        required
                       />
                     </p>
                     <p className="form-row form-row-last">
-                      <label className="text">Complete Street Address *</label>
-                      <input
-                        {...register("address", { required: true })}
-                        title="address"
-                        type="text"
-                        placeholder="House #, Street, Area"
-                        className="input-text"
+                      <label className="text">City</label>
+                      <SearchableSelect
+                        title="city"
+                        options={availableCities}
+                        value={selectedCity}
+                        searchPlaceholder="Search city..."
+                        onChange={(newCity) => setValue("city", newCity)}
                         required
                       />
                     </p>
@@ -306,154 +248,160 @@ export default function CheckoutClient() {
                       className="form-row"
                       style={{ width: "100%", clear: "both" }}
                     >
-                      <label className="text">
-                        Delivery Instructions / Gift Note (Optional)
-                      </label>
-                      <input
-                        {...register("adminNotes")}
-                        title="notes"
-                        type="text"
-                        placeholder="e.g. Call before delivery or wrap as gift"
+                      <label className="text">Complete Street Address *</label>
+                      <textarea
+                        {...register("address", { required: true })}
+                        title="address"
+                        rows={3}
+                        placeholder="House #, Street, Area"
                         className="input-text"
+                        required
+                        style={{
+                          width: "100%",
+                          borderRadius: "20px",
+                          padding: "12px 20px",
+                          border: "1px solid #eeeeee",
+                          resize: "vertical",
+                        }}
                       />
                     </p>
-                  </div>
-                </div>
-                {renderOrderSummary()}
-              </div>
-              <button type="submit" className="button button-payment">
-                Proceed to Payment
-              </button>
-            </form>
-          )}
+                    <p
+                      className="form-row"
+                      style={{ width: "100%", clear: "both" }}
+                    >
+                      <label className="text">
+                        Delivery Instructions Gift Note
+                      </label>
+                      <textarea
+                        {...register("adminNotes")}
+                        title="notes"
+                        rows={3}
+                        placeholder="Call before delivery or wrap as gift"
+                        className="input-text"
+                        style={{
+                          width: "100%",
+                          borderRadius: "20px",
+                          padding: "12px 20px",
+                          border: "1px solid #eeeeee",
+                          resize: "vertical",
+                        }}
+                      />
+                    </p>
+                    {/* Payment Method directly on Checkout Form */}
+                    <div
+                      className="payment-method"
+                      style={{
+                        width: "100%",
+                        clear: "both",
+                        marginTop: "24px",
+                        paddingTop: "20px",
+                        borderTop: "1px solid #eeeeee",
+                      }}
+                    >
+                      <h3 className="title-form" style={{ marginBottom: "14px" }}>
+                        Payment Method
+                      </h3>
+                      <div
+                        className="group-button-payment"
+                        style={{
+                          display: "flex",
+                          gap: "14px",
+                          flexWrap: "wrap",
+                          alignItems: "center",
+                        }}
+                      >
+                        <button
+                          type="button"
+                          onClick={() => setPaymentMethod("cod")}
+                          className={`button btn-paypal ${paymentMethod === "cod" ? "active" : ""
+                            }`}
+                          style={{
+                            borderRadius: "30px",
+                            padding: "10px 24px",
+                            border: "1px solid var(--color-primary)",
+                            backgroundColor:
+                              paymentMethod === "cod"
+                                ? "var(--color-primary)"
+                                : "#ffffff",
+                            color:
+                              paymentMethod === "cod" ? "#ffffff" : "#333333",
+                            fontWeight: 600,
+                            cursor: "pointer",
+                          }}
+                        >
+                          Cash on Delivery
+                        </button>
 
-          {step === "payment" && (
-            <div
-              className="payment-method-wrapp"
-              style={{ display: "block" }}
-            >
-              <div className="payment-method-form checkout-form">
-                <div className="row-col-1 row-col">
-                  <div className="payment-method">
-                    <h3 className="title-form">Payment Method</h3>
-                    <div className="group-button-payment">
-                      <a
-                        href="#cod"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setPaymentMethod("cod");
-                        }}
-                        className={`button btn-paypal ${
-                          paymentMethod === "cod" ? "active" : ""
-                        }`}
-                      >
-                        Cash on Delivery
-                      </a>
-                      <a
-                        href="#card"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setPaymentMethod("card");
-                        }}
-                        className={`button btn-credit-card ${
-                          paymentMethod === "card" ? "active" : ""
-                        }`}
-                      >
-                        Credit Card
-                      </a>
-                    </div>
-                    {paymentMethod === "card" ? (
-                      <>
-                        <p className="form-row form-row-card-number">
-                          <label className="text">Card number</label>
-                          <input
-                            type="text"
-                            className="input-text"
-                            placeholder="xxx - xxx - xxx - xxx"
-                          />
-                        </p>
-                        <p className="form-row forn-row-col forn-row-col-1">
-                          <label className="text">Month</label>
-                          <select
-                            title="month"
-                            className="chosen-select"
+                        <div
+                          style={{
+                            position: "relative",
+                            display: "inline-block",
+                          }}
+                        >
+                          <span
                             style={{
-                              width: "100%",
-                              height: "42px",
-                              border: "1px solid #eee",
-                              padding: "0 12px",
+                              position: "absolute",
+                              top: "-10px",
+                              right: "10px",
+                              backgroundColor: "#222222",
+                              color: "#ffffff",
+                              fontSize: "10px",
+                              fontWeight: 700,
+                              textTransform: "uppercase",
+                              letterSpacing: "0.06em",
+                              padding: "3px 8px",
+                              borderRadius: "12px",
+                              lineHeight: 1.2,
+                              zIndex: 2,
+                              pointerEvents: "none",
+                              boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
                             }}
                           >
-                            {Array.from({ length: 12 }, (_, i) =>
-                              String(i + 1).padStart(2, "0")
-                            ).map((m) => (
-                              <option key={m} value={m}>
-                                {m}
-                              </option>
-                            ))}
-                          </select>
-                        </p>
-                        <p className="form-row forn-row-col forn-row-col-2">
-                          <label className="text">Year</label>
-                          <select
-                            title="Year"
-                            className="chosen-select"
+                            Coming Soon
+                          </span>
+                          <button
+                            type="button"
+                            disabled
+                            className="button btn-credit-card"
                             style={{
-                              width: "100%",
-                              height: "42px",
-                              border: "1px solid #eee",
-                              padding: "0 12px",
+                              borderRadius: "30px",
+                              padding: "10px 24px",
+                              border: "1px solid #e0e0e0",
+                              backgroundColor: "#f7f7f7",
+                              color: "#999999",
+                              fontWeight: 600,
+                              cursor: "not-allowed",
+                              opacity: 0.75,
                             }}
                           >
-                            {["2026", "2027", "2028", "2029", "2030"].map(
-                              (y) => (
-                                <option key={y} value={y}>
-                                  {y}
-                                </option>
-                              )
-                            )}
-                          </select>
-                        </p>
-                        <p className="form-row forn-row-col forn-row-col-3">
-                          <label className="text">CVV</label>
-                          <input
-                            type="password"
-                            maxLength={4}
-                            placeholder="123"
-                            className="input-text"
-                          />
-                        </p>
-                      </>
-                    ) : (
-                      <p style={{ marginTop: "20px", color: "#555" }}>
+                            Card / Online Payment
+                          </button>
+                        </div>
+                      </div>
+                      <p
+                        style={{
+                          marginTop: "12px",
+                          marginBottom: 0,
+                          fontSize: "13px",
+                          color: "#666666",
+                        }}
+                      >
                         Pay in cash when your {siteConfig.name} package is
                         delivered to your doorstep.
                       </p>
-                    )}
+                    </div>
                   </div>
                 </div>
                 {renderOrderSummary()}
               </div>
-              <div className="button-control">
-                <a
-                  href="#back"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setStep("shipping");
-                  }}
-                  className="button btn-back-to-shipping"
-                >
-                  Back to shipping
-                </a>
-                <a
-                  href="#pay"
-                  onClick={handleCompleteOrder}
-                  className="button btn-pay-now"
-                >
-                  {isSubmitting ? "Placing Order..." : "Place Order Now"}
-                </a>
-              </div>
-            </div>
+              <button
+                type="submit"
+                className="button button-payment"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Placing Order..." : "Place Order Now"}
+              </button>
+            </form>
           )}
 
           {step === "completed" && (
@@ -467,7 +415,7 @@ export default function CheckoutClient() {
                 </h3>
                 <div className="sub-title">
                   Thank you for choosing {siteConfig.name}. Our team has received
-                  your order in the Admin Dashboard and will contact you on
+                  your order and will contact you on
                   WhatsApp or Email with tracking details shortly.
                 </div>
                 <div

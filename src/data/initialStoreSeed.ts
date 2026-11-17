@@ -92,10 +92,10 @@ export interface OrderRecord {
   email: string;
   phone: string;
   whatsapp: string;
-  country: string;
+  country?: string;
   state: string;
   city: string;
-  zipCode: string;
+  zipCode?: string;
   address: string;
   items: OrderLineItem[];
   subtotal: number;

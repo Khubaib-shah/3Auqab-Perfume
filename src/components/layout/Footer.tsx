@@ -14,11 +14,14 @@ export default function Footer() {
   const { cart, wishlist } = useShopStore();
   const settings = useAdminStore((s) => s.settings);
   const categories = useAdminStore((s) => s.categories);
+  const products = useAdminStore((s) => s.products);
   const subscribeNewsletterOnServer = useAdminStore(
     (s) => s.subscribeNewsletterOnServer
   );
   const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const wishlistCount = mounted ? (wishlist?.length || 0) : 0;
+  const wishlistCount = mounted
+    ? products.filter((p) => wishlist.includes(p.id)).length
+    : 0;
   const [email, setEmail] = useState("");
   const [showBackToTop, setShowBackToTop] = useState(false);
 
