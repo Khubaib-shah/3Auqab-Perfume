@@ -63,7 +63,7 @@ export default function Footer() {
           <div className="container-wapper">
             <div className="row">
               <div className="box-footer col-xs-12 col-sm-4 col-md-4 col-lg-4 hidden-sm hidden-md hidden-lg">
-                <div className="stelina-newsletter style1">
+                <div className="app-newsletter style1">
                   <div className="newsletter-head">
                     <h3 className="title">Newsletter</h3>
                   </div>
@@ -92,7 +92,7 @@ export default function Footer() {
                 </div>
               </div>
               <div className="box-footer col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                <div className="stelina-custommenu default">
+                <div className="app-custommenu default">
                   <h2 className="widgettitle">Quick Menu</h2>
                   <ul className="menu">
                     {categories
@@ -109,7 +109,7 @@ export default function Footer() {
                 </div>
               </div>
               <div className="box-footer col-xs-12 col-sm-4 col-md-4 col-lg-4 hidden-xs">
-                <div className="stelina-newsletter style1">
+                <div className="app-newsletter style1">
                   <div className="newsletter-head">
                     <h3 className="title">Newsletter</h3>
                   </div>
@@ -138,11 +138,11 @@ export default function Footer() {
                 </div>
               </div>
               <div className="box-footer col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                <div className="stelina-custommenu default">
+                <div className="app-custommenu default">
                   <h2 className="widgettitle">Information</h2>
                   <ul className="menu">
                     <li className="menu-item">
-                      <Link href="/about">About 3Uqab</Link>
+                      <Link href="/about">About {siteConfig.name}</Link>
                     </li>
                     <li className="menu-item">
                       <Link href="/shop">Track Order</Link>
@@ -163,7 +163,7 @@ export default function Footer() {
             <div className="footer-end">
               <div className="row">
                 <div className="col-sm-12 col-xs-12">
-                  <div className="stelina-socials">
+                  <div className="app-socials">
                     <ul className="socials">
                       <li>
                         <a

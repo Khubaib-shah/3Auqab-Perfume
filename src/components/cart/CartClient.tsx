@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { useShopStore } from "@/store/useShopStore";
 import { useAdminStore } from "@/store/useAdminStore";
+import { businessConfig, siteConfig } from "@/config";
 
 export default function CartClient() {
   const router = useRouter();
@@ -65,13 +66,18 @@ export default function CartClient() {
             : `${settings.currency} ${found.discountValue} off`
         }`
       );
-    } else if (cleanCode === (settings.promoCode || "3UQAB").toUpperCase() || cleanCode === "3AUQAB") {
+    } else if (
+      cleanCode === (settings.promoCode || businessConfig.promo.defaultCode).toUpperCase() ||
+      businessConfig.promo.aliasCodes.includes(cleanCode)
+    ) {
       setAppliedVoucher({
         code: cleanCode,
         discountType: "PERCENTAGE",
-        discountValue: 20,
+        discountValue: businessConfig.promo.defaultDiscountPercent,
       });
-      toast.success(`Promo code "${cleanCode}" applied! 20% discount.`);
+      toast.success(
+        `Promo code "${cleanCode}" applied! ${businessConfig.promo.defaultDiscountPercent}% discount.`
+      );
     } else {
       toast.error("Invalid or expired voucher code.");
     }
@@ -96,13 +102,13 @@ export default function CartClient() {
                         marginBottom: "30px",
                       }}
                     >
-                      <h4>Your fragrance bag is currently empty.</h4>
+                      <h4>Your shopping bag is currently empty.</h4>
                       <p style={{ margin: "15px 0 25px" }}>
-                        Explore our signature Three Oqab Eau de Parfum and Oud
+                        Explore our signature {siteConfig.brand.name} {siteConfig.brand.productNoun}{" "}
                         collections.
                       </p>
                       <Link href="/shop" className="button">
-                        Explore Perfumes
+                        {businessConfig.labels.emptyCartCta}
                       </Link>
                     </div>
                   ) : (
@@ -174,7 +180,7 @@ export default function CartClient() {
                                       marginTop: "4px",
                                     }}
                                   >
-                                    Bottle Size: {item.selectedSize}
+                                    {businessConfig.variant.label}: {item.selectedSize}
                                   </span>
                                 </td>
                                 <td
@@ -254,7 +260,7 @@ export default function CartClient() {
                                   value={coupon}
                                   onChange={(e) => setCoupon(e.target.value)}
                                   className="input-text"
-                                  placeholder={`e.g. ${settings.promoCode || "3UQAB"}`}
+                                  placeholder={`e.g. ${settings.promoCode || businessConfig.promo.defaultCode}`}
                                 />
                                 <a
                                   href="#coupon"

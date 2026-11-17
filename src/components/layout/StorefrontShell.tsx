@@ -6,6 +6,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import QuickViewModal from "@/components/product/QuickViewModal";
 import { useAdminStore } from "@/store/useAdminStore";
+import { siteConfig as brandConfig } from "@/config";
 
 export default function StorefrontShell({
   children,
@@ -21,7 +22,7 @@ export default function StorefrontShell({
     let channel: BroadcastChannel | null = null;
     if (typeof window !== "undefined" && "BroadcastChannel" in window) {
       try {
-        channel = new BroadcastChannel("3uqab_realtime_sync");
+        channel = new BroadcastChannel(`${brandConfig.brand.slug}_realtime_sync`);
         channel.onmessage = (event) => {
           if (event.data && typeof event.data === "object") {
             useAdminStore.setState({ ...event.data, isHydrated: true });

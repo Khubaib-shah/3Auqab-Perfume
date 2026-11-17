@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef, useMemo, memo } from "react";
 import ProductCard from "@/components/product/ProductCard";
 import { Product } from "@/data/products";
+import appConfig from "@/config";
 
 interface WeeklyFeaturedSliderProps {
   products: Product[];
@@ -94,14 +95,14 @@ function WeeklyFeaturedSliderComponent({ products }: WeeklyFeaturedSliderProps) 
   if (weeklyProducts.length === 0) return null;
 
   return (
-    <div className="stelina-product layout1">
+    <div className="app-product layout1">
       <div className="container">
         <div className="container-wapper">
           <div className="head">
             <div className="head-text-group">
-              <h3 className="title">Weekly Featured</h3>
+              <h3 className="title">{appConfig.content.weeklyFeatured.title}</h3>
               <div className="subtitle">
-                Explore our most-loved 3Uqab fragrances this week
+                {appConfig.content.weeklyFeatured.subtitle}
               </div>
             </div>
             <div className="weekly-nav-arrows">
@@ -147,9 +148,8 @@ function WeeklyFeaturedSliderComponent({ products }: WeeklyFeaturedSliderProps) 
               <div
                 className="weekly-slick-track"
                 style={{
-                  transform: `translate3d(-${
-                    clampedWeeklyOffset * weeklyStepPercent
-                  }%, 0, 0)`,
+                  transform: `translate3d(-${clampedWeeklyOffset * weeklyStepPercent
+                    }%, 0, 0)`,
                 }}
               >
                 {carouselWeeklyProducts.map((prod, idx) => (

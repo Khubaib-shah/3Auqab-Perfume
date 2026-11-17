@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { siteConfig } from "@/data/siteConfig";
+import { navigationConfig } from "@/config";
 import { Product } from "@/data/products";
 import { useShopStore } from "@/store/useShopStore";
 import { useAdminStore } from "@/store/useAdminStore";
@@ -158,11 +159,11 @@ export default function Header() {
 
   const renderMainMenu = () => (
     <ul
-      className="stelina-clone-mobile-menu stelina-nav main-menu"
+      className="app-clone-mobile-menu app-nav main-menu"
       id="menu-main-menu"
     >
       <li className={`menu-item ${pathname === "/" ? "active" : ""}`}>
-        <Link className="stelina-menu-item-title" href="/" title="Home">
+        <Link className="app-menu-item-title" href="/" title="Home">
           Home
         </Link>
       </li>
@@ -172,7 +173,7 @@ export default function Header() {
           : ""
           }`}
       >
-        <Link className="stelina-menu-item-title" href="/shop" title="Shop">
+        <Link className="app-menu-item-title" href="/shop" title="Shop">
           Shop
         </Link>
         <span className="toggle-submenu"></span>
@@ -187,7 +188,7 @@ export default function Header() {
       <li className="menu-item menu-item-has-children item-megamenu">
         <Link
           href="/cart"
-          className="stelina-menu-item-title"
+          className="app-menu-item-title"
           title="Pages"
         >
           Pages
@@ -196,7 +197,7 @@ export default function Header() {
         <div className="submenu mega-menu menu-page">
           <div className="row">
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-3 menu-page-item">
-              <div className="stelina-custommenu default">
+              <div className="app-custommenu default">
                 <h2 className="widgettitle">Store Pages</h2>
                 <ul className="menu">
                   <li className="menu-item">
@@ -215,27 +216,14 @@ export default function Header() {
               </div>
             </div>
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-3 menu-page-item">
-              <div className="stelina-custommenu default">
-                <h2 className="widgettitle">Signature Fragrances</h2>
+              <div className="app-custommenu default">
+                <h2 className="widgettitle">{navigationConfig.featuredMenu.title}</h2>
                 <ul className="menu">
-                  <li className="menu-item">
-                    <Link href="/product/uqab-signature-edp">
-                      3Uqab Signature EDP
-                    </Link>
-                  </li>
-                  <li className="menu-item">
-                    <Link href="/product/uqab-rihla-edp">Uqab Rihla Eau</Link>
-                  </li>
-                  <li className="menu-item">
-                    <Link href="/product/ambre-royal-extrait">
-                      Ambre Royal Extrait
-                    </Link>
-                  </li>
-                  <li className="menu-item">
-                    <Link href="/product/the-alchemist-elixir">
-                      The Alchemist Elixir
-                    </Link>
-                  </li>
+                  {navigationConfig.featuredMenu.links.map((item) => (
+                    <li key={item.href} className="menu-item">
+                      <Link href={item.href}>{item.label}</Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
@@ -248,18 +236,18 @@ export default function Header() {
         className={`menu-item ${pathname.startsWith("/blog") ? "active" : ""
           }`}
       >
-        <Link className="stelina-menu-item-title" href="/blog" title="Blogs">
+        <Link className="app-menu-item-title" href="/blog" title="Blogs">
           Blogs
         </Link>
       </li>
       <li className={`menu-item ${pathname === "/about" ? "active" : ""}`}>
-        <Link className="stelina-menu-item-title" href="/about" title="About">
+        <Link className="app-menu-item-title" href="/about" title="About">
           About
         </Link>
       </li>
       <li className={`menu-item ${pathname === "/contact" ? "active" : ""}`}>
         <Link
-          className="stelina-menu-item-title"
+          className="app-menu-item-title"
           href="/contact"
           title="Contact"
         >
@@ -271,7 +259,7 @@ export default function Header() {
 
   const renderMiniCart = () => (
     <div
-      className={`block-minicart stelina-mini-cart block-header stelina-dropdown ${cartOpen ? "open" : ""
+      className={`block-minicart app-mini-cart block-header app-dropdown ${cartOpen ? "open" : ""
         }`}
     >
       <a
@@ -282,20 +270,20 @@ export default function Header() {
           setAccountOpen(false);
         }}
         className="shopcart-icon"
-        data-stelina="stelina-dropdown"
+        data-app="app-dropdown"
       >
         Cart
         <span className="count">{totalCount}</span>
       </a>
       {cart.length === 0 ? (
-        <div className="no-product stelina-submenu">
+        <div className="no-product app-submenu">
           <p className="text">
             You have <span>0 item(s)</span> in your bag
           </p>
         </div>
       ) : (
         <div
-          className="stelina-submenu"
+          className="app-submenu"
           style={{
             minWidth: "310px",
             padding: "20px",
@@ -395,7 +383,7 @@ export default function Header() {
               }}
             >
               <span>Subtotal:</span>
-              <span style={{ color: "#ab8e66" }}>
+              <span style={{ color: "var(--color-primary)" }}>
                 {settings.currency}
                 {totalPrice.toFixed(2)}
               </span>
@@ -425,7 +413,7 @@ export default function Header() {
                   flex: 1,
                   textAlign: "center",
                   padding: "8px 12px",
-                  background: "#ab8e66",
+                  background: "var(--color-primary)",
                   color: "#fff",
                   fontSize: "12px",
                   textTransform: "uppercase",
@@ -442,7 +430,7 @@ export default function Header() {
 
   const renderAccountDropdown = () => (
     <div
-      className={`block-account block-header stelina-dropdown ${accountOpen ? "open" : ""
+      className={`block-account block-header app-dropdown ${accountOpen ? "open" : ""
         }`}
     >
       <a
@@ -452,12 +440,12 @@ export default function Header() {
           setAccountOpen(!accountOpen);
           setCartOpen(false);
         }}
-        data-stelina="stelina-dropdown"
+        data-app="app-dropdown"
         title="Account Login"
       >
         <span className="flaticon-user"></span>
       </a>
-      <div className="header-account stelina-submenu">
+      <div className="header-account app-submenu">
         <div className="header-user-form-tabs">
           <ul className="tab-link">
             <li className="active">
@@ -550,7 +538,7 @@ export default function Header() {
                           value={searchQuery}
                           onChange={(e) => setSearchQuery(e.target.value)}
                           onFocus={() => setSearchFocused(true)}
-                          placeholder="Search perfumes, oud..."
+                          placeholder="Search products..."
                           autoComplete="off"
                         />
                         {searchQuery && (
@@ -575,11 +563,16 @@ export default function Header() {
                     <div className="search-suggestions-dropdown">
                       <div className="search-suggestions-section">
                         <div className="search-suggestions-title">
-                          <i className="fa fa-fire" style={{ color: "#ab8e66", marginRight: "6px" }}></i>
+                          <i className="fa fa-fire" style={{ color: "var(--color-primary)", marginRight: "6px" }}></i>
                           Popular Searches
                         </div>
                         <div className="search-tags-row">
-                          {["Royal Oud", "Arabian Oud", "Signature Scents", "Rose & Oud", "Melody"].map((tag) => (
+                          {(settings.popularTags?.length
+                            ? settings.popularTags
+                            : siteConfig.popularTags
+                          )
+                            .slice(0, 5)
+                            .map((tag) => (
                             <button
                               key={tag}
                               type="button"
@@ -598,8 +591,8 @@ export default function Header() {
 
                       <div className="search-suggestions-section" style={{ borderTop: "1px solid #f0f0f0", paddingTop: "10px", marginTop: "10px" }}>
                         <div className="search-suggestions-title">
-                          <i className="fa fa-star" style={{ color: "#ab8e66", marginRight: "6px" }}></i>
-                          {searchQuery.trim() ? "Matching Fragrances" : "Pre-searched Picks"}
+                          <i className="fa fa-star" style={{ color: "var(--color-primary)", marginRight: "6px" }}></i>
+                          {searchQuery.trim() ? "Matching Products" : "Pre-searched Picks"}
                         </div>
                         <div className="search-products-list">
                           {suggestedProducts.slice(0, 4).map((p) => (
@@ -769,7 +762,12 @@ export default function Header() {
                       Popular Searches
                     </div>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "14px" }}>
-                      {["Royal Oud", "Arabian Oud", "Melody", "Damask Rose"].map((tag) => (
+                      {(settings.popularTags?.length
+                        ? settings.popularTags
+                        : siteConfig.popularTags
+                      )
+                        .slice(0, 4)
+                        .map((tag) => (
                         <button
                           key={tag}
                           type="button"
@@ -788,7 +786,7 @@ export default function Header() {
                     {suggestedProducts.length > 0 && (
                       <div>
                         <div style={{ fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "1px", color: "#888", marginBottom: "8px" }}>
-                          {searchQuery.trim() ? "Matching Fragrances" : "Pre-searched Picks"}
+                          {searchQuery.trim() ? "Matching Products" : "Pre-searched Picks"}
                         </div>
                         <div className="search-products-list" style={{ maxHeight: "240px", overflowY: "auto" }}>
                           {suggestedProducts.slice(0, 3).map((p) => (
@@ -839,25 +837,25 @@ export default function Header() {
         onClick={() => setMobileMenuOpen(false)}
       />
       <div
-        className={`stelina-menu-clone-wrap ${mobileMenuOpen ? "open" : ""}`}
+        className={`app-menu-clone-wrap ${mobileMenuOpen ? "open" : ""}`}
       >
-        <div className="stelina-menu-panels-actions-wrap">
+        <div className="app-menu-panels-actions-wrap">
           {mobilePanel !== "main" && (
             <a
               href="#prev"
-              className="stelina-menu-prev-panel"
+              className="app-menu-prev-panel"
               onClick={(e) => {
                 e.preventDefault();
                 setMobilePanel("main");
               }}
             ></a>
           )}
-          <span className="stelina-menu-current-panel-title">
+          <span className="app-menu-current-panel-title">
             {panelTitles[mobilePanel]}
           </span>
           <a
             href="#close-menu"
-            className="stelina-menu-close-btn stelina-menu-close-panels"
+            className="app-menu-close-btn app-menu-close-panels"
             onClick={(e) => {
               e.preventDefault();
               setMobileMenuOpen(false);
@@ -867,15 +865,15 @@ export default function Header() {
           </a>
         </div>
 
-        <div className="stelina-menu-panels">
+        <div className="app-menu-panels">
           {/* Main Panel */}
           <div
-            className={`stelina-menu-panel stelina-menu-panel-main ${mobilePanel === "main"
-              ? "stelina-menu-panel-opened"
-              : "stelina-menu-sub-opened"
+            className={`app-menu-panel app-menu-panel-main ${mobilePanel === "main"
+              ? "app-menu-panel-opened"
+              : "app-menu-sub-opened"
               }`}
           >
-            <ul className="stelina-nav main-menu">
+            <ul className="app-nav main-menu">
               <li className="menu-item">
                 <Link href="/" onClick={() => setMobileMenuOpen(false)}>
                   Home
@@ -887,7 +885,7 @@ export default function Header() {
                 </Link>
                 <a
                   href="#shop-panel"
-                  className="stelina-menu-next-panel"
+                  className="app-menu-next-panel"
                   onClick={(e) => {
                     e.preventDefault();
                     setMobilePanel("shop");
@@ -900,7 +898,7 @@ export default function Header() {
                 </Link>
                 <a
                   href="#pages-panel"
-                  className="stelina-menu-next-panel"
+                  className="app-menu-next-panel"
                   onClick={(e) => {
                     e.preventDefault();
                     setMobilePanel("pages");
@@ -932,7 +930,7 @@ export default function Header() {
 
           {/* Shop Sub-Panel */}
           <div
-            className={`stelina-menu-panel stelina-menu-sub-panel ${mobilePanel === "shop" ? "stelina-menu-panel-opened" : ""
+            className={`app-menu-panel app-menu-sub-panel ${mobilePanel === "shop" ? "app-menu-panel-opened" : ""
               }`}
           >
             <ul>
@@ -951,7 +949,7 @@ export default function Header() {
 
           {/* Pages Sub-Panel */}
           <div
-            className={`stelina-menu-panel stelina-menu-sub-panel ${mobilePanel === "pages" ? "stelina-menu-panel-opened" : ""
+            className={`app-menu-panel app-menu-sub-panel ${mobilePanel === "pages" ? "app-menu-panel-opened" : ""
               }`}
           >
             <ul>
@@ -965,22 +963,13 @@ export default function Header() {
                   Checkout
                 </Link>
               </li>
-              <li className="menu-item">
-                <Link
-                  href="/product/uqab-signature-edp"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  3Uqab Signature EDP
-                </Link>
-              </li>
-              <li className="menu-item">
-                <Link
-                  href="/product/uqab-rihla-edp"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Uqab Rihla Eau
-                </Link>
-              </li>
+              {navigationConfig.featuredMenu.links.slice(0, 2).map((item) => (
+                <li key={item.href} className="menu-item">
+                  <Link href={item.href} onClick={() => setMobileMenuOpen(false)}>
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

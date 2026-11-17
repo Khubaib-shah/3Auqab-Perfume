@@ -45,7 +45,7 @@ export default function ContactClient() {
       <div className="page-main-content">
         <div className="google-map">
           <iframe
-            title="3Uqab Perfume Location - City Residency and Shopping Galleria, Karachi"
+            title={`${siteConfig.name} Location - ${siteConfig.contact.addressLocality}`}
             width="100%"
             height="500"
             id="gmap_canvas"
@@ -65,7 +65,7 @@ export default function ContactClient() {
                     <h2 className="title">Send us a Message!</h2>
                     <form
                       onSubmit={handleSubmit(onSubmit)}
-                      className="stelina-contact-fom"
+                      className="app-contact-fom"
                     >
                       <div className="row">
                         <div className="col-sm-6">
@@ -152,7 +152,7 @@ export default function ContactClient() {
                 </div>
                 <div className="col-lg-4 no-padding">
                   <div className="form-contact-information">
-                    <div className="stelina-contact-info">
+                    <div className="app-contact-info">
                       <h2 className="title">Contact information</h2>
                       <div className="info">
                         <div className="item address">

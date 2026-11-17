@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import { Toaster } from "react-hot-toast";
 import StorefrontShell from "@/components/layout/StorefrontShell";
 import { siteConfig } from "@/data/siteConfig";
+import {
+  siteConfig as brandConfig,
+  themeConfig,
+  getThemeCssVariables,
+} from "@/config";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -11,17 +17,7 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
-  keywords: [
-    "3Uqab",
-    "3Uqab Perfume",
-    "Three Uqab",
-    "Three Uqab Perfume",
-    "Uqab Eau de Parfum",
-    "Uqab Rihla",
-    "Arabian Oud",
-    "Dubai Perfumes",
-    "Luxury Perfumes",
-  ],
+  keywords: brandConfig.seo.keywords,
   openGraph: {
     title: `${siteConfig.name} (${siteConfig.fullName}) | ${siteConfig.tagline}`,
     description: siteConfig.description,
@@ -30,7 +26,7 @@ export const metadata: Metadata = {
     type: "website",
   },
   icons: {
-    icon: "/assets/images/favicon.png",
+    icon: siteConfig.assets.favicon || "/assets/images/favicon.png",
   },
 };
 
@@ -43,7 +39,7 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "Organization",
     name: siteConfig.name,
-    alternateName: [siteConfig.shortName, siteConfig.fullName, "Three Uqab"],
+    alternateName: brandConfig.seo.alternateNames,
     url: siteConfig.url,
     sameAs: [siteConfig.socials.facebook],
     address: {
@@ -63,12 +59,13 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en">
+    <html
+      lang={brandConfig.localization.defaultLocale.split("-")[0]}
+      dir={brandConfig.localization.direction}
+      style={getThemeCssVariables() as CSSProperties}
+    >
       <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-          rel="stylesheet"
-        />
+        <link href={themeConfig.fonts.googleFontUrl} rel="stylesheet" />
         <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
         <link rel="stylesheet" href="/assets/css/font-awesome.min.css" />
         <link rel="stylesheet" href="/assets/css/owl.carousel.min.css" />

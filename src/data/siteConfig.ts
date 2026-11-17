@@ -1,128 +1,46 @@
-export interface HeroSlideConfig {
-  id: string;
-  styleClass: string;
-  subtitle: string;
-  titleLine1: string;
-  titleLine2: string;
-  priceLabel?: string;
-  priceValue?: string;
-  codeLabel?: string;
-  codeValue?: string;
-  btnClass: string;
-  bgImage?: string;
-  link?: string;
-  isActive: boolean;
-}
+import {
+  siteConfig as newSiteConfig,
+  themeConfig,
+  assetsConfig,
+  navigationConfig,
+  businessConfig,
+  contentConfig,
+} from "@/config";
 
-export interface PromoBannersConfig {
-  homeCard1: {
-    subtitle: string;
-    title: string;
-    code: string;
-    link: string;
-    image?: string;
-  };
-  homeCard2: {
-    subtitle: string;
-    title: string;
-    code: string;
-    link: string;
-    image?: string;
-  };
-  homeFullwidth: {
-    subtitle: string;
-    title: string;
-    highlightText: string;
-    tagline: string;
-    link: string;
-    image?: string;
-  };
-  shopSlide1: {
-    subtitle: string;
-    title: string;
-    code: string;
-    link: string;
-    image?: string;
-  };
-  shopSlide2: {
-    title: string;
-    description: string;
-    priceLabel: string;
-    priceValue: string;
-    link: string;
-    image?: string;
-  };
-}
+export type {
+  HeroSlide as HeroSlideConfig,
+  PromoBanners as PromoBannersConfig,
+  DualPromoBanners as DualPromoBannersConfig,
+} from "@/config/content.config";
 
-export interface DualPromoBannersConfig {
-  card1: {
-    subtitle: string;
-    title: string;
-    link: string;
-    buttonText: string;
-  };
-  card2: {
-    subtitle: string;
-    title: string;
-    link: string;
-    buttonText: string;
-  };
-}
-
+/**
+ * Backward-compatible facade for legacy imports from `@/data/siteConfig`.
+ * Bridges legacy calls to the new white-label centralized config system in `@/config`.
+ */
 export const siteConfig = {
-  // Brand & Identity (Single Source of Truth)
-  name: "3Uqab Perfume",
-  shortName: "3Uqab",
-  fullName: "Three Uqab",
-  logo: "/assets/images/logo.png",
-  whatsappNumber: "+923001234567",
-  tagline: "Luxury Arabian Oud & Eau de Parfum",
-  description:
-    "Discover handcrafted luxury perfumes, authentic Arabian Oud, and long-lasting Eau de Parfum by 3Uqab Perfume (Three Uqab).",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://3uqab.com",
-  promoCode: "3UQAB20",
-  currency: "Rs",
-  welcomeMessage: "Welcome to 3Uqab Perfume Official Online Store!",
+  // Brand & Identity
+  name: newSiteConfig.brand.name,
+  shortName: newSiteConfig.brand.shortName,
+  fullName: newSiteConfig.brand.fullName,
+  logo: assetsConfig.logo,
+  whatsappNumber: newSiteConfig.contact.whatsappNumber,
+  tagline: newSiteConfig.brand.tagline,
+  description: newSiteConfig.brand.description,
+  url: newSiteConfig.brand.url,
+  promoCode: businessConfig.promo.defaultCode,
+  currency: newSiteConfig.localization.currency,
+  welcomeMessage: newSiteConfig.brand.welcomeMessage,
 
-  // Announcement Marquee (Top of Header)
-  announcements: [
-    "✦ Free Delivery on All Orders Above Rs 3,000 in Karachi",
-    "✦ Use Promo Code 3UQAB20 for 20% Off Your Entire Order",
-    "✦ Pure Arabian Oud & Concentrated Attar — 100% Authentic & Long-Lasting",
-    "✦ Fast Express Cash on Delivery (COD) Exclusively in Karachi",
-  ],
+  // Announcements Marquee
+  announcements: navigationConfig.announcements,
 
   // Contact Information
-  contact: {
-    address:
-      "Shop # 70, Ground Floor, City Residency & Shopping Galleria, Aga Khan III Road (Garden Road), Garden East, Saddar, Karachi, Pakistan",
-    streetAddress:
-      "Shop # 70, Ground Floor, City Residency & Shopping Galleria, Aga Khan III Road (Garden Road)",
-    addressLocality: "Garden East, Saddar, Karachi",
-    addressRegion: "Sindh",
-    postalCode: "74400",
-    addressCountry: "PK",
-    phone: "(+92) 300 1234567",
-    email: "info@3uqab.com",
-    mapEmbedUrl:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6302.435736831678!2d67.02174945219986!3d24.870722126230422!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33f66e2e280b7%3A0xd1b6da56d974eac!2zQ2l0eSBSZXNpZGVuY3kgYW5kIFNob3BwaW5nIEdhbGxlcmlhINiz2bnbjCDYsduM2LLbjNqI2YbYs9uMINin24zZhtqIINi02KfZvtmG2q8g2q_bjNmE2LHbjNin!5e0!3m2!1sen!2s!4v1794864674866!5m2!1sen!2s",
-    mapDirectionsUrl:
-      "https://www.google.com/maps/search/?api=1&query=City+Residency+and+Shopping+Galleria+Karachi",
-    coordinates: {
-      latitude: 24.870722,
-      longitude: 67.021749,
-    },
-  },
+  contact: newSiteConfig.contact,
 
   // Social Channels
-  socials: {
-    facebook: "https://www.facebook.com/profile.php?id=61584388492524",
-    twitter: "https://twitter.com",
-    instagram: "https://instagram.com",
-    pinterest: "https://pinterest.com",
-    linkedin: "https://linkedin.com",
-  },
+  socials: newSiteConfig.socials,
 
+  // Categories & Tags
   categories: [] as { name: string; slug: string }[],
   popularTags: [
     "3Uqab",
@@ -134,105 +52,15 @@ export const siteConfig = {
     "Gift Sets",
   ],
 
-  // =========================================================================
-  // STATIC BANNERS CONFIGURATION (Instant Load — Zero Backend Delay)
-  // Edit here to customize homepage hero slides, cards, and promo banners.
-  // Changes made in this file reflect immediately across the entire website.
-  // =========================================================================
-  heroSlides: [
-    {
-      id: "slide-1",
-      styleClass: "style4",
-      subtitle: "Luxury French & Arabian Attar",
-      titleLine1: "Crafted For",
-      titleLine2: "Elegance",
-      codeLabel: "Use Promo Code:",
-      codeValue: "3UQAB20",
-      btnClass: "btn-shop-the-look",
-      bgImage: "/assets/images/slider-thumb-full-1.jpg",
-      link: "/shop",
-      isActive: true,
-    },
-    {
-      id: "slide-2",
-      styleClass: "style5",
-      subtitle: "Pure Concentrated Perfume",
-      titleLine1: "Signature Oud",
-      titleLine2: "Collection",
-      priceLabel: "Starting from:",
-      priceValue: "Rs 3,499",
-      btnClass: "btn-shop-the-look",
-      bgImage: "/assets/images/slider-thumb-full-2.jpg",
-      link: "/shop",
-      isActive: true,
-    },
-    {
-      id: "slide-3",
-      styleClass: "style6",
-      subtitle: "Long-Lasting Projection",
-      titleLine1: "Royal Amber &",
-      titleLine2: "Smoky Woods",
-      codeLabel: "Special Offer:",
-      codeValue: "20% OFF",
-      btnClass: "btn-shop-the-look",
-      bgImage: "/assets/images/slider-thumb-full-3.jpg",
-      link: "/shop",
-      isActive: true,
-    },
-  ] as HeroSlideConfig[],
+  // Content & Banners
+  heroSlides: contentConfig.heroSlides,
+  promoBanners: contentConfig.promoBanners,
+  dualPromoBanners: contentConfig.dualPromoBanners,
 
-  promoBanners: {
-    homeCard1: {
-      subtitle: "Limited Edition",
-      title: "Oud & Attar\n30% Off",
-      code: "3UQAB20",
-      link: "/shop",
-      image: "/assets/images/banner-home-10.jpg",
-    },
-    homeCard2: {
-      subtitle: "Luxury Gift Bundles",
-      title: "Signature\nScents",
-      code: "3UQAB20",
-      link: "/shop",
-      image: "/assets/images/banner-home-11.jpg",
-    },
-    homeFullwidth: {
-      subtitle: "3Uqab Exclusive",
-      title: "Royal Collection",
-      highlightText: "20%",
-      tagline: "Handcrafted 100ml Eau de Parfum",
-      link: "/shop",
-      image: "/assets/images/banner-01_full_width.png",
-    },
-    shopSlide1: {
-      subtitle: "Elevate Your Presence!",
-      title: "Flash Sale Up To\n20% Off",
-      code: "3UQAB20",
-      link: "/shop",
-      image: "/assets/images/banner-01_full_width.jpg",
-    },
-    shopSlide2: {
-      title: "Royal Oud Collection",
-      description: "Experience authentic Dubai & French perfumery craftsmanship",
-      priceLabel: "Bundle Price:",
-      priceValue: "Rs 8,500",
-      link: "/shop",
-      image: "/assets/images/banner-02_full_width.jpg",
-    },
-  } as PromoBannersConfig,
-
-  dualPromoBanners: {
-    card1: {
-      subtitle: "Unisex & Oriental \nNew Arrivals",
-      title: "Scents for \nEvery Mood",
-      link: "/shop",
-      buttonText: "Shop now",
-    },
-    card2: {
-      subtitle: "3Uqab luxury, all-day \nlong-lasting projection!",
-      title: "Signature Oud Sale",
-      link: "/shop",
-      buttonText: "Shop now",
-    },
-  } as DualPromoBannersConfig,
+  // Theme & Assets
+  theme: themeConfig,
+  assets: assetsConfig,
+  business: businessConfig,
 };
+
+export default siteConfig;

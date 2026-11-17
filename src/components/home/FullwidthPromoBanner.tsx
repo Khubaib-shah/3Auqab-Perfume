@@ -28,7 +28,7 @@ function FullwidthPromoBannerComponent({ banner }: FullwidthPromoBannerProps) {
             >
               <div className="banner-content container">
                 <div className="banner-content-inner">
-                  <h4 className="stelina-subtitle">{banner.subtitle}</h4>
+                  <h4 className="app-subtitle">{banner.subtitle}</h4>
                   <h3 className="title">
                     {banner.title}
                     <br />

@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import BlogGridClient from "@/components/blog/BlogGridClient";
+import { siteConfig } from "@/config";
 
 export const metadata: Metadata = {
-  title: "3Uqab Perfume Journal & Fragrance Guides",
-  description:
-    "Read expert guides on Arabian Oud layering, fragrance notes, and luxury perfume care by 3Uqab Perfume (Three Uqab).",
+  title: siteConfig.seo.pages.blog.title,
+  description: siteConfig.seo.pages.blog.description,
 };
 
 export default function BlogGridPage() {

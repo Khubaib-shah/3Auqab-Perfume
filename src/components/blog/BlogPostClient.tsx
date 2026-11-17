@@ -396,7 +396,7 @@ export default function BlogPostClient({
 
               <div className="widget widget-post">
                 <h3 className="widgettitle">Popular Articles</h3>
-                <ul className="stelina-posts">
+                <ul className="app-posts">
                   {publishedBlogs.slice(0, 3).map((art) => (
                     <li key={art.id} className="widget-post-item">
                       <div className="thumb-blog">

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import BlogPostClient from "@/components/blog/BlogPostClient";
 import { readDbAsync } from "@/lib/db";
 import { BlogPost } from "@/data/blogs";
+import { siteConfig } from "@/config";
 
 export const dynamic = "force-dynamic";
 
@@ -12,20 +13,20 @@ interface PageProps {
 
 const fallbackBlog: BlogPost = {
   id: "blog-1",
-  slug: "art-of-layering-oud-and-edp",
-  title: "3Uqab Perfume Journal",
-  category: "FRAGRANCE GUIDE",
+  slug: "journal",
+  title: `${siteConfig.brand.name} Journal`,
+  category: "GUIDE",
   date: "August 17",
-  author: "Tariq Al-Mansoor",
-  authorRole: "Master Perfumer",
+  author: siteConfig.brand.name,
+  authorRole: "Editor",
   authorAvatar: "/assets/images/avt-blog1.png",
   views: 100,
   commentsCount: 5,
   image: "/assets/images/blog2.jpg",
-  excerpt: "Explore luxury Arabian Oud and Eau de Parfum guides by 3Uqab.",
-  content: ["Explore luxury Arabian Oud and Eau de Parfum guides by 3Uqab."],
-  quote: "A signature fragrance is an unforgettable memory.",
-  tags: ["3Uqab", "Arabian Oud", "Eau de Parfum"],
+  excerpt: siteConfig.brand.description,
+  content: [siteConfig.brand.description],
+  quote: siteConfig.brand.tagline,
+  tags: siteConfig.seo.keywords.slice(0, 3),
 };
 
 export async function generateMetadata({

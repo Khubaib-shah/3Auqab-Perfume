@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useAdminStore } from "@/store/useAdminStore";
+import { siteConfig } from "@/config";
 import { ContactMessageRecord } from "@/data/initialStoreSeed";
 
 export default function InboxModule() {
@@ -76,7 +77,7 @@ export default function InboxModule() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute("download", "3uqab-subscribers.csv");
+    link.setAttribute("download", `${siteConfig.brand.slug}-subscribers.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

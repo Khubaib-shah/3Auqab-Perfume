@@ -1,16 +1,16 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import ShopClient from "@/components/shop/ShopClient";
+import { siteConfig } from "@/config";
 
 export const metadata: Metadata = {
-  title: "Shop 3Uqab Luxury Perfumes & Arabian Oud",
-  description:
-    "Browse the complete 3Uqab Perfume (Three Uqab) catalog. Discover long-lasting Eau de Parfum, Arabian Oud, and unisex fragrances.",
+  title: siteConfig.seo.pages.shop.title,
+  description: siteConfig.seo.pages.shop.description,
 };
 
 export default function ShopPage() {
   return (
-    <Suspense fallback={<div className="container">Loading fragrances...</div>}>
+    <Suspense fallback={<div className="container">Loading products...</div>}>
       <ShopClient />
     </Suspense>
   );

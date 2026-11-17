@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import LoginClient from "@/components/login/LoginClient";
+import { siteConfig } from "@/config";
 
 export const metadata: Metadata = {
   title: "Account Login",
-  description:
-    "Sign in to your 3Uqab Perfume (Three Uqab) account to track your fragrance orders and wishlist.",
+  description: siteConfig.seo.pages.login.description,
 };
 
 export default function LoginPage() {

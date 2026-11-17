@@ -2,6 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import toast from "react-hot-toast";
+import { siteConfig } from "@/config";
 
 export type UploadSubfolder =
   | "products"
@@ -21,12 +22,12 @@ interface ImageUploadFieldProps {
 }
 
 const DEFAULT_SEO_NAMES: Record<UploadSubfolder, string> = {
-  products: "3uqab-product",
-  banners: "3uqab-banner",
-  blogs: "3uqab-blog",
-  categories: "3uqab-category",
-  reviews: "3uqab-review",
-  settings: "3uqab-logo",
+  products: `${siteConfig.brand.slug}-product`,
+  banners: `${siteConfig.brand.slug}-banner`,
+  blogs: `${siteConfig.brand.slug}-blog`,
+  categories: `${siteConfig.brand.slug}-category`,
+  reviews: `${siteConfig.brand.slug}-review`,
+  settings: `${siteConfig.brand.slug}-logo`,
 };
 
 function formatSeoSlug(raw: string | undefined, folder: UploadSubfolder): string {
@@ -272,7 +273,7 @@ export default function ImageUploadField({
         <span
           style={{
             fontSize: "10px",
-            color: "#ab8e66",
+            color: "var(--color-primary)",
             fontWeight: 600,
             letterSpacing: "0.04em",
           }}

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useAdminStore } from "@/store/useAdminStore";
+import { siteConfig, assetsConfig } from "@/config";
 import ImageUploadField from "./ImageUploadField";
 
 export default function SettingsModule() {
@@ -38,7 +39,7 @@ export default function SettingsModule() {
     apiKey: "",
     apiSecret: "",
     uploadPreset: "",
-    rootFolder: "3uqab",
+    rootFolder: siteConfig.brand.slug,
   };
 
   return (
@@ -65,10 +66,10 @@ export default function SettingsModule() {
             <h3 className="admin-card-title">Brand Details</h3>
             <ImageUploadField
               label="Store Logo"
-              value={formState.logo || "/assets/images/logo.png"}
+              value={formState.logo || assetsConfig.logo}
               onChange={(url) => setFormState({ ...formState, logo: url })}
               folder="settings"
-              fileName="3uqab-logo"
+              fileName={`${siteConfig.brand.slug}-logo`}
             />
             <div className="admin-grid-2">
               <div className="admin-form-group">

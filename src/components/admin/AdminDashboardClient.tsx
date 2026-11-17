@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { useAdminStore } from "@/store/useAdminStore";
+import { siteConfig } from "@/config";
 import OrdersModule, { getStatusBadgeClass } from "./OrdersModule";
 import ProductsModule from "./ProductsModule";
 import CategoriesModule from "./CategoriesModule";
@@ -46,7 +47,7 @@ export default function AdminDashboardClient() {
   const handleGateLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (loginAdmin(loginEmail, loginPassword)) {
-      toast.success("Logged in to 3Uqab Dashboard!");
+      toast.success(`Logged in to ${siteConfig.admin.dashboardTitle}!`);
     } else {
       toast.error("Invalid email or password.");
     }
@@ -77,7 +78,10 @@ export default function AdminDashboardClient() {
                 margin: "0 0 6px 0",
               }}
             >
-              3<span style={{ color: "#ab8e66" }}>UQAB</span> ADMIN
+              <span style={{ color: "var(--color-primary)" }}>
+                {siteConfig.brand.shortName}
+              </span>{" "}
+              ADMIN
             </h2>
             <p style={{ fontSize: "13px", color: "#888888", margin: 0 }}>
               Sign in with owner email and password
@@ -93,7 +97,7 @@ export default function AdminDashboardClient() {
                 required
                 value={loginEmail}
                 onChange={(e) => setLoginEmail(e.target.value)}
-                placeholder="uqab@owner.com"
+                placeholder={siteConfig.admin.emailPlaceholder}
               />
             </div>
             <div className="admin-form-group">
@@ -216,7 +220,7 @@ export default function AdminDashboardClient() {
         <div className="admin-sidebar-brand">
           <div>
             <h2 className="admin-brand-title">
-              3<span>UQAB</span>
+              <span>{siteConfig.brand.shortName}</span>
             </h2>
             <span className="admin-brand-subtitle">Store Dashboard</span>
           </div>
@@ -279,7 +283,7 @@ export default function AdminDashboardClient() {
               <i className="fa fa-bars"></i>
             </button>
             <div className="admin-breadcrumb">
-              3Uqab /{" "}
+              {siteConfig.brand.shortName} /{" "}
               <strong>
                 {navItems.find((n) => n.key === activeModule)?.label}
               </strong>
@@ -568,7 +572,7 @@ export default function AdminDashboardClient() {
                 <div className="admin-card">
                   <h4 className="admin-card-title">
                     <span>Blogs ({blogs.length})</span>
-                    <i className="fa fa-book" style={{ color: "#ab8e66" }}></i>
+                    <i className="fa fa-book" style={{ color: "var(--color-primary)" }}></i>
                   </h4>
                   <button
                     type="button"
@@ -585,7 +589,7 @@ export default function AdminDashboardClient() {
                     <span>Messages ({messages.length})</span>
                     <i
                       className="fa fa-envelope-o"
-                      style={{ color: "#ab8e66" }}
+                      style={{ color: "var(--color-primary)" }}
                     ></i>
                   </h4>
                   <button
@@ -603,7 +607,7 @@ export default function AdminDashboardClient() {
                     <span>Settings</span>
                     <i
                       className="fa fa-sliders"
-                      style={{ color: "#ab8e66" }}
+                      style={{ color: "var(--color-primary)" }}
                     ></i>
                   </h4>
                   <button

@@ -38,10 +38,10 @@ function LatestNewsSliderComponent({ posts }: LatestNewsSliderProps) {
   };
 
   return (
-    <div className="stelina-blog-wraap default">
+    <div className="app-blog-wraap default">
       <div className="container">
         <h3 className="custommenu-title-blog">Our Latest News</h3>
-        <div className="stelina-blog style2">
+        <div className="app-blog style2">
           <div className="owl-slick equal-container nav-center slick-slider">
             <span
               className="fa fa-angle-left slick-arrow"
@@ -58,8 +58,8 @@ function LatestNewsSliderComponent({ posts }: LatestNewsSliderProps) {
               >
                 {posts.map((post) => (
                   <div key={post.id} className="blog-slide-item">
-                    <div className="stelina-blog-item equal-element style2">
-                      <div className="stelina-blog-inner">
+                    <div className="app-blog-item equal-element style2">
+                      <div className="app-blog-inner">
                         <div className="post-thumb">
                           <Link href={`/blog/${post.slug}`}>
                             <img

@@ -27,7 +27,7 @@ export default function NotFound() {
                 <div className="text-404">
                   <h1 className="page-title">Error 404 Not Found</h1>
                   <p className="page-content">
-                    We are sorry, but the fragrance page you are looking for
+                    We are sorry, but the page you are looking for
                     does not exist. <br />
                     You can return to{" "}
                     <Link className="hightlight" href="/">

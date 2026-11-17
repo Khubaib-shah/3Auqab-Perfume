@@ -38,13 +38,13 @@ function TestimonialsNewsletterComponent({
   };
 
   return (
-    <div className="stelina-testimonials-newsletter-wrapp">
+    <div className="app-testimonials-newsletter-wrapp">
       <div className="container">
         <div className="row">
           {/* Testimonials */}
           <div className="col-lg-9">
-            <div className="stelina-testimonials-wrapp">
-              <div className="stelina-testimonials default">
+            <div className="app-testimonials-wrapp">
+              <div className="app-testimonials default">
                 <div className="owl-slick equal-container slick-slider">
                   <div className="slick-list">
                     <div
@@ -97,7 +97,7 @@ function TestimonialsNewsletterComponent({
 
           {/* Newsletter Box */}
           <div className="col-lg-3">
-            <div className="stelina-newsletter default">
+            <div className="app-newsletter default">
               <div className="newsletter-head">
                 <h3 className="title">Newsletter</h3>
                 <div className="subtitle">

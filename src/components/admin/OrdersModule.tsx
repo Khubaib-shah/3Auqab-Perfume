@@ -406,7 +406,7 @@ export default function OrdersModule() {
                   style={{ marginBottom: "12px" }}
                 >
                   <span>Items ({selectedOrder.items.length})</span>
-                  <strong style={{ color: "#ab8e66" }}>
+                  <strong style={{ color: "var(--color-primary)" }}>
                     {settings.currency} {selectedOrder.totalAmount}
                   </strong>
                 </h4>
@@ -585,7 +585,7 @@ export default function OrdersModule() {
                     }}
                   >
                     {settings.shortName}{" "}
-                    <span style={{ color: "#ab8e66" }}>PERFUME</span>
+                    <span style={{ color: "var(--color-primary)" }}>PERFUME</span>
                   </h2>
                   <div style={{ fontSize: "12px", color: "#666666" }}>
                     {settings.contact.phone} | {settings.contact.email}

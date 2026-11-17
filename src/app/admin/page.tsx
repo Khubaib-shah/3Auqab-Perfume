@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import AdminDashboardClient from "@/components/admin/AdminDashboardClient";
+import { siteConfig } from "@/config";
 import "./admin.css";
 
 export const metadata: Metadata = {
-  title: "Admin Atelier Dashboard | 3Uqab Perfume",
-  description:
-    "Manage 3Uqab Perfume (Three Uqab) orders, deliveries, WhatsApp notifications, products, categories, blogs, and storefront settings.",
+  title: `${siteConfig.seo.pages.admin.title} | ${siteConfig.brand.name}`,
+  description: siteConfig.seo.pages.admin.description,
   robots: {
     index: false,
     follow: false,

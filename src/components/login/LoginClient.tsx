@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { useAdminStore } from "@/store/useAdminStore";
+import { siteConfig } from "@/config";
 
 export default function LoginClient() {
   const router = useRouter();
@@ -56,7 +57,7 @@ export default function LoginClient() {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            placeholder="uqab@owner.com"
+                            placeholder={siteConfig.admin.emailPlaceholder}
                             className="input-text"
                           />
                         </p>

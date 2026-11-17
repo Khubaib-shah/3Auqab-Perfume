@@ -1,24 +1,14 @@
 import type { Metadata } from "next";
 import ContactClient from "@/components/contact/ContactClient";
 import { siteConfig } from "@/data/siteConfig";
+import { siteConfig as brandConfig } from "@/config";
 
 export const metadata: Metadata = {
-  title: "Visit Our Karachi Store & Contact Us | 3Uqab Perfume",
-  description:
-    "Visit 3Uqab Perfume at Shop # 70, Ground Floor, City Residency & Shopping Galleria, Aga Khan III Road (Garden Road), Garden East, Saddar, Karachi. Handcrafted Arabian Oud, luxury Eau de Parfum & attars.",
-  keywords: [
-    "3Uqab Perfume Karachi",
-    "3Uqab Perfume store",
-    "Shop # 17 City Residency Karachi",
-    "Perfume shop Garden East Saddar",
-    "Aga Khan III Road perfume store",
-    "Arabian Oud Karachi",
-    "Luxury fragrance store Karachi",
-  ],
+  title: `Contact Us | ${siteConfig.name}`,
+  description: `Get in touch with ${siteConfig.name}. Visit our store at ${siteConfig.contact.address} or contact us at ${siteConfig.contact.phone}.`,
   openGraph: {
-    title: "Visit Our Karachi Store & Contact Us | 3Uqab Perfume",
-    description:
-      "Shop # 70, Ground Floor, City Residency & Shopping Galleria, Aga Khan III Road (Garden Road), Garden East, Saddar, Karachi. Call (+92) 300 1234567.",
+    title: `Contact Us | ${siteConfig.name}`,
+    description: `Visit our store at ${siteConfig.contact.address}. Call ${siteConfig.contact.phone}.`,
     url: `${siteConfig.url}/contact`,
     type: "website",
   },
@@ -29,8 +19,8 @@ export default function ContactPage() {
     "@context": "https://schema.org",
     "@type": "Store",
     name: siteConfig.name,
-    alternateName: [siteConfig.fullName, "3Uqab Fragrances Karachi"],
-    image: `${siteConfig.url}/assets/images/logo.png`,
+    alternateName: brandConfig.seo.alternateNames,
+    image: `${siteConfig.url}${siteConfig.logo}`,
     url: `${siteConfig.url}/contact`,
     telephone: siteConfig.contact.phone,
     email: siteConfig.contact.email,

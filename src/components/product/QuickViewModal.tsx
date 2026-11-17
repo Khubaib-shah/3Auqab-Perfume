@@ -5,6 +5,7 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import { useShopStore } from "@/store/useShopStore";
 import { siteConfig } from "@/data/siteConfig";
+import { businessConfig } from "@/config";
 import {
   getProductPriceForSize,
   getProductOldPriceForSize,
@@ -193,7 +194,7 @@ export default function QuickViewModal() {
                         flexDirection: "column",
                         alignItems: "center",
                         border: isCurrent
-                          ? "2px solid #ab8e66"
+                          ? "2px solid var(--color-primary)"
                           : "1px solid #eee",
                         padding: "3px",
                         background: "#fff",
@@ -217,7 +218,7 @@ export default function QuickViewModal() {
                           style={{
                             fontSize: "10px",
                             fontWeight: isCurrent ? 700 : 500,
-                            color: isCurrent ? "#ab8e66" : "#666",
+                            color: isCurrent ? "var(--color-primary)" : "#666",
                             marginTop: "2px",
                           }}
                         >
@@ -274,7 +275,7 @@ export default function QuickViewModal() {
                 )}
                 <ins
                   style={{
-                    color: "#ab8e66",
+                    color: "var(--color-primary)",
                     fontWeight: 700,
                     fontSize: "24px",
                     textDecoration: "none",
@@ -305,8 +306,8 @@ export default function QuickViewModal() {
                     className="size-text text-attribute"
                     style={{ marginBottom: "8px" }}
                   >
-                    Select Bottle Size:{" "}
-                    <span style={{ color: "#ab8e66", fontWeight: 700 }}>
+                    Select {businessConfig.variant.label}:{" "}
+                    <span style={{ color: "var(--color-primary)", fontWeight: 700 }}>
                       {selectedSize}
                     </span>
                   </div>
@@ -344,10 +345,10 @@ export default function QuickViewModal() {
                             textAlign: "center",
                             lineHeight: "1.3",
                             border: isActive
-                              ? "2px solid #ab8e66"
+                              ? "2px solid var(--color-primary)"
                               : "1px solid #ddd",
                             background: isActive ? "#faf7f2" : "#fff",
-                            color: isActive ? "#ab8e66" : "#333",
+                            color: isActive ? "var(--color-primary)" : "#333",
                             cursor: "pointer",
                             transition: "all 0.2s ease",
                           }}

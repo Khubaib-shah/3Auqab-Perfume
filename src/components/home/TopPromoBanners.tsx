@@ -31,7 +31,7 @@ function TopPromoBannersComponent({ card1, card2 }: TopPromoBannersProps) {
                   }
                 >
                   <div className="banner-content">
-                    <h4 className="stelina-subtitle">{card1.subtitle}</h4>
+                    <h4 className="app-subtitle">{card1.subtitle}</h4>
                     <h3 className="title" style={{ whiteSpace: "pre-line" }}>
                       {card1.title}
                     </h3>
@@ -68,7 +68,7 @@ function TopPromoBannersComponent({ card1, card2 }: TopPromoBannersProps) {
                   }
                 >
                   <div className="banner-content">
-                    <h4 className="stelina-subtitle">{card2.subtitle}</h4>
+                    <h4 className="app-subtitle">{card2.subtitle}</h4>
                     <h3 className="title" style={{ whiteSpace: "pre-line" }}>
                       {card2.title}
                     </h3>

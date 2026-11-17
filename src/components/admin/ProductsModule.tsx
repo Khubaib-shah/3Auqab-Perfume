@@ -4,6 +4,7 @@ import React, { useState, useMemo } from "react";
 import toast from "react-hot-toast";
 import { useAdminStore } from "@/store/useAdminStore";
 import { AdminProduct } from "@/data/initialStoreSeed";
+import { businessConfig, siteConfig, assetsConfig } from "@/config";
 import ImageUploadField from "./ImageUploadField";
 
 export default function ProductsModule() {
@@ -70,13 +71,11 @@ export default function ProductsModule() {
     setInStock(true);
     setIsNew(true);
     setIsWeeklyFeatured(true);
-    setImage("/assets/images/product-item-1.jpg");
+    setImage(assetsConfig.placeholders.product);
     setTopNotes("Bergamot, Saffron, Pink Pepper");
     setHeartNotes("Damask Rose, Jasmine, Orris");
     setBaseNotes("Royal Oud, Vanilla, White Musk");
-    setDescriptionText(
-      "Long-lasting luxury Eau de Parfum by 3Uqab Perfume (Three Uqab)."
-    );
+    setDescriptionText(siteConfig.brand.description);
     setRating(5);
     setReviewsCount(12);
     setModalOpen(true);
@@ -201,7 +200,7 @@ export default function ProductsModule() {
         <div>
           <h1 className="admin-section-title">Products</h1>
           <p className="admin-section-subtitle">
-            Manage perfumes, prices, notes, and stock
+            Manage products, prices, variants, and stock
           </p>
         </div>
         <button
@@ -423,7 +422,7 @@ export default function ProductsModule() {
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="e.g. 3Uqab Royal Oudh"
+                    placeholder={`e.g. ${siteConfig.brand.shortName} Signature`}
                   />
                 </div>
                 <div className="admin-form-group">
@@ -433,7 +432,7 @@ export default function ProductsModule() {
                     className="admin-input"
                     value={slug}
                     onChange={(e) => setSlug(e.target.value)}
-                    placeholder="3uqab-royal-oudh"
+                    placeholder={`${siteConfig.brand.slug}-signature`}
                   />
                 </div>
               </div>
@@ -499,7 +498,7 @@ export default function ProductsModule() {
                     className="admin-label"
                     style={{ fontWeight: 700, margin: 0, fontSize: "13px" }}
                   >
-                    Bottle Sizes & Prices ({settings.currency}) *
+                    {businessConfig.variant.label}s & Prices ({settings.currency}) *
                   </label>
                   <span style={{ fontSize: "11px", color: "#888" }}>
                     Shown on product page size selectors & checkout
@@ -607,11 +606,11 @@ export default function ProductsModule() {
 
               <div className="admin-form-group">
                 <ImageUploadField
-                  label="Product Bottle Image *"
+                  label="Product Image *"
                   value={image}
                   onChange={setImage}
                   folder="products"
-                  fileName={name || slug || "3uqab-product"}
+                  fileName={name || slug || `${siteConfig.brand.slug}-product`}
                 />
               </div>
 

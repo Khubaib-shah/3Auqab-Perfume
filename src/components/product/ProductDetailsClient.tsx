@@ -14,6 +14,7 @@ import {
 } from "@/data/products";
 import { useShopStore } from "@/store/useShopStore";
 import { useAdminStore } from "@/store/useAdminStore";
+import { businessConfig } from "@/config";
 
 interface ProductDetailsClientProps {
   product: Product;
@@ -233,7 +234,7 @@ export default function ProductDetailsClient({
                     )}
                     <ins
                       style={{
-                        color: "#ab8e66",
+                        color: "var(--color-primary)",
                         fontWeight: 700,
                         fontSize: "26px",
                         textDecoration: "none",
@@ -265,8 +266,8 @@ export default function ProductDetailsClient({
                         className="size-text text-attribute"
                         style={{ marginBottom: "8px" }}
                       >
-                        Select Bottle Size:{" "}
-                        <span style={{ color: "#ab8e66", fontWeight: 700 }}>
+                        Select {businessConfig.variant.label}:{" "}
+                        <span style={{ color: "var(--color-primary)", fontWeight: 700 }}>
                           {selectedSize}
                         </span>
                       </div>
@@ -342,7 +343,7 @@ export default function ProductDetailsClient({
                             setActiveTab("information");
                           }}
                         >
-                          View Fragrance Pyramid
+                          {businessConfig.labels.specsLinkText}
                         </a>
                       </div>
                     </div>
@@ -415,7 +416,7 @@ export default function ProductDetailsClient({
                         setActiveTab("information");
                       }}
                     >
-                      Fragrance Notes
+                      {businessConfig.specifications.tabTitle}
                     </a>
                   </li>
                   <li className={activeTab === "reviews" ? "active" : ""}>
@@ -450,25 +451,48 @@ export default function ProductDetailsClient({
                     <table className="table table-bordered">
                       <tbody>
                         <tr>
-                          <td>Available Volumes</td>
+                          <td>Available {businessConfig.variant.label}s</td>
                           <td>{product.sizes.join(" / ")}</td>
                         </tr>
-                        <tr>
-                          <td>Top Notes</td>
-                          <td>{product.notes.top}</td>
-                        </tr>
-                        <tr>
-                          <td>Heart (Middle) Notes</td>
-                          <td>{product.notes.heart}</td>
-                        </tr>
-                        <tr>
-                          <td>Base Notes</td>
-                          <td>{product.notes.base}</td>
-                        </tr>
-                        <tr>
-                          <td>Concentration</td>
-                          <td>Eau de Parfum (High Oil Concentration)</td>
-                        </tr>
+                        {product.specifications ? (
+                          Object.entries(product.specifications).map(
+                            ([key, val]) => (
+                              <tr key={key}>
+                                <td style={{ textTransform: "capitalize" }}>
+                                  {key.replace(/([A-Z])/g, " $1")}
+                                </td>
+                                <td>{val}</td>
+                              </tr>
+                            )
+                          )
+                        ) : product.notes ? (
+                          <>
+                            {product.notes.top && (
+                              <tr>
+                                <td>Top Notes</td>
+                                <td>{product.notes.top}</td>
+                              </tr>
+                            )}
+                            {product.notes.heart && (
+                              <tr>
+                                <td>Heart (Middle) Notes</td>
+                                <td>{product.notes.heart}</td>
+                              </tr>
+                            )}
+                            {product.notes.base && (
+                              <tr>
+                                <td>Base Notes</td>
+                                <td>{product.notes.base}</td>
+                              </tr>
+                            )}
+                          </>
+                        ) : null}
+                        {businessConfig.specifications.staticRows.map((row) => (
+                          <tr key={row.label}>
+                            <td>{row.label}</td>
+                            <td>{row.value}</td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>
@@ -688,7 +712,7 @@ export default function ProductDetailsClient({
                     <div className="Testimonial-inner">
                       <div className="comment">
                         {storeTestimonials[0]?.text ||
-                          "3Uqab Perfumes deliver extraordinary sillage and authentic Arabian luxury in every bottle."}
+                          businessConfig.labels.reviewFallbackQuote}
                       </div>
                       <div className="author">
                         <div className="avt">
@@ -704,7 +728,7 @@ export default function ProductDetailsClient({
                           {storeTestimonials[0]?.name || "Tariq Al-Mansoor"}
                           <span className="position">
                             {storeTestimonials[0]?.role ||
-                              "Fragrance Connoisseur"}
+                              businessConfig.labels.reviewerFallbackRole}
                           </span>
                         </h3>
                       </div>

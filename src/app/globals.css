@@ -1,8 +1,49 @@
+/* ==========================================================================
+   WHITE-LABEL THEME CSS VARIABLES (Single Source of Truth)
+   ========================================================================== */
+:root {
+  /* Brand Theme Colors */
+  --color-primary: #ab8e66;
+  --color-primary-hover: #93774f;
+  --color-secondary: #222222;
+  --color-accent: #d8c3a5;
+
+  /* Surfaces & Backgrounds */
+  --color-background: #ffffff;
+  --color-surface: #fbfaf8;
+  --color-surface-muted: #f5f5f5;
+
+  /* Text & Typography */
+  --color-heading: #222222;
+  --color-body: #555555;
+  --color-muted: #777777;
+
+  /* Borders & Dividers */
+  --color-border-light: #eeeeee;
+  --color-border-medium: #e5e5e5;
+
+  /* Fonts */
+  --font-heading: "Jost", sans-serif;
+  --font-body: "Jost", sans-serif;
+
+  /* Border Radii */
+  --radius-xs: 3px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
 /* Keep original template typography and colors intact without Tailwind .container conflicts */
 body {
-  background-color: #ffffff;
-  color: #666666;
-  font-family: "Jost", sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-body);
+  font-family: var(--font-body);
   overflow-x: hidden;
 }
 
@@ -110,7 +151,7 @@ body {
 }
 
 .announcement-separator {
-  color: #ab8e66;
+  color: var(--color-primary);
   margin: 0 28px;
   font-size: 12px;
 }
@@ -142,7 +183,7 @@ body {
 }
 
 .main-menu .submenu,
-.stelina-submenu,
+.app-submenu,
 .verticalmenu-content {
   pointer-events: none;
   transition:
@@ -152,7 +193,7 @@ body {
 }
 
 .main-menu .menu-item:hover > .submenu,
-.stelina-dropdown.open > .stelina-submenu,
+.app-dropdown.open > .app-submenu,
 .verticalmenu-content.show-up {
   pointer-events: auto;
 }
@@ -183,9 +224,9 @@ body {
 }
 
 .home-slider .slick-list,
-.stelina-testimonials .slick-list,
-.stelina-product.layout1 .slick-list,
-.stelina-blog-wraap .slick-list {
+.app-testimonials .slick-list,
+.app-product.layout1 .slick-list,
+.app-blog-wraap .slick-list {
   overflow: hidden !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -270,7 +311,7 @@ body {
 .slider-item.style4 .title-big,
 .slider-item.style5 .title-big,
 .slider-item.style6 .title-big {
-  color: #222222 !important;
+  color: var(--color-heading) !important;
   font-size: clamp(14px, 2.5vw, 40px) !important;
   line-height: 1.15 !important;
   margin-bottom: clamp(3px, 1vw, 15px) !important;
@@ -281,7 +322,7 @@ body {
 .slider-item.style4 .title-small,
 .slider-item.style5 .title-small,
 .slider-item.style6 .title-small {
-  color: #222222 !important;
+  color: var(--color-heading) !important;
   font-weight: 600 !important;
   font-size: clamp(9px, 1vw, 14px) !important;
   letter-spacing: 1px !important;
@@ -290,7 +331,7 @@ body {
 
 .slider-inner .when-code,
 .slider-inner .price {
-  color: #222222 !important;
+  color: var(--color-heading) !important;
   font-weight: 500 !important;
   font-size: clamp(9px, 1vw, 14px) !important;
   margin-bottom: clamp(4px, 1.2vw, 20px) !important;
@@ -298,14 +339,14 @@ body {
 
 .slider-inner .when-code .number-code,
 .slider-inner .price .number-price {
-  color: #222222 !important;
+  color: var(--color-heading) !important;
   font-weight: 700 !important;
   font-size: clamp(11px, 1.2vw, 18px) !important;
 }
 
 .slider-inner .button {
-  color: #222222 !important;
-  border-bottom: 2px solid #222222 !important;
+  color: var(--color-heading) !important;
+  border-bottom: 2px solid var(--color-heading) !important;
   padding: clamp(4px, 0.7vw, 12px) clamp(10px, 1.5vw, 28px) !important;
   font-size: clamp(9px, 0.85vw, 13px) !important;
   width: fit-content !important;
@@ -510,23 +551,23 @@ body {
    7. TESTIMONIALS & NEWSLETTER + DUAL PROMO BANNERS
    ========================================================================== */
 @media (min-width: 992px) {
-  .stelina-testimonials-newsletter-wrapp .row {
+  .app-testimonials-newsletter-wrapp .row {
     display: flex;
     align-items: stretch;
   }
-  .stelina-testimonials-newsletter-wrapp .col-lg-9 {
+  .app-testimonials-newsletter-wrapp .col-lg-9 {
     width: 75%;
     display: flex;
     flex-direction: column;
   }
-  .stelina-testimonials-newsletter-wrapp .col-lg-3 {
+  .app-testimonials-newsletter-wrapp .col-lg-3 {
     width: 25%;
     display: flex;
     flex-direction: column;
   }
-  .stelina-testimonials-wrapp,
-  .stelina-testimonials.default,
-  .stelina-newsletter.default {
+  .app-testimonials-wrapp,
+  .app-testimonials.default,
+  .app-newsletter.default {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -534,7 +575,7 @@ body {
   }
 }
 
-.stelina-newsletter.default .newsletter-form-wrap .email-newsletter {
+.app-newsletter.default .newsletter-form-wrap .email-newsletter {
   padding-left: 15px;
   padding-right: 15px;
 }
@@ -708,14 +749,14 @@ body {
 }
 
 /* ==========================================================================
-   8. WEEKLY FEATURED SECTION (.stelina-product.layout1)
+   8. WEEKLY FEATURED SECTION (.app-product.layout1)
    ========================================================================== */
-.stelina-product.layout1 {
-  background: #ab8e66 !important;
+.app-product.layout1 {
+  background: var(--color-primary) !important;
   padding: 70px 0 40px !important;
 }
 
-.stelina-product.layout1 .container-wapper {
+.app-product.layout1 .container-wapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -723,7 +764,7 @@ body {
   position: relative;
 }
 
-.stelina-product.layout1 .head {
+.app-product.layout1 .head {
   float: none !important;
   width: 270px;
   flex-shrink: 0;
@@ -732,18 +773,18 @@ body {
   text-align: center;
 }
 
-.stelina-product.layout1 .head .subtitle {
+.app-product.layout1 .head .subtitle {
   margin-bottom: 28px;
 }
 
-.stelina-product.layout1 .weekly-nav-arrows {
+.app-product.layout1 .weekly-nav-arrows {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 20px;
 }
 
-.stelina-product.layout1 .weekly-nav-arrows .slick-arrow {
+.app-product.layout1 .weekly-nav-arrows .slick-arrow {
   position: static !important;
   display: inline-flex !important;
   align-items: center;
@@ -752,19 +793,19 @@ body {
   height: 51px;
   border-radius: 50%;
   background-color: #ffffff;
-  color: #ab8e66;
+  color: var(--color-primary);
   font-size: 24px;
   cursor: pointer;
   transition: all 0.25s ease;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
 }
 
-.stelina-product.layout1 .weekly-nav-arrows .slick-arrow:hover {
-  background-color: #222222;
+.app-product.layout1 .weekly-nav-arrows .slick-arrow:hover {
+  background-color: var(--color-heading);
   color: #ffffff;
 }
 
-.stelina-product.layout1 .product-list-owl {
+.app-product.layout1 .product-list-owl {
   width: calc(100% - 300px) !important;
   display: block !important;
 }
@@ -791,15 +832,15 @@ body {
 }
 
 @media (max-width: 991px) {
-  .stelina-product.layout1 {
+  .app-product.layout1 {
     padding-top: 35px !important;
     padding-bottom: 40px !important;
   }
-  .stelina-product.layout1 .container-wapper {
+  .app-product.layout1 .container-wapper {
     flex-direction: column !important;
     gap: 12px !important;
   }
-  .stelina-product.layout1 .head {
+  .app-product.layout1 .head {
     width: 100% !important;
     max-width: 100% !important;
     text-align: left !important;
@@ -810,7 +851,7 @@ body {
     margin-bottom: 8px !important;
     padding: 0 !important;
   }
-  .stelina-product.layout1 .head .head-text-group {
+  .app-product.layout1 .head .head-text-group {
     display: flex !important;
     flex-direction: column !important;
     align-items: flex-start !important;
@@ -819,21 +860,21 @@ body {
     flex: 1 !important;
     min-width: 0 !important;
   }
-  .stelina-product.layout1 .head .title {
+  .app-product.layout1 .head .title {
     font-size: 22px !important;
     line-height: 1.2 !important;
     margin: 0 !important;
     text-align: left !important;
     color: #ffffff !important;
   }
-  .stelina-product.layout1 .head .subtitle {
+  .app-product.layout1 .head .subtitle {
     font-size: 12px !important;
     line-height: 1.3 !important;
     margin: 0 !important;
     text-align: left !important;
     color: rgba(255, 255, 255, 0.85) !important;
   }
-  .stelina-product.layout1 .weekly-nav-arrows {
+  .app-product.layout1 .weekly-nav-arrows {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: flex-end !important;
@@ -842,16 +883,16 @@ body {
     margin-bottom: 0 !important;
     flex-shrink: 0 !important;
   }
-  .stelina-product.layout1 .weekly-nav-arrows .slick-arrow {
+  .app-product.layout1 .weekly-nav-arrows .slick-arrow {
     width: 36px !important;
     height: 36px !important;
     font-size: 16px !important;
     border-radius: 50% !important;
     background-color: #ffffff !important;
-    color: #ab8e66 !important;
+    color: var(--color-primary) !important;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
   }
-  .stelina-product.layout1 .product-list-owl {
+  .app-product.layout1 .product-list-owl {
     width: 100% !important;
   }
   .weekly-slide-item {
@@ -861,20 +902,20 @@ body {
 }
 
 @media (max-width: 767px) {
-  .stelina-product.layout1 {
+  .app-product.layout1 {
     padding-top: 25px !important;
     padding-bottom: 30px !important;
   }
-  .stelina-product.layout1 .container-wapper {
+  .app-product.layout1 .container-wapper {
     gap: 10px !important;
   }
-  .stelina-product.layout1 .head .title {
+  .app-product.layout1 .head .title {
     font-size: 20px !important;
   }
-  .stelina-product.layout1 .head .subtitle {
+  .app-product.layout1 .head .subtitle {
     font-size: 11px !important;
   }
-  .stelina-product.layout1 .weekly-nav-arrows .slick-arrow {
+  .app-product.layout1 .weekly-nav-arrows .slick-arrow {
     width: 32px !important;
     height: 32px !important;
     font-size: 14px !important;
@@ -933,9 +974,9 @@ body {
 }
 
 /* ==========================================================================
-   9. OUR LATEST NEWS SECTION (.stelina-blog-item.style2)
+   9. OUR LATEST NEWS SECTION (.app-blog-item.style2)
    ========================================================================== */
-.stelina-blog.default {
+.app-blog.default {
   position: relative;
 }
 
@@ -963,14 +1004,14 @@ body {
   }
 }
 
-.stelina-blog-item.style2 {
+.app-blog-item.style2 {
   width: 100% !important;
   height: 100% !important;
   display: flex !important;
   flex-direction: column !important;
 }
 
-.stelina-blog-item.style2 .stelina-blog-inner {
+.app-blog-item.style2 .app-blog-inner {
   display: flex !important;
   align-items: stretch !important;
   background: #f5f5f5 !important;
@@ -980,7 +1021,7 @@ body {
   max-height: 275px !important;
 }
 
-.stelina-blog-item.style2 .post-thumb {
+.app-blog-item.style2 .post-thumb {
   float: none !important;
   width: 48% !important;
   flex: 0 0 48% !important;
@@ -993,14 +1034,14 @@ body {
   aspect-ratio: 1 / 1 !important;
 }
 
-.stelina-blog-item.style2 .post-thumb a {
+.app-blog-item.style2 .post-thumb a {
   display: block !important;
   width: 100% !important;
   height: 100% !important;
   position: relative !important;
 }
 
-.stelina-blog-item.style2 .post-thumb img {
+.app-blog-item.style2 .post-thumb img {
   width: 100% !important;
   height: 100% !important;
   min-height: 275px !important;
@@ -1011,7 +1052,7 @@ body {
   display: block !important;
 }
 
-.stelina-blog-item.style2 .blog-info {
+.app-blog-item.style2 .blog-info {
   width: 52% !important;
   flex: 1 1 52% !important;
   display: flex !important;
@@ -1024,22 +1065,22 @@ body {
   box-sizing: border-box !important;
 }
 
-.stelina-blog-item.style2 .post-top {
+.app-blog-item.style2 .post-top {
   margin: 0 0 14px 0 !important;
   padding-bottom: 0 !important;
 }
 
-.stelina-blog-item.style2 .post-top > a {
+.app-blog-item.style2 .post-top > a {
   display: inline-block;
   white-space: nowrap;
 }
 
-.stelina-blog-item.style2 .post-date {
+.app-blog-item.style2 .post-date {
   padding: 0 !important;
   margin-bottom: 8px !important;
 }
 
-.stelina-blog-item.style2 .blog-title {
+.app-blog-item.style2 .blog-title {
   height: auto !important;
   margin-bottom: 24px !important;
   padding: 0 !important;
@@ -1051,12 +1092,12 @@ body {
   overflow: hidden;
 }
 
-.stelina-blog-item.style2 .blog-meta {
+.app-blog-item.style2 .blog-meta {
   padding: 0 !important;
   margin-top: auto;
 }
 
-.stelina-blog-item.style2 .blog-meta .blog-meta-wrapp {
+.app-blog-item.style2 .blog-meta .blog-meta-wrapp {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1064,7 +1105,7 @@ body {
   border-top: 1px solid #e4e4e4;
 }
 
-.stelina-blog-item.style2 .blog-meta .author {
+.app-blog-item.style2 .blog-meta .author {
   float: none !important;
   display: inline-flex !important;
   align-items: center;
@@ -1072,11 +1113,11 @@ body {
 }
 
 @media (max-width: 991px) {
-  .stelina-blog-wraap .row > div {
+  .app-blog-wraap .row > div {
     margin-bottom: 25px;
   }
 
-  .stelina-blog-item.style2 .stelina-blog-inner {
+  .app-blog-item.style2 .app-blog-inner {
     flex-direction: column !important;
     height: auto !important;
     min-height: 0 !important;
@@ -1088,7 +1129,7 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04) !important;
   }
 
-  .stelina-blog-item.style2 .post-thumb {
+  .app-blog-item.style2 .post-thumb {
     width: 100% !important;
     height: 220px !important;
     min-height: 220px !important;
@@ -1098,7 +1139,7 @@ body {
     overflow: hidden !important;
   }
 
-  .stelina-blog-item.style2 .post-thumb img {
+  .app-blog-item.style2 .post-thumb img {
     width: 100% !important;
     height: 100% !important;
     min-height: 220px !important;
@@ -1109,7 +1150,7 @@ body {
     display: block !important;
   }
 
-  .stelina-blog-item.style2 .blog-info {
+  .app-blog-item.style2 .blog-info {
     width: 100% !important;
     height: auto !important;
     min-height: 0 !important;
@@ -1119,16 +1160,16 @@ body {
     box-sizing: border-box !important;
   }
 
-  .stelina-blog-item.style2 .post-top {
+  .app-blog-item.style2 .post-top {
     margin: 0 0 10px 0 !important;
     display: flex !important;
     align-items: center !important;
   }
 
-  .stelina-blog-item.style2 .post-top > a {
+  .app-blog-item.style2 .post-top > a {
     display: inline-block !important;
     color: #ffffff !important;
-    background-color: #ab8e66 !important;
+    background-color: var(--color-primary) !important;
     border-radius: 3px !important;
     padding: 4px 10px !important;
     font-size: 11px !important;
@@ -1137,7 +1178,7 @@ body {
     text-transform: uppercase !important;
   }
 
-  .stelina-blog-item.style2 .blog-title {
+  .app-blog-item.style2 .blog-title {
     font-size: 18px !important;
     line-height: 1.35 !important;
     margin-bottom: 16px !important;
@@ -1331,7 +1372,7 @@ body {
   font-weight: 700 !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
-  color: #222222 !important;
+  color: var(--color-heading) !important;
   margin-bottom: 22px !important;
 }
 
@@ -1453,7 +1494,7 @@ body {
 }
 
 .blog-articles.related-articles .blog-item .post-title a {
-  color: #222222 !important;
+  color: var(--color-heading) !important;
   transition: color 0.2s ease;
 }
 
@@ -1559,7 +1600,7 @@ body {
    11c. GLOBAL BLOG AUTHOR AVATAR PERFECT CIRCULAR FIT
    ========================================================================== */
 .author-view .author,
-.stelina-blog-item .blog-meta .author,
+.app-blog-item .blog-meta .author,
 .blog-meta .author {
   display: inline-flex !important;
   align-items: center !important;
@@ -1588,7 +1629,7 @@ body {
 }
 
 .author-view .avt img,
-.stelina-blog-item .blog-meta .author img,
+.app-blog-item .blog-meta .author img,
 .blog-item .blog-meta .author img,
 .blog-meta .author img {
   width: 32px !important;
@@ -1713,7 +1754,7 @@ body {
   flex-direction: row !important;
   align-items: center !important;
   justify-content: center !important;
-  background-color: #ab8e66;
+  background-color: var(--color-primary);
   border-radius: 46px;
   width: auto !important;
   min-width: 138px;
@@ -1831,18 +1872,18 @@ body {
 }
 
 .attribute_size .list-size a.bottle-size-btn:hover {
-  border: 2px solid #ab8e66 !important;
-  border-color: #ab8e66 !important;
+  border: 2px solid var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
   background-color: #faf7f2 !important;
-  color: #ab8e66 !important;
+  color: var(--color-primary) !important;
 }
 
 .attribute_size .list-size a.bottle-size-btn.active,
 .attribute_size .list-size a.bottle-size-btn.active:hover {
-  border: 2px solid #ab8e66 !important;
-  border-color: #ab8e66 !important;
+  border: 2px solid var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
   background-color: #faf7f2 !important;
-  color: #ab8e66 !important;
+  color: var(--color-primary) !important;
 }
 
 /* ==========================================================================
@@ -2059,8 +2100,8 @@ body {
 }
 
 .search-tag-chip:hover {
-  background: #ab8e66;
-  border-color: #ab8e66;
+  background: var(--color-primary);
+  border-color: var(--color-primary);
   color: #ffffff;
 }
 
@@ -2104,7 +2145,7 @@ body {
 .search-prod-name {
   font-size: 13px;
   font-weight: 600;
-  color: #222222;
+  color: var(--color-heading);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -2118,7 +2159,7 @@ body {
 .search-prod-price {
   font-size: 13px;
   font-weight: 700;
-  color: #ab8e66;
+  color: var(--color-primary);
 }
 
 .search-suggestions-footer {
@@ -2131,7 +2172,7 @@ body {
 .btn-view-all-results {
   background: transparent;
   border: none;
-  color: #ab8e66;
+  color: var(--color-primary);
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
@@ -2290,8 +2331,8 @@ body {
     justify-content: center !important;
     gap: 6px !important;
     background: #ffffff !important;
-    color: #ab8e66 !important;
-    border: 1.5px solid #ab8e66 !important;
+    color: var(--color-primary) !important;
+    border: 1.5px solid var(--color-primary) !important;
     border-radius: 20px !important;
     padding: 6px 12px !important;
     height: 36px !important;
@@ -2304,7 +2345,7 @@ body {
   }
 
   .btn-open-filter-drawer:hover {
-    background: #ab8e66 !important;
+    background: var(--color-primary) !important;
     color: #ffffff !important;
   }
 
@@ -2313,13 +2354,13 @@ body {
   }
 
   .btn-open-filter-drawer i {
-    color: #ab8e66 !important;
+    color: var(--color-primary) !important;
     font-size: 13px !important;
     transition: color 0.2s ease !important;
   }
 
   .btn-open-filter-drawer .filter-badge {
-    background: #ab8e66 !important;
+    background: var(--color-primary) !important;
     color: #ffffff !important;
     border-radius: 10px !important;
     padding: 1px 6px !important;
@@ -2344,7 +2385,7 @@ body {
   .shop-control-inline .icon-indicator {
     display: inline-flex !important;
     align-items: center !important;
-    color: #ab8e66 !important;
+    color: var(--color-primary) !important;
     font-size: 13px !important;
     margin-right: 4px !important;
   }
@@ -2378,7 +2419,7 @@ body {
 
 .no-results-icon {
   font-size: 36px;
-  color: #ab8e66;
+  color: var(--color-primary);
   margin-bottom: 12px;
 }
 
@@ -2386,7 +2427,7 @@ body {
   font-size: 18px;
   font-weight: 700;
   margin-bottom: 8px;
-  color: #222222;
+  color: var(--color-heading);
 }
 
 .shop-no-results p {
@@ -2448,7 +2489,7 @@ body {
 
 .filter-drawer-subtitle {
   font-size: 12px;
-  color: #ab8e66;
+  color: var(--color-primary);
   font-weight: 600;
 }
 
@@ -2496,13 +2537,13 @@ body {
 }
 
 .drawer-chip:hover {
-  border-color: #ab8e66;
-  color: #ab8e66;
+  border-color: var(--color-primary);
+  color: var(--color-primary);
 }
 
 .drawer-chip.active {
-  background: #ab8e66;
-  border-color: #ab8e66;
+  background: var(--color-primary);
+  border-color: var(--color-primary);
   color: #ffffff;
   font-weight: 600;
 }
@@ -2518,8 +2559,8 @@ body {
 
 .btn-apply-filters-count {
   flex: 1;
-  background: #ab8e66;
-  border: 1px solid #ab8e66;
+  background: var(--color-primary);
+  border: 1px solid var(--color-primary);
   color: #ffffff;
   height: 44px;
   border-radius: 30px;
@@ -2635,7 +2676,7 @@ body {
 
 .tab-details-product .tab-link li.active a,
 .tab-details-product .tab-link.single-row-tabs li.active a {
-  color: #ab8e66 !important;
+  color: var(--color-primary) !important;
 }
 
 .tab-details-product .tab-link li.active a::after,
@@ -2646,7 +2687,7 @@ body {
   left: 0 !important;
   width: 100% !important;
   height: 2px !important;
-  background-color: #ab8e66 !important;
+  background-color: var(--color-primary) !important;
 }
 
 @media (min-width: 768px) {
@@ -2789,13 +2830,13 @@ body {
 }
 
 .footer-device-mobile-item.active > a {
-  color: #ab8e66 !important;
+  color: var(--color-primary) !important;
   font-weight: 700 !important;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .footer-device-mobile-item > a:hover {
-    color: #ab8e66 !important;
+    color: var(--color-primary) !important;
   }
 }
 
@@ -2809,7 +2850,7 @@ body {
   line-height: 16px !important;
   text-align: center !important;
   border-radius: 50% !important;
-  background-color: #ab8e66 !important;
+  background-color: var(--color-primary) !important;
   color: #ffffff !important;
   font-size: 9px !important;
   font-weight: 700 !important;
@@ -2955,7 +2996,7 @@ body {
   .banner:hover img,
   .banner-wrap:hover img,
   .banner-pinmap-wrapp:hover img,
-  .stelina-banner:hover img {
+  .app-banner:hover img {
     transform: none !important;
     filter: none !important;
   }
@@ -2971,7 +3012,7 @@ body {
   }
 
   .button:hover,
-  .stelina-button:hover,
+  .app-button:hover,
   .btn-shop-now:hover,
   .btn-view-the-look:hover,
   .single_add_to_cart_button:hover {
@@ -3017,9 +3058,9 @@ body {
   /* 10. Carousel Nav Arrows: Keep vertical centering on hover, never shift down */
   .slick-slider.nav-center > .slick-arrow:hover,
   .owl-slick.nav-center > .slick-arrow:hover,
-  .stelina-blog .slick-slider > .slick-arrow:hover,
-  .stelina-blog .slick-slider > .slick-arrow:focus,
-  .stelina-blog .slick-slider > .slick-arrow:active {
+  .app-blog .slick-slider > .slick-arrow:hover,
+  .app-blog .slick-slider > .slick-arrow:focus,
+  .app-blog .slick-slider > .slick-arrow:active {
     top: 50% !important;
     transform: translateY(-50%) !important;
   }
@@ -3045,10 +3086,10 @@ body {
 .owl-slick.nav-center > .slick-arrow:hover,
 .owl-slick.nav-center > .slick-arrow:focus,
 .owl-slick.nav-center > .slick-arrow:active,
-.stelina-blog .slick-slider > .slick-arrow,
-.stelina-blog .slick-slider > .slick-arrow:hover,
-.stelina-blog .slick-slider > .slick-arrow:focus,
-.stelina-blog .slick-slider > .slick-arrow:active {
+.app-blog .slick-slider > .slick-arrow,
+.app-blog .slick-slider > .slick-arrow:hover,
+.app-blog .slick-slider > .slick-arrow:focus,
+.app-blog .slick-slider > .slick-arrow:active {
   top: 50% !important;
   transform: translateY(-50%) !important;
   margin-top: 0 !important;
@@ -3056,12 +3097,12 @@ body {
 
 /* Small Screens (<= 991px): Vertically center carousel arrows over image thumbnail so they NEVER overlap category badge */
 @media (max-width: 991px) {
-  .stelina-blog .slick-slider > .slick-arrow,
-  .stelina-blog:hover .slick-slider > .slick-arrow,
-  .stelina-blog .slick-slider > .slick-arrow:hover,
-  .stelina-blog .slick-slider > .slick-arrow:focus,
-  .stelina-blog .slick-slider > .slick-arrow:active,
-  .stelina-blog .owl-slick.nav-center > .slick-arrow {
+  .app-blog .slick-slider > .slick-arrow,
+  .app-blog:hover .slick-slider > .slick-arrow,
+  .app-blog .slick-slider > .slick-arrow:hover,
+  .app-blog .slick-slider > .slick-arrow:focus,
+  .app-blog .slick-slider > .slick-arrow:active,
+  .app-blog .owl-slick.nav-center > .slick-arrow {
     opacity: 1 !important;
     visibility: visible !important;
     display: flex !important;
@@ -3073,7 +3114,7 @@ body {
     border-radius: 50% !important;
     background: rgba(255, 255, 255, 0.94) !important;
     border: 1px solid #e0e0e0 !important;
-    color: #222222 !important;
+    color: var(--color-heading) !important;
     box-shadow: 0 3px 12px rgba(0, 0, 0, 0.18) !important;
     top: 110px !important;
     transform: translateY(-50%) !important;
@@ -3082,25 +3123,25 @@ body {
     transition: none !important;
   }
 
-  .stelina-blog .slick-slider > .slick-arrow:first-child,
-  .stelina-blog .owl-slick.nav-center > .slick-arrow:first-child {
+  .app-blog .slick-slider > .slick-arrow:first-child,
+  .app-blog .owl-slick.nav-center > .slick-arrow:first-child {
     left: 10px !important;
     right: auto !important;
   }
 
-  .stelina-blog .slick-slider > .slick-arrow:last-of-type,
-  .stelina-blog .owl-slick.nav-center > .slick-arrow:last-of-type,
-  .stelina-blog .slick-slider > .slick-arrow.fa-angle-right,
-  .stelina-blog .owl-slick.nav-center > .slick-arrow.fa-angle-right {
+  .app-blog .slick-slider > .slick-arrow:last-of-type,
+  .app-blog .owl-slick.nav-center > .slick-arrow:last-of-type,
+  .app-blog .slick-slider > .slick-arrow.fa-angle-right,
+  .app-blog .owl-slick.nav-center > .slick-arrow.fa-angle-right {
     right: 10px !important;
     left: auto !important;
   }
 
-  .stelina-blog .slick-slider > .slick-arrow:hover,
-  .stelina-blog .slick-slider > .slick-arrow:focus,
-  .stelina-blog .slick-slider > .slick-arrow:active {
+  .app-blog .slick-slider > .slick-arrow:hover,
+  .app-blog .slick-slider > .slick-arrow:focus,
+  .app-blog .slick-slider > .slick-arrow:active {
     background: #ffffff !important;
-    color: #222222 !important;
+    color: var(--color-heading) !important;
     border-color: #dcdcdc !important;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22) !important;
     top: 110px !important;
@@ -3113,11 +3154,11 @@ body {
 /* ==========================================================================
    18. ABOUT PAGE MASTER PERFUMERS AVATARS (PERFECT 1:1 CIRCLE FIT)
    ========================================================================== */
-.stelina-team-member {
+.app-team-member {
   text-align: center !important;
 }
 
-.stelina-team-member .member_avatar {
+.app-team-member .member_avatar {
   width: 220px !important;
   height: 220px !important;
   max-width: 100% !important;
@@ -3133,7 +3174,7 @@ body {
   flex-shrink: 0 !important;
 }
 
-.stelina-team-member .member_avatar img {
+.app-team-member .member_avatar img {
   width: 100% !important;
   height: 100% !important;
   aspect-ratio: 1 / 1 !important;
@@ -3144,17 +3185,17 @@ body {
 }
 
 @media (max-width: 991px) {
-  .stelina-team-member .member_avatar {
+  .app-team-member .member_avatar {
     width: 200px !important;
     height: 200px !important;
   }
 }
 
 @media (max-width: 767px) {
-  .stelina-team-member {
+  .app-team-member {
     margin-bottom: 35px !important;
   }
-  .stelina-team-member .member_avatar {
+  .app-team-member .member_avatar {
     width: 180px !important;
     height: 180px !important;
   }
@@ -3177,7 +3218,7 @@ body {
   justify-content: center !important;
 }
 
-.stelina-iconbox.layout1 {
+.app-iconbox.layout1 {
   text-align: center !important;
   margin-top: 40px !important;
   margin-bottom: 20px !important;
@@ -3185,7 +3226,7 @@ body {
   max-width: 360px !important;
 }
 
-.stelina-iconbox.layout1 .iconbox-inner {
+.app-iconbox.layout1 .iconbox-inner {
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
@@ -3193,7 +3234,7 @@ body {
   width: 100% !important;
 }
 
-.stelina-iconbox.layout1 .icon-item {
+.app-iconbox.layout1 .icon-item {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -3201,30 +3242,30 @@ body {
   text-align: center !important;
 }
 
-.stelina-iconbox.layout1 .icon-item .icon {
+.app-iconbox.layout1 .icon-item .icon {
   font-size: 52px !important;
-  color: #ab8e66 !important;
+  color: var(--color-primary) !important;
   display: inline-block !important;
   line-height: 1 !important;
   position: static !important;
 }
 
-.stelina-iconbox.layout1 .content {
+.app-iconbox.layout1 .content {
   text-align: center !important;
   width: 100% !important;
 }
 
-.stelina-iconbox.layout1 .content .title {
+.app-iconbox.layout1 .content .title {
   text-align: center !important;
   font-size: 15px !important;
   font-weight: 600 !important;
   text-transform: uppercase !important;
   letter-spacing: 0.06em !important;
-  color: #222222 !important;
+  color: var(--color-heading) !important;
   margin-bottom: 10px !important;
 }
 
-.stelina-iconbox.layout1 .content .text {
+.app-iconbox.layout1 .content .text {
   text-align: center !important;
   font-size: 14px !important;
   line-height: 1.65 !important;
@@ -3297,7 +3338,7 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: #ab8e66;
+  color: var(--color-primary);
   margin-bottom: 8px;
   font-family: "Jost", sans-serif;
 }
@@ -3305,7 +3346,7 @@ body {
 .faq-section-title {
   font-size: clamp(22px, 2.5vw, 32px);
   font-weight: 600;
-  color: #222222;
+  color: var(--color-heading);
   text-transform: capitalize;
   margin: 0 0 14px;
   font-family: "Jost", sans-serif;
@@ -3315,7 +3356,7 @@ body {
 .faq-section-divider {
   width: 50px;
   height: 2px;
-  background-color: #ab8e66;
+  background-color: var(--color-primary);
   margin: 0 auto;
   border-radius: 2px;
 }
@@ -3388,7 +3429,7 @@ body {
 .faq-badge {
   display: inline-block;
   padding: 4px 10px;
-  background: #ab8e66;
+  background: var(--color-primary);
   color: #ffffff;
   font-size: 11px;
   font-weight: 600;
@@ -3419,7 +3460,7 @@ body {
   display: inline-block;
   padding: 8px 20px;
   background: #ffffff;
-  color: #222222;
+  color: var(--color-heading);
   font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
@@ -3431,7 +3472,7 @@ body {
 }
 
 .faq-image-btn:hover {
-  background: #ab8e66;
+  background: var(--color-primary);
   color: #ffffff;
 }
 
@@ -3455,7 +3496,7 @@ body {
 }
 
 .faq-accordion-item.active {
-  border-color: #ab8e66;
+  border-color: var(--color-primary);
   box-shadow: 0 4px 16px rgba(171, 142, 102, 0.08);
 }
 
@@ -3482,7 +3523,7 @@ body {
 .faq-item-title {
   font-size: 15.5px;
   font-weight: 600;
-  color: #222222;
+  color: var(--color-heading);
   line-height: 1.45;
   transition: color 0.2s ease;
   margin: 0;
@@ -3490,7 +3531,7 @@ body {
 }
 
 .faq-accordion-item.active .faq-item-title {
-  color: #ab8e66;
+  color: var(--color-primary);
 }
 
 .faq-icon-indicator {
@@ -3508,7 +3549,7 @@ body {
 
 .faq-icon-indicator.open {
   transform: rotate(180deg);
-  background-color: #ab8e66;
+  background-color: var(--color-primary);
   color: #ffffff;
 }
 

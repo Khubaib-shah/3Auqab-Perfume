@@ -1,3 +1,5 @@
+import { businessConfig } from "@/config";
+
 export interface Product {
   id: string;
   slug: string;
@@ -18,18 +20,20 @@ export interface Product {
   inStock: boolean;
   shortBullets: string[];
   description: string[];
-  notes: {
+  notes?: {
     top: string;
     heart: string;
     base: string;
   };
+  specifications?: Record<string, string>;
   sizes: string[];
   bottleFinishes?: { label: string; className: string }[];
   sizePrices?: Record<string, number>;
   sizeImages?: Record<string, string>;
 }
 
-export const BOTTLE_SIZES = ["15ml", "30ml", "50ml", "100ml"] as const;
+export const DEFAULT_VARIANTS = businessConfig.variant.options;
+export const BOTTLE_SIZES = DEFAULT_VARIANTS;
 
 export const DEFAULT_SIZE_PRICES: Record<string, number> = {
   "15ml": 600,

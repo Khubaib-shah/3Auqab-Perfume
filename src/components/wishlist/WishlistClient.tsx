@@ -102,7 +102,7 @@ export default function WishlistClient() {
                 <Link
                   href="/shop"
                   style={{
-                    background: "#ab8e66",
+                    background: "var(--color-primary)",
                     color: "#fff",
                     padding: "8px 18px",
                     borderRadius: "4px",
@@ -120,7 +120,7 @@ export default function WishlistClient() {
 
           {!mounted ? (
             <div style={{ textAlign: "center", padding: "60px 0" }}>
-              <i className="fa fa-spinner fa-spin" style={{ fontSize: "28px", color: "#ab8e66" }} />
+              <i className="fa fa-spinner fa-spin" style={{ fontSize: "28px", color: "var(--color-primary)" }} />
               <p style={{ marginTop: "12px", color: "#777" }}>Loading wishlist...</p>
             </div>
           ) : wishlistedProducts.length === 0 ? (
@@ -147,7 +147,7 @@ export default function WishlistClient() {
                   margin: "0 auto 20px",
                 }}
               >
-                <i className="fa fa-heart-o" style={{ fontSize: "32px", color: "#ab8e66" }} />
+                <i className="fa fa-heart-o" style={{ fontSize: "32px", color: "var(--color-primary)" }} />
               </div>
               <h2 style={{ fontSize: "22px", fontWeight: 700, color: "#222", marginBottom: "8px" }}>
                 Your Wishlist is Empty
@@ -160,7 +160,7 @@ export default function WishlistClient() {
                 href="/shop"
                 style={{
                   display: "inline-block",
-                  background: "#ab8e66",
+                  background: "var(--color-primary)",
                   color: "#fff",
                   padding: "12px 28px",
                   borderRadius: "4px",

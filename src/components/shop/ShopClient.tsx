@@ -8,11 +8,13 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import ProductCard from "@/components/product/ProductCard";
 import { useAdminStore } from "@/store/useAdminStore";
 import { siteConfig } from "@/data/siteConfig";
+import { businessConfig } from "@/config";
 
 export default function ShopClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get("q") || "";
+  const initialCategorySlug = searchParams.get("category") || "";
 
   const products = useAdminStore((s) => s.products);
   const categories = useAdminStore((s) => s.categories);
@@ -34,17 +36,78 @@ export default function ShopClient() {
     return () => clearInterval(timer);
   }, []);
 
+  const priceBounds = useMemo(() => {
+    const prices = products.map((p) => p.price).filter((p) => p > 0);
+    if (prices.length === 0) return { min: 0, max: 10000 };
+    const min = Math.floor(Math.min(...prices) / 100) * 100;
+    const max = Math.ceil(Math.max(...prices) / 100) * 100;
+    return { min, max: Math.max(max, min + 500) };
+  }, [products]);
+
+  const availableSizes = useMemo(() => {
+    const set = new Set<string>();
+    products.forEach((p) => {
+      p.sizes?.forEach((sz) => {
+        if (sz.trim()) set.add(sz.trim());
+      });
+    });
+    return set.size > 0 ? Array.from(set) : [...businessConfig.variant.options];
+  }, [products]);
+
+  const availableAttributes = useMemo(() => {
+    const counts = new Map<string, number>();
+    const addTerms = (raw?: string) => {
+      if (!raw) return;
+      raw
+        .split(/[,&]+/)
+        .map((t) => t.trim())
+        .filter((t) => t.length > 2 && t.length < 30)
+        .forEach((term) => {
+          counts.set(term, (counts.get(term) || 0) + 1);
+        });
+    };
+    products.forEach((p) => {
+      addTerms(p.notes?.top);
+      addTerms(p.notes?.heart);
+      addTerms(p.notes?.base);
+      if (p.specifications) {
+        Object.values(p.specifications).forEach((v) => addTerms(v));
+      }
+    });
+    const sorted = Array.from(counts.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 6)
+      .map(([term]) => term);
+    return sorted.length > 0 ? sorted : settings.popularTags.slice(0, 6);
+  }, [products, settings.popularTags]);
+
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [selectedNotes, setSelectedNotes] = useState<string[]>([]);
   const [selectedTag, setSelectedTag] = useState<string>("");
-  const [maxPrice, setMaxPrice] = useState<number>(10000);
+  const [maxPrice, setMaxPrice] = useState<number>(priceBounds.max);
   const [sortBy, setSortBy] = useState<string>("default");
   const [sidebarEmail, setSidebarEmail] = useState("");
 
   // Drawer / Bottom sheet state
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
   const [drawerSearch, setDrawerSearch] = useState(initialQuery);
+
+  useEffect(() => {
+    setMaxPrice(priceBounds.max);
+  }, [priceBounds.max]);
+
+  useEffect(() => {
+    if (!initialCategorySlug) return;
+    const match = categories.find(
+      (c) =>
+        c.slug.toLowerCase() === initialCategorySlug.toLowerCase() ||
+        c.name.toLowerCase() === initialCategorySlug.toLowerCase()
+    );
+    if (match) {
+      setSelectedCategories([match.name]);
+    }
+  }, [initialCategorySlug, categories]);
 
   useEffect(() => {
     setDrawerSearch(initialQuery);
@@ -101,7 +164,13 @@ export default function ShopClient() {
       list = list.filter((p) =>
         selectedNotes.some((n) => {
           const q = n.toLowerCase();
+          const specMatch = p.specifications
+            ? Object.values(p.specifications).some((v) =>
+                v.toLowerCase().includes(q)
+              )
+            : false;
           return (
+            specMatch ||
             p.notes?.top?.toLowerCase().includes(q) ||
             p.notes?.heart?.toLowerCase().includes(q) ||
             p.notes?.base?.toLowerCase().includes(q) ||
@@ -149,7 +218,7 @@ export default function ShopClient() {
     selectedSizes.length +
     selectedNotes.length +
     (selectedTag ? 1 : 0) +
-    (maxPrice < 10000 ? 1 : 0);
+    (maxPrice < priceBounds.max ? 1 : 0);
 
   const activeFiltersCount =
     (initialQuery ? 1 : 0) + nonSearchFiltersCount;
@@ -165,7 +234,7 @@ export default function ShopClient() {
     setSelectedSizes([]);
     setSelectedNotes([]);
     setSelectedTag("");
-    setMaxPrice(10000);
+    setMaxPrice(priceBounds.max);
     router.push("/shop");
     toast.success("Filters reset to default.");
   };
@@ -249,7 +318,7 @@ export default function ShopClient() {
                         }}
                       >
                         <div className="banner-content style1">
-                          <h4 className="stelina-subtitle">
+                          <h4 className="app-subtitle">
                             {shopSlide1.subtitle}
                           </h4>
                           <h3
@@ -348,7 +417,7 @@ export default function ShopClient() {
                   <h3 className="custom_blog_title">
                     {initialQuery
                       ? `Search Results for "${initialQuery}"`
-                      : "Three Uqab Fragrances"}
+                      : `${siteConfig.fullName} Collection`}
                   </h3>
                   {initialQuery && (
                     <button
@@ -416,12 +485,12 @@ export default function ShopClient() {
                         </button>
                       </span>
                     )}
-                    {maxPrice < 10000 && (
+                    {maxPrice < priceBounds.max && (
                       <span className="active-filter-pill">
                         Max Price: {siteConfig.currency} {maxPrice}
                         <button
                           type="button"
-                          onClick={() => setMaxPrice(10000)}
+                          onClick={() => setMaxPrice(priceBounds.max)}
                           title="Reset max price"
                         >
                           ×
@@ -539,30 +608,24 @@ export default function ShopClient() {
                   <div className="price-slider-wrapper">
                     <input
                       type="range"
-                      min={200}
-                      max={10000}
+                      min={priceBounds.min}
+                      max={priceBounds.max}
+                      step={100}
                       value={maxPrice}
                       onChange={(e) => setMaxPrice(Number(e.target.value))}
-                      style={{ width: "100%", accentColor: "#ab8e66" }}
+                      style={{ width: "100%", accentColor: "var(--color-primary)" }}
                     />
                     <div className="price-slider-amount">
-                      <span className="from">{siteConfig.currency}200</span>
-                      <span className="to">{siteConfig.currency}{maxPrice}</span>
+                      <span className="from">{siteConfig.currency} {priceBounds.min}</span>
+                      <span className="to">{siteConfig.currency} {maxPrice}</span>
                     </div>
                   </div>
                 </div>
 
                 <div className="widget widget-brand">
-                  <h3 className="widgettitle">Fragrance Notes</h3>
+                  <h3 className="widgettitle">{businessConfig.specifications.tabTitle}</h3>
                   <ul className="list-brand">
-                    {[
-                      "Arabian Oud",
-                      "Madagascar Vanilla",
-                      "Damask Rose",
-                      "Calabrian Bergamot",
-                      "White Musk",
-                      "Saffron & Amber",
-                    ].map((note, idx) => (
+                    {availableAttributes.map((note, idx) => (
                       <li key={note}>
                         <input
                           id={`note-cb-${idx}`}
@@ -582,9 +645,9 @@ export default function ShopClient() {
                 </div>
 
                 <div className="widget widget_filter_size">
-                  <h4 className="widgettitle">Bottle Size</h4>
+                  <h4 className="widgettitle">{businessConfig.variant.label}</h4>
                   <ul className="list-brand">
-                    {["15ml", "30ml", "50ml", "100ml"].map((sz, idx) => (
+                    {availableSizes.map((sz, idx) => (
                       <li key={sz}>
                         <input
                           id={`sz-cb-${idx}`}
@@ -593,7 +656,7 @@ export default function ShopClient() {
                           onChange={() => toggleSize(sz)}
                         />
                         <label htmlFor={`sz-cb-${idx}`} className="label-text">
-                          {sz} Eau de Parfum
+                          {sz}
                         </label>
                       </li>
                     ))}
@@ -747,7 +810,7 @@ export default function ShopClient() {
                   <span
                     style={{
                       fontWeight: 700,
-                      color: "#ab8e66",
+                      color: "var(--color-primary)",
                       fontSize: "14px",
                     }}
                   >
@@ -756,12 +819,12 @@ export default function ShopClient() {
                 </div>
                 <input
                   type="range"
-                  min={200}
-                  max={10000}
+                  min={priceBounds.min}
+                  max={priceBounds.max}
                   step={100}
                   value={maxPrice}
                   onChange={(e) => setMaxPrice(Number(e.target.value))}
-                  style={{ width: "100%", accentColor: "#ab8e66" }}
+                  style={{ width: "100%", accentColor: "var(--color-primary)" }}
                 />
                 <div
                   style={{
@@ -772,23 +835,18 @@ export default function ShopClient() {
                     marginTop: "4px",
                   }}
                 >
-                  <span>{siteConfig.currency} 200</span>
-                  <span>{siteConfig.currency} 10,000</span>
+                  <span>{siteConfig.currency} {priceBounds.min.toLocaleString()}</span>
+                  <span>{siteConfig.currency} {priceBounds.max.toLocaleString()}</span>
                 </div>
               </div>
 
-              {/* Fragrance Notes */}
+              {/* Specifications / Notes */}
               <div className="drawer-filter-group">
-                <label className="drawer-group-label">Fragrance Notes</label>
+                <label className="drawer-group-label">
+                  {businessConfig.specifications.tabTitle}
+                </label>
                 <div className="drawer-chips-wrap">
-                  {[
-                    "Arabian Oud",
-                    "Madagascar Vanilla",
-                    "Damask Rose",
-                    "Calabrian Bergamot",
-                    "White Musk",
-                    "Saffron & Amber",
-                  ].map((note) => {
+                  {availableAttributes.map((note) => {
                     const isSel = selectedNotes.includes(note);
                     return (
                       <button
@@ -810,11 +868,13 @@ export default function ShopClient() {
                 </div>
               </div>
 
-              {/* Bottle Sizes */}
+              {/* Variants / Sizes */}
               <div className="drawer-filter-group">
-                <label className="drawer-group-label">Bottle Volume</label>
-                <div style={{ display: "flex", gap: "8px" }}>
-                  {["15ml", "30ml", "50ml", "100ml"].map((sz) => {
+                <label className="drawer-group-label">
+                  {businessConfig.variant.label}
+                </label>
+                <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                  {availableSizes.map((sz) => {
                     const isSel = selectedSizes.includes(sz);
                     return (
                       <button

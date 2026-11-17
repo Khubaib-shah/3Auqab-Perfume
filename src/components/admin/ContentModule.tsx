@@ -468,7 +468,7 @@ export default function ContentModule() {
                     fontSize: "11px",
                     textTransform: "uppercase",
                     letterSpacing: "0.08em",
-                    color: "#ab8e66",
+                    color: "var(--color-primary)",
                     fontWeight: 600,
                   }}
                 >
@@ -1011,7 +1011,7 @@ export default function ContentModule() {
                         fontSize: "13px",
                         fontWeight: 700,
                         backgroundColor: "#f4ede4",
-                        color: "#ab8e66",
+                        color: "var(--color-primary)",
                         padding: "4px 8px",
                         borderRadius: "4px",
                       }}
@@ -1115,7 +1115,7 @@ export default function ContentModule() {
                       <strong style={{ color: "#222222" }}>{t.name}</strong>
                     </div>
                   </td>
-                  <td style={{ whiteSpace: "nowrap", color: "#ab8e66" }}>
+                  <td style={{ whiteSpace: "nowrap", color: "var(--color-primary)" }}>
                     {t.role}
                   </td>
                   <td style={{ maxWidth: "520px", fontSize: "13px" }}>
