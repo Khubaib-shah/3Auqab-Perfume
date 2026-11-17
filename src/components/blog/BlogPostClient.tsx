@@ -129,11 +129,11 @@ export default function BlogPostClient({
 
               <div className="blog-articles related-articles">
                 <h3 className="custom_blog_title">Related Articles</h3>
-                <div className="blog-slider style-1 owl-slick">
-                  <div className="row">
+                <div className="related-articles-wrapper">
+                  <div className="row related-articles-row">
                     {relatedArticles.map((rel) => (
                       <div key={rel.id} className="col-md-6 col-sm-12">
-                        <div className="blog-item">
+                        <div className="blog-item related-blog-card">
                           <div className="post-format">
                             <Link href={`/blog/${rel.slug}`}>
                               <img src={rel.image} alt={rel.title} />

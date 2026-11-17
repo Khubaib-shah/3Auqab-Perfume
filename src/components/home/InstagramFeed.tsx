@@ -28,6 +28,10 @@ function InstagramFeedComponent({ facebookUrl = "#" }: InstagramFeedProps) {
                     <img
                       src={`/assets/images/item-instagram-${num}.jpg`}
                       alt={`3Uqab Perfume Instagram ${num}`}
+                      width={400}
+                      height={400}
+                      loading="lazy"
+                      style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", aspectRatio: "1 / 1" }}
                     />
                   </a>
                   <span className="text">
