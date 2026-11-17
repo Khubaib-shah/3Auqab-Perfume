@@ -56,13 +56,16 @@ async function getCloudinaryCredentials() {
     "";
   const apiKey = process.env.CLOUDINARY_API_KEY || saved?.apiKey || "";
   const apiSecret =
-    process.env.CLOUDINARY_API_SECRET || saved?.apiSecret || "";
+    process.env.CLOUDINARY_API_SECRET ||
+    process.env.CLOUDINARY_API_SECRET_KEY ||
+    saved?.apiSecret ||
+    "";
   const uploadPreset =
     process.env.CLOUDINARY_UPLOAD_PRESET || saved?.uploadPreset || "";
   const rootFolder = (
     process.env.CLOUDINARY_ROOT_FOLDER ||
     saved?.rootFolder ||
-    "3uqab"
+    "3Uqab Perfume"
   ).replace(/^\/+|\/+$/g, "");
 
   return {

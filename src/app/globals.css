@@ -1362,6 +1362,53 @@ body {
 }
 
 /* ==========================================================================
+   11c. GLOBAL BLOG AUTHOR AVATAR PERFECT CIRCULAR FIT
+   ========================================================================== */
+.author-view .author {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  float: none !important;
+}
+
+.author-view .avt {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  max-width: 36px !important;
+  max-height: 36px !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  background-color: #f0f0f0 !important;
+  flex-shrink: 0 !important;
+  float: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.author-view .avt img {
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  border-radius: 50% !important;
+  display: block !important;
+}
+
+.author-view .name {
+  display: inline-block !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  line-height: 1.2 !important;
+  vertical-align: middle !important;
+}
+
+/* ==========================================================================
    12. UNIFIED HEADER ACCOUNT ICON ALIGNMENT
    ========================================================================== */
 .header.style2 .header-control .block-header {
