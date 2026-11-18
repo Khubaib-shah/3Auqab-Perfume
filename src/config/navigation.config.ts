@@ -40,8 +40,6 @@ export const navigationConfig: NavigationConfig = {
     links: [
       { label: "3Uqab Signature EDP", href: "/product/uqab-signature-edp" },
       { label: "Uqab Rihla Eau", href: "/product/uqab-rihla-edp" },
-      { label: "Ambre Royal Extrait", href: "/product/ambre-royal-extrait" },
-      { label: "The Alchemist Elixir", href: "/product/the-alchemist-elixir" },
     ],
   },
 

@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import toast from "react-hot-toast";
@@ -23,6 +24,7 @@ interface ProductDetailsClientProps {
 export default function ProductDetailsClient({
   product: initialProduct,
 }: ProductDetailsClientProps) {
+  const router = useRouter();
   const storeProducts = useAdminStore((s) => s.products);
   const storeCategories = useAdminStore((s) => s.categories);
   const storeTestimonials = useAdminStore((s) => s.testimonials);
@@ -94,7 +96,8 @@ export default function ProductDetailsClient({
       return;
     }
     addToCart(product, quantity, selectedSize, "");
-    toast.success(`${product.name} (${selectedSize}) added to your bag!`);
+    // toast.success(`${product.name} (${selectedSize}) added to your bag!`);
+    router.push("/checkout");
   };
 
   const handleReviewSubmit = (e: React.FormEvent) => {

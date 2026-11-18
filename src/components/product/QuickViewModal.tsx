@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useShopStore } from "@/store/useShopStore";
 import { siteConfig } from "@/data/siteConfig";
@@ -12,6 +13,7 @@ import {
 } from "@/data/products";
 
 export default function QuickViewModal() {
+  const router = useRouter();
   const {
     quickViewProduct,
     closeQuickView,
@@ -86,8 +88,9 @@ export default function QuickViewModal() {
       return;
     }
     addToCart(quickViewProduct, quantity, selectedSize, "");
-    toast.success(`${quickViewProduct.name} (${selectedSize}) added to bag!`);
+    // toast.success(`${quickViewProduct.name} (${selectedSize}) added to bag!`);
     closeQuickView();
+    router.push("/checkout");
   };
 
   return (

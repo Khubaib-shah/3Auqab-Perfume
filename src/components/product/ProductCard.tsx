@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback, memo } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { Product } from "@/data/products";
 import { siteConfig } from "@/data/siteConfig";
@@ -20,6 +21,7 @@ function ProductCardComponent({
   className = "product-item col-lg-3 col-md-4 col-sm-6 col-xs-6 col-ts-12 style-1",
   useBlackImage = false,
 }: ProductCardProps) {
+  const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const { addToCart, toggleWishlist, wishlist } = useShopStore();
 
@@ -45,8 +47,9 @@ function ProductCardComponent({
       return;
     }
     addToCart(product, 1);
-    toast.success(`${product.name} added to bag!`);
-  }, [isOutOfStock, addToCart, product]);
+    // toast.success(`${product.name} added to bag!`);
+    router.push("/checkout");
+  }, [isOutOfStock, addToCart, product, router]);
 
   const handleWishlist = useCallback((e: React.MouseEvent) => {
     e.preventDefault();

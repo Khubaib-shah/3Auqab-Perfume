@@ -209,9 +209,6 @@ export default function Header() {
                   <li className="menu-item">
                     <Link href="/login">Account Login</Link>
                   </li>
-                  <li className="menu-item">
-                    <Link href="/admin">Admin Dashboard</Link>
-                  </li>
                 </ul>
               </div>
             </div>
@@ -573,19 +570,19 @@ export default function Header() {
                           )
                             .slice(0, 5)
                             .map((tag) => (
-                            <button
-                              key={tag}
-                              type="button"
-                              className="search-tag-chip"
-                              onClick={() => {
-                                setSearchQuery(tag);
-                                setSearchFocused(false);
-                                router.push(`/shop?q=${encodeURIComponent(tag)}`);
-                              }}
-                            >
-                              {tag}
-                            </button>
-                          ))}
+                              <button
+                                key={tag}
+                                type="button"
+                                className="search-tag-chip"
+                                onClick={() => {
+                                  setSearchQuery(tag);
+                                  setSearchFocused(false);
+                                  router.push(`/shop?q=${encodeURIComponent(tag)}`);
+                                }}
+                              >
+                                {tag}
+                              </button>
+                            ))}
                         </div>
                       </div>
 
@@ -764,19 +761,19 @@ export default function Header() {
                       )
                         .slice(0, 4)
                         .map((tag) => (
-                        <button
-                          key={tag}
-                          type="button"
-                          className="search-tag-chip"
-                          onClick={() => {
-                            setSearchQuery(tag);
-                            setMobileSearchOpen(false);
-                            router.push(`/shop?q=${encodeURIComponent(tag)}`);
-                          }}
-                        >
-                          {tag}
-                        </button>
-                      ))}
+                          <button
+                            key={tag}
+                            type="button"
+                            className="search-tag-chip"
+                            onClick={() => {
+                              setSearchQuery(tag);
+                              setMobileSearchOpen(false);
+                              router.push(`/shop?q=${encodeURIComponent(tag)}`);
+                            }}
+                          >
+                            {tag}
+                          </button>
+                        ))}
                     </div>
 
                     {suggestedProducts.length > 0 && (
