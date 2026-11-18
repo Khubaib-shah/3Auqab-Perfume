@@ -8,6 +8,8 @@ import { useShopStore } from "@/store/useShopStore";
 import { siteConfig } from "@/data/siteConfig";
 import { businessConfig } from "@/config";
 import {
+  DEFAULT_PRODUCT_SIZE,
+  getDefaultProductSize,
   getProductPriceForSize,
   getProductOldPriceForSize,
 } from "@/data/products";
@@ -23,7 +25,7 @@ export default function QuickViewModal() {
   } = useShopStore();
 
   const [activeImage, setActiveImage] = useState<string>("");
-  const [selectedSize, setSelectedSize] = useState<string>("15ml");
+  const [selectedSize, setSelectedSize] = useState<string>(DEFAULT_PRODUCT_SIZE);
   const [quantity, setQuantity] = useState<number>(1);
 
   const getPhotoForSize = (prod: typeof quickViewProduct, size: string) => {
@@ -40,7 +42,7 @@ export default function QuickViewModal() {
 
   useEffect(() => {
     if (quickViewProduct) {
-      const initialSize = quickViewProduct.sizes[0] || "15ml";
+      const initialSize = getDefaultProductSize(quickViewProduct);
       setSelectedSize(initialSize);
       setActiveImage(
         getPhotoForSize(quickViewProduct, initialSize) ||

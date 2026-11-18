@@ -10,6 +10,7 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import ProductCard from "@/components/product/ProductCard";
 import {
   Product,
+  getDefaultProductSize,
   getProductPriceForSize,
   getProductOldPriceForSize,
 } from "@/data/products";
@@ -38,8 +39,8 @@ export default function ProductDetailsClient({
   const { addToCart, toggleWishlist, wishlist } = useShopStore();
   const isWishlisted = wishlist.includes(product.id);
 
-  const [selectedSize, setSelectedSize] = useState(
-    product.sizes[0] || "15ml"
+  const [selectedSize, setSelectedSize] = useState(() =>
+    getDefaultProductSize(product)
   );
   const activeImage = product.image;
   const [lightboxOpen, setLightboxOpen] = useState(false);

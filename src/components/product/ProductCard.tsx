@@ -4,7 +4,12 @@ import React, { useState, useEffect, useCallback, memo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { Product } from "@/data/products";
+import {
+  Product,
+  getDefaultProductSize,
+  getProductPriceForSize,
+  getProductOldPriceForSize,
+} from "@/data/products";
 import { siteConfig } from "@/data/siteConfig";
 import { useShopStore } from "@/store/useShopStore";
 
@@ -39,6 +44,10 @@ function ProductCardComponent({
     useBlackImage && product.blackCardImage
       ? product.blackCardImage
       : product.image;
+
+  const defaultSize = getDefaultProductSize(product);
+  const displayPrice = getProductPriceForSize(product, defaultSize);
+  const displayOldPrice = getProductOldPriceForSize(product, defaultSize);
 
   const handleAddToCart = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -188,15 +197,15 @@ function ProductCardComponent({
             <div className="count-star">({product.reviewsCount})</div>
           </div>
           <div className="price">
-            {product.oldPrice && (
+            {displayOldPrice && displayOldPrice > displayPrice && (
               <del>
                 {siteConfig.currency}
-                {product.oldPrice}
+                {displayOldPrice}
               </del>
             )}
             <ins>
               {siteConfig.currency}
-              {product.price}
+              {displayPrice}
             </ins>
           </div>
         </div>

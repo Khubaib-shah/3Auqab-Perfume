@@ -6,7 +6,11 @@ import { usePathname, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { siteConfig } from "@/data/siteConfig";
 import { navigationConfig } from "@/config";
-import { Product } from "@/data/products";
+import {
+  Product,
+  getDefaultProductSize,
+  getProductPriceForSize,
+} from "@/data/products";
 import { useShopStore } from "@/store/useShopStore";
 import { useAdminStore } from "@/store/useAdminStore";
 
@@ -605,7 +609,8 @@ export default function Header() {
                                 <span className="search-prod-category">{p.category}</span>
                               </div>
                               <span className="search-prod-price">
-                                {siteConfig.currency} {p.price}
+                                {siteConfig.currency}{" "}
+                                {getProductPriceForSize(p, getDefaultProductSize(p))}
                               </span>
                             </Link>
                           ))}
@@ -795,7 +800,8 @@ export default function Header() {
                                 <span className="search-prod-category">{p.category}</span>
                               </div>
                               <span className="search-prod-price">
-                                {siteConfig.currency} {p.price}
+                                {siteConfig.currency}{" "}
+                                {getProductPriceForSize(p, getDefaultProductSize(p))}
                               </span>
                             </Link>
                           ))}

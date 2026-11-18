@@ -2,7 +2,11 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Product, getProductPriceForSize } from "@/data/products";
+import {
+  Product,
+  getDefaultProductSize,
+  getProductPriceForSize,
+} from "@/data/products";
 
 export interface CartItem {
   product: Product;
@@ -50,7 +54,7 @@ export const useShopStore = create<ShopState>()(
       addToCart: (
         product,
         quantity = 1,
-        selectedSize = product.sizes[0] || "15ml",
+        selectedSize = getDefaultProductSize(product),
         selectedFinish = ""
       ) =>
         set((state) => {

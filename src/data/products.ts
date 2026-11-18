@@ -34,6 +34,17 @@ export interface Product {
 
 export const DEFAULT_VARIANTS = businessConfig.variant.options;
 export const BOTTLE_SIZES = DEFAULT_VARIANTS;
+export const DEFAULT_PRODUCT_SIZE = "50ml";
+
+export function getDefaultProductSize(product?: Pick<Product, "sizes">): string {
+  if (product?.sizes && product.sizes.length > 0) {
+    if (product.sizes.includes(DEFAULT_PRODUCT_SIZE)) {
+      return DEFAULT_PRODUCT_SIZE;
+    }
+    return product.sizes[0];
+  }
+  return DEFAULT_PRODUCT_SIZE;
+}
 
 export const DEFAULT_SIZE_PRICES: Record<string, number> = {
   "15ml": 600,

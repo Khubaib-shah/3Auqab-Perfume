@@ -7,6 +7,10 @@ import toast from "react-hot-toast";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import ProductCard from "@/components/product/ProductCard";
 import { useAdminStore } from "@/store/useAdminStore";
+import {
+  getDefaultProductSize,
+  getProductPriceForSize,
+} from "@/data/products";
 import { siteConfig } from "@/data/siteConfig";
 import { businessConfig } from "@/config";
 
@@ -37,7 +41,9 @@ export default function ShopClient() {
   }, []);
 
   const priceBounds = useMemo(() => {
-    const prices = products.map((p) => p.price).filter((p) => p > 0);
+    const prices = products
+      .map((p) => getProductPriceForSize(p, getDefaultProductSize(p)))
+      .filter((p) => p > 0);
     if (prices.length === 0) return { min: 0, max: 10000 };
     const min = Math.floor(Math.min(...prices) / 100) * 100;
     const max = Math.ceil(Math.max(...prices) / 100) * 100;
@@ -188,12 +194,22 @@ export default function ShopClient() {
       );
     }
 
-    list = list.filter((p) => p.price <= maxPrice);
+    list = list.filter(
+      (p) => getProductPriceForSize(p, getDefaultProductSize(p)) <= maxPrice
+    );
 
     if (sortBy === "price-asc") {
-      list.sort((a, b) => a.price - b.price);
+      list.sort(
+        (a, b) =>
+          getProductPriceForSize(a, getDefaultProductSize(a)) -
+          getProductPriceForSize(b, getDefaultProductSize(b))
+      );
     } else if (sortBy === "price-desc") {
-      list.sort((a, b) => b.price - a.price);
+      list.sort(
+        (a, b) =>
+          getProductPriceForSize(b, getDefaultProductSize(b)) -
+          getProductPriceForSize(a, getDefaultProductSize(a))
+      );
     } else if (sortBy === "rating") {
       list.sort((a, b) => b.reviewsCount - a.reviewsCount);
     }
