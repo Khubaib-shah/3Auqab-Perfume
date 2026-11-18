@@ -141,7 +141,7 @@ export const contentConfig: ContentConfig = {
       priceValue: "Rs 3,499",
       btnClass: "btn-shop-the-look",
       bgImage: "/assets/images/banners/3uqab-signature-oud-collection-hero-2.jpg",
-      link: "/shop",
+      link: "/product/janan-sport",
       isActive: true,
     },
     {
@@ -297,7 +297,7 @@ export const contentConfig: ContentConfig = {
       id: "faq-5",
       question: "Can I order or get advice on WhatsApp?",
       answer:
-        "Yes. Message us on WhatsApp at +92 300 1234567. Tell us what kind of smell you like, and we will help you choose.",
+        "Yes. Message us on WhatsApp at +92 314 9784156. Tell us what kind of smell you like, and we will help you choose.",
     },
   ],
 

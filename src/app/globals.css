@@ -332,7 +332,7 @@ body {
   flex-direction: column !important;
   justify-content: center !important;
   box-sizing: border-box !important;
-  background: rgba(76, 76, 76, 0.269) !important;
+  background: rgba(76, 76, 76, 0.187) !important;
   backdrop-filter: blur(4px) !important;
   -webkit-backdrop-filter: blur(4px) !important;
   border-radius: 10px !important;
@@ -341,7 +341,6 @@ body {
 .slider-item.style4 .title-big,
 .slider-item.style5 .title-big,
 .slider-item.style6 .title-big {
-  color: var(--color-heading) !important;
   color: #ffffff !important;
   font-size: clamp(14px, 2.5vw, 40px) !important;
   line-height: 1.15 !important;
@@ -353,7 +352,6 @@ body {
 .slider-item.style4 .title-small,
 .slider-item.style5 .title-small,
 .slider-item.style6 .title-small {
-  color: var(--color-heading) !important;
   color: #f3d8ae !important;
   font-weight: 600 !important;
   font-size: clamp(9px, 1vw, 14px) !important;
@@ -363,7 +361,6 @@ body {
 
 .slider-inner .when-code,
 .slider-inner .price {
-  color: var(--color-heading) !important;
   color: #f5f5f5 !important;
   font-weight: 500 !important;
   font-size: clamp(9px, 1vw, 14px) !important;
@@ -372,21 +369,22 @@ body {
 
 .slider-inner .when-code .number-code,
 .slider-inner .price .number-price {
-  color: var(--color-heading) !important;
   color: #f3d8ae !important;
   font-weight: 700 !important;
   font-size: clamp(11px, 1.2vw, 18px) !important;
 }
 
 .slider-inner .button {
-  color: var(--color-heading) !important;
-  border-bottom: 2px solid var(--color-heading) !important;
   color: #ffffff !important;
-  border-bottom: 2px solid #f3d8ae !important;
+  border-bottom: none !important;
   padding: clamp(4px, 0.7vw, 12px) clamp(10px, 1.5vw, 28px) !important;
   font-size: clamp(9px, 0.85vw, 13px) !important;
   width: fit-content !important;
   line-height: 1.2 !important;
+}
+
+.slider-item .slider-infor .button::before {
+  background-color: #f3d8ae !important;
 }
 
 .home-slider.fullwidth .slick-dots {
@@ -775,12 +773,12 @@ body {
 }
 
 .banner-shop .item-banner.style1 .inner {
-  background-image: url(/assets/images/banners/3uqab-royal-collection-fullwidth-banner.png) !important;
+  background-image: url(/assets/images/banners/3uqab-perfume-shop-banner-1.jpg) !important;
   background-position: center bottom !important;
 }
 
 .banner-shop .item-banner.style2 .inner {
-  background-image: url(/assets/images/banners/3uqab-shop-oud-collection-banner.jpg) !important;
+  background-image: url(/assets/images/banners/3uqab-perfume-shop-banner.jpg) !important;
   background-position: center bottom !important;
 }
 
@@ -3996,5 +3994,67 @@ body {
     justify-content: space-between !important;
     align-items: center !important;
     text-align: right !important;
+  }
+}
+
+/* ==========================================================================
+   24. TESTIMONIAL & REVIEW AVATAR 1:1 CIRCLE CONSTRAINTS
+   Prevents high-res uploaded images from expanding to full size or ovals
+   ========================================================================== */
+.app-testimonials .testimonial-item .image {
+  width: 110px !important;
+  height: 110px !important;
+  min-width: 110px !important;
+  min-height: 110px !important;
+  max-width: 110px !important;
+  max-height: 110px !important;
+  aspect-ratio: 1 / 1 !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  flex-shrink: 0 !important;
+  border: 2px solid var(--color-primary) !important;
+  padding: 0 !important;
+}
+
+.app-testimonials .testimonial-item .image img {
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  object-fit: cover !important;
+  object-position: center top !important;
+  display: block !important;
+  border-radius: 50% !important;
+}
+
+.widget-testimonials .author .avt {
+  width: 56px !important;
+  height: 56px !important;
+  min-width: 56px !important;
+  min-height: 56px !important;
+  aspect-ratio: 1 / 1 !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  flex-shrink: 0 !important;
+}
+
+.widget-testimonials .author .avt img {
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  object-fit: cover !important;
+  object-position: center top !important;
+  display: block !important;
+  border-radius: 50% !important;
+}
+
+@media (max-width: 767px) {
+  .app-testimonials .testimonial-item .image {
+    margin: 0 auto 14px !important;
+    width: 96px !important;
+    height: 96px !important;
+    min-width: 96px !important;
+    min-height: 96px !important;
+    max-width: 96px !important;
+    max-height: 96px !important;
   }
 }

@@ -12,9 +12,17 @@ export interface CartItem {
   price?: number;
 }
 
+export interface AppliedVoucher {
+  code: string;
+  discountType: "PERCENTAGE" | "FIXED";
+  discountValue: number;
+  minOrderAmount?: number;
+}
+
 interface ShopState {
   cart: CartItem[];
   wishlist: string[];
+  appliedVoucher: AppliedVoucher | null;
   quickViewProduct: Product | null;
   addToCart: (
     product: Product,
@@ -25,6 +33,7 @@ interface ShopState {
   removeFromCart: (productId: string, size?: string) => void;
   updateQuantity: (productId: string, quantity: number, size?: string) => void;
   clearCart: () => void;
+  setAppliedVoucher: (voucher: AppliedVoucher | null) => void;
   toggleWishlist: (productId: string) => void;
   openQuickView: (product: Product) => void;
   closeQuickView: () => void;
@@ -35,6 +44,7 @@ export const useShopStore = create<ShopState>()(
     (set) => ({
       cart: [],
       wishlist: [],
+      appliedVoucher: null,
       quickViewProduct: null,
 
       addToCart: (
@@ -103,7 +113,9 @@ export const useShopStore = create<ShopState>()(
                 ),
         })),
 
-      clearCart: () => set({ cart: [] }),
+      clearCart: () => set({ cart: [], appliedVoucher: null }),
+
+      setAppliedVoucher: (voucher) => set({ appliedVoucher: voucher }),
 
       toggleWishlist: (productId) =>
         set((state) => ({
@@ -120,6 +132,7 @@ export const useShopStore = create<ShopState>()(
       partialize: (state) => ({
         cart: state.cart,
         wishlist: state.wishlist,
+        appliedVoucher: state.appliedVoucher,
       }),
     }
   )

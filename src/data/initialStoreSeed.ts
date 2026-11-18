@@ -208,6 +208,7 @@ export interface PromoBannersRecord {
     title: string;
     code: string;
     link: string;
+    image?: string;
   };
   shopSlide2: {
     title: string;
@@ -215,6 +216,7 @@ export interface PromoBannersRecord {
     priceLabel: string;
     priceValue: string;
     link: string;
+    image?: string;
   };
 }
 

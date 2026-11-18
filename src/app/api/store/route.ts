@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-import { readDbAsync, writeDbAsync, DatabaseSchema } from "@/lib/db";
+import { readDbAsync, writeSliceAsync, DatabaseSchema } from "@/lib/db";
 
 export async function GET() {
   const db = await readDbAsync();
@@ -10,12 +10,8 @@ export async function GET() {
 export async function PUT(request: Request) {
   try {
     const partial = (await request.json()) as Partial<DatabaseSchema>;
-    const current = await readDbAsync();
-    const updated: DatabaseSchema = {
-      ...current,
-      ...partial,
-    };
-    await writeDbAsync(updated);
+    await writeSliceAsync(partial);
+    const updated = await readDbAsync();
     revalidatePath("/", "layout");
     return NextResponse.json(updated);
   } catch (error) {

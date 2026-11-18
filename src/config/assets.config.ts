@@ -21,7 +21,7 @@ export interface AssetsConfig {
 
 export const assetsConfig: AssetsConfig = {
   logo: "/assets/images/logo/3uqab-perfume-logo.png",
-  logoWhite: "/assets/images/logo/3uqab-perfume-emblem.webp",
+  logoWhite: "/assets/images/logo/3uqab-perfume-logo.png",
   favicon: "/assets/images/favicon/favicon.ico",
 
   favicons: {

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-import { readDbAsync, writeDbAsync, NewsletterSubscriberRecord } from "@/lib/db";
+import { readDbAsync, writeSliceAsync, NewsletterSubscriberRecord } from "@/lib/db";
 
 function formatTimestamp(): string {
   const now = new Date();
@@ -35,7 +35,7 @@ export async function POST(request: Request) {
         createdAt: formatTimestamp(),
       };
       db.subscribers = [newSub, ...db.subscribers];
-      await writeDbAsync(db);
+      await writeSliceAsync({ subscribers: db.subscribers });
       revalidatePath("/", "layout");
     }
 
@@ -62,7 +62,7 @@ export async function PATCH(request: Request) {
       );
     }
 
-    await writeDbAsync(db);
+    await writeSliceAsync({ subscribers: db.subscribers });
     revalidatePath("/", "layout");
     return NextResponse.json({ db });
   } catch (error) {

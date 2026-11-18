@@ -16,6 +16,8 @@ import { InstagramFeed } from "./InstagramFeed";
 
 export default function HomeClient() {
   const settings = useAdminStore((s) => s.settings);
+  const allHeroSlides = useAdminStore((s) => s.heroSlides);
+  const promoBanners = useAdminStore((s) => s.promoBanners);
   const allTestimonials = useAdminStore((s) => s.testimonials);
   const products = useAdminStore((s) => s.products);
   const allBlogs = useAdminStore((s) => s.blogs);
@@ -23,12 +25,15 @@ export default function HomeClient() {
     (s) => s.subscribeNewsletterOnServer
   );
 
-  // Static Banners: instantly rendered from siteConfig without relying on or waiting for backend responses.
-  // All banner configurations can be updated in a single file: `src/data/siteConfig.ts`
-  const heroSlides = siteConfig.heroSlides;
-  const card1 = siteConfig.promoBanners.homeCard1;
-  const card2 = siteConfig.promoBanners.homeCard2;
-  const fullBanner = siteConfig.promoBanners.homeFullwidth;
+  const heroSlides = useMemo(
+    () =>
+      (allHeroSlides || []).filter((s) => s.isActive),
+    [allHeroSlides]
+  );
+  const card1 = promoBanners?.homeCard1 || siteConfig.promoBanners.homeCard1;
+  const card2 = promoBanners?.homeCard2 || siteConfig.promoBanners.homeCard2;
+  const fullBanner =
+    promoBanners?.homeFullwidth || siteConfig.promoBanners.homeFullwidth;
 
   // Memoize filtered store slices
   const testimonials = useMemo(

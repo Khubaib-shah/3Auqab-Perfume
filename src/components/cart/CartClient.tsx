@@ -11,27 +11,33 @@ import { businessConfig, siteConfig } from "@/config";
 
 export default function CartClient() {
   const router = useRouter();
-  const { cart, removeFromCart, updateQuantity } = useShopStore();
+  const {
+    cart,
+    removeFromCart,
+    updateQuantity,
+    appliedVoucher,
+    setAppliedVoucher,
+  } = useShopStore();
   const vouchers = useAdminStore((s) => s.vouchers) || [];
   const settings = useAdminStore((s) => s.settings);
 
   const [coupon, setCoupon] = useState("");
-  const [appliedVoucher, setAppliedVoucher] = useState<{
-    code: string;
-    discountType: "PERCENTAGE" | "FIXED";
-    discountValue: number;
-  } | null>(null);
 
   const subtotal = cart.reduce(
     (sum, item) => sum + (item.price ?? item.product.price) * item.quantity,
     0
   );
 
-  const discountAmount = appliedVoucher
-    ? appliedVoucher.discountType === "PERCENTAGE"
-      ? (subtotal * appliedVoucher.discountValue) / 100
-      : Math.min(subtotal, appliedVoucher.discountValue)
-    : 0;
+  const isMinOrderMet =
+    !appliedVoucher?.minOrderAmount ||
+    subtotal >= appliedVoucher.minOrderAmount;
+
+  const discountAmount =
+    appliedVoucher && isMinOrderMet
+      ? appliedVoucher.discountType === "PERCENTAGE"
+        ? (subtotal * appliedVoucher.discountValue) / 100
+        : Math.min(subtotal, appliedVoucher.discountValue)
+      : 0;
 
   const finalTotal = Math.max(0, subtotal - discountAmount);
 
@@ -58,6 +64,7 @@ export default function CartClient() {
         code: found.code,
         discountType: found.discountType,
         discountValue: found.discountValue,
+        minOrderAmount: found.minOrderAmount,
       });
       toast.success(
         `Voucher "${found.code}" applied! ${
@@ -270,8 +277,30 @@ export default function CartClient() {
                               </div>
                               <div className="order-total" style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "4px" }}>
                                 {appliedVoucher && (
-                                  <div style={{ fontSize: "13px", color: "#28a745" }}>
-                                    Voucher &quot;{appliedVoucher.code}&quot; (-{settings.currency} {discountAmount.toFixed(0)})
+                                  <div style={{ fontSize: "13px", color: "#28a745", display: "flex", alignItems: "center", gap: "8px" }}>
+                                    <span>
+                                      Voucher &quot;{appliedVoucher.code}&quot; (-{settings.currency} {discountAmount.toFixed(0)})
+                                    </span>
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setAppliedVoucher(null);
+                                        toast.success("Voucher removed.");
+                                      }}
+                                      title="Remove voucher"
+                                      style={{
+                                        border: "none",
+                                        background: "transparent",
+                                        color: "#dc3545",
+                                        fontWeight: 700,
+                                        cursor: "pointer",
+                                        padding: "0 4px",
+                                        fontSize: "15px",
+                                        lineHeight: 1,
+                                      }}
+                                    >
+                                      ×
+                                    </button>
                                   </div>
                                 )}
                                 <div>

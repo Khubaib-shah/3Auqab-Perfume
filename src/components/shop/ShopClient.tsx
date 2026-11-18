@@ -24,8 +24,10 @@ export default function ShopClient() {
     (s) => s.subscribeNewsletterOnServer
   );
 
-  const shopSlide1 = siteConfig.promoBanners.shopSlide1;
-  const shopSlide2 = siteConfig.promoBanners.shopSlide2;
+  const shopSlide1 =
+    promoBanners?.shopSlide1 || siteConfig.promoBanners.shopSlide1;
+  const shopSlide2 =
+    promoBanners?.shopSlide2 || siteConfig.promoBanners.shopSlide2;
 
   const [bannerSlide, setBannerSlide] = useState(0);
 

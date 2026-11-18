@@ -172,7 +172,7 @@ export default function SettingsModule() {
 
             <div className="admin-form-group">
               <label className="admin-label">
-                WhatsApp Number (With Country Code, e.g. 923001234567) *
+                WhatsApp Number *
               </label>
               <input
                 type="text"

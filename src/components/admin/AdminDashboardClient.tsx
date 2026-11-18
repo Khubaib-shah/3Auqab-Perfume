@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { useAdminStore } from "@/store/useAdminStore";
-import { siteConfig } from "@/config";
+import { siteConfig, assetsConfig } from "@/config";
 import OrdersModule, { getStatusBadgeClass } from "./OrdersModule";
 import ProductsModule from "./ProductsModule";
 import CategoriesModule from "./CategoriesModule";
@@ -156,50 +156,50 @@ export default function AdminDashboardClient() {
     icon: string;
     badge?: number;
   }[] = [
-    {
-      key: "overview",
-      label: "Overview",
-      icon: "fa-th-large",
-    },
-    {
-      key: "orders",
-      label: "Orders",
-      icon: "fa-shopping-bag",
-      badge: pendingOrdersCount > 0 ? pendingOrdersCount : undefined,
-    },
-    {
-      key: "products",
-      label: "Products",
-      icon: "fa-flask",
-      badge: lowStockProducts.length > 0 ? lowStockProducts.length : undefined,
-    },
-    {
-      key: "categories",
-      label: "Categories",
-      icon: "fa-tags",
-    },
-    {
-      key: "content",
-      label: "Banners & Bar",
-      icon: "fa-bullhorn",
-    },
-    {
-      key: "blogs",
-      label: "Blogs",
-      icon: "fa-book",
-    },
-    {
-      key: "inbox",
-      label: "Messages",
-      icon: "fa-envelope-o",
-      badge: unreadMessagesCount > 0 ? unreadMessagesCount : undefined,
-    },
-    {
-      key: "settings",
-      label: "Settings",
-      icon: "fa-sliders",
-    },
-  ];
+      {
+        key: "overview",
+        label: "Overview",
+        icon: "fa-th-large",
+      },
+      {
+        key: "orders",
+        label: "Orders",
+        icon: "fa-shopping-bag",
+        badge: pendingOrdersCount > 0 ? pendingOrdersCount : undefined,
+      },
+      {
+        key: "products",
+        label: "Products",
+        icon: "fa-flask",
+        badge: lowStockProducts.length > 0 ? lowStockProducts.length : undefined,
+      },
+      {
+        key: "categories",
+        label: "Categories",
+        icon: "fa-tags",
+      },
+      {
+        key: "content",
+        label: "Banners & Bar",
+        icon: "fa-bullhorn",
+      },
+      {
+        key: "blogs",
+        label: "Blogs",
+        icon: "fa-book",
+      },
+      {
+        key: "inbox",
+        label: "Messages",
+        icon: "fa-envelope-o",
+        badge: unreadMessagesCount > 0 ? unreadMessagesCount : undefined,
+      },
+      {
+        key: "settings",
+        label: "Settings",
+        icon: "fa-sliders",
+      },
+    ];
 
   const selectModule = (key: AdminModuleKey) => {
     setActiveModule(key);
@@ -218,11 +218,20 @@ export default function AdminDashboardClient() {
       {/* Left Sidebar */}
       <aside className={`admin-sidebar ${sidebarOpen ? "open" : ""}`}>
         <div className="admin-sidebar-brand">
-          <div>
-            <h2 className="admin-brand-title">
-              <span>{siteConfig.brand.shortName}</span>
-            </h2>
-            <span className="admin-brand-subtitle">Store Dashboard</span>
+          <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+            <Link href="/" style={{ display: "inline-block" }}>
+              <img
+                src={settings.logo}
+                alt={siteConfig.brand.name}
+                style={{
+                  height: "44px",
+                  width: "auto",
+                  maxWidth: "160px",
+                  objectFit: "contain",
+                  display: "block",
+                }}
+              />
+            </Link>
           </div>
           <button
             type="button"
@@ -240,9 +249,8 @@ export default function AdminDashboardClient() {
               <button
                 type="button"
                 onClick={() => selectModule(item.key)}
-                className={`admin-nav-item ${
-                  activeModule === item.key ? "active" : ""
-                }`}
+                className={`admin-nav-item ${activeModule === item.key ? "active" : ""
+                  }`}
               >
                 <span className="admin-nav-left">
                   <i

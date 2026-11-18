@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-import { readDbAsync, writeDbAsync, OrderRecord, OrderStatus } from "@/lib/db";
+import { readDbAsync, writeSliceAsync, OrderRecord, OrderStatus } from "@/lib/db";
 
 function formatTimestamp(): string {
   const now = new Date();
@@ -76,7 +76,7 @@ export async function POST(request: Request) {
     }
 
     db.orders = [newOrder, ...db.orders];
-    await writeDbAsync(db);
+    await writeSliceAsync({ orders: db.orders });
     revalidatePath("/", "layout");
 
     return NextResponse.json({ order: newOrder, db });
@@ -140,7 +140,7 @@ export async function PATCH(request: Request) {
     };
 
     db.orders[idx] = updatedOrder;
-    await writeDbAsync(db);
+    await writeSliceAsync({ orders: db.orders });
     revalidatePath("/", "layout");
 
     return NextResponse.json({ order: updatedOrder, db });

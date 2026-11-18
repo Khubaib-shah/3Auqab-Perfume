@@ -10,6 +10,7 @@ import { useShopStore } from "@/store/useShopStore";
 import { useAdminStore } from "@/store/useAdminStore";
 import { siteConfig } from "@/data/siteConfig";
 import { OrderRecord } from "@/data/initialStoreSeed";
+import { businessConfig } from "@/config";
 import pakistanLocations from "@/data/pakistanLocations.json";
 
 interface ShippingFormValues {
@@ -24,12 +25,14 @@ interface ShippingFormValues {
 }
 
 export default function CheckoutClient() {
-  const { cart, clearCart } = useShopStore();
+  const { cart, clearCart, appliedVoucher, setAppliedVoucher } = useShopStore();
   const settings = useAdminStore((s) => s.settings);
+  const vouchers = useAdminStore((s) => s.vouchers) || [];
   const createOrderOnServer = useAdminStore((s) => s.createOrderOnServer);
 
   const [step, setStep] = useState<"shipping" | "completed">("shipping");
   const [paymentMethod, setPaymentMethod] = useState<"card" | "cod">("cod");
+  const [couponInput, setCouponInput] = useState("");
   const [placedOrder, setPlacedOrder] = useState<OrderRecord | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -53,6 +56,69 @@ export default function CheckoutClient() {
     0
   );
 
+  const isMinOrderMet =
+    !appliedVoucher?.minOrderAmount ||
+    totalPrice >= appliedVoucher.minOrderAmount;
+
+  const discountAmount =
+    appliedVoucher && isMinOrderMet
+      ? appliedVoucher.discountType === "PERCENTAGE"
+        ? Math.round((totalPrice * appliedVoucher.discountValue) / 100)
+        : Math.min(totalPrice, appliedVoucher.discountValue)
+      : 0;
+
+  const finalTotal = Math.max(0, totalPrice - discountAmount);
+
+  const handleApplyCoupon = () => {
+    const cleanCode = couponInput.trim().toUpperCase();
+    if (!cleanCode) {
+      toast.error("Please enter a promo code.");
+      return;
+    }
+
+    const found = vouchers.find(
+      (v) => v.code.trim().toUpperCase() === cleanCode && v.isActive
+    );
+
+    if (found) {
+      if (found.minOrderAmount > 0 && totalPrice < found.minOrderAmount) {
+        toast.error(
+          `Minimum order of ${settings.currency} ${found.minOrderAmount} required for ${found.code}.`
+        );
+        return;
+      }
+      setAppliedVoucher({
+        code: found.code,
+        discountType: found.discountType,
+        discountValue: found.discountValue,
+        minOrderAmount: found.minOrderAmount,
+      });
+      setCouponInput("");
+      toast.success(
+        `Promo "${found.code}" applied! ${found.discountType === "PERCENTAGE"
+          ? `${found.discountValue}% off`
+          : `${settings.currency} ${found.discountValue} off`
+        }`
+      );
+    } else if (
+      cleanCode ===
+      (settings.promoCode || businessConfig.promo.defaultCode).toUpperCase() ||
+      businessConfig.promo.aliasCodes.includes(cleanCode)
+    ) {
+      setAppliedVoucher({
+        code: cleanCode,
+        discountType: "PERCENTAGE",
+        discountValue: businessConfig.promo.defaultDiscountPercent,
+      });
+      setCouponInput("");
+      toast.success(
+        `Promo "${cleanCode}" applied! ${businessConfig.promo.defaultDiscountPercent}% discount.`
+      );
+    } else {
+      toast.error("Invalid or expired promo code.");
+    }
+  };
+
   const onSubmitOrder = async (data: ShippingFormValues) => {
     if (isSubmitting) return;
     setIsSubmitting(true);
@@ -69,6 +135,14 @@ export default function CheckoutClient() {
       image: item.product.orderThumb || item.product.image,
     }));
 
+    const voucherNote =
+      appliedVoucher && discountAmount > 0
+        ? `[Promo: ${appliedVoucher.code} (-${settings.currency} ${discountAmount})]`
+        : "";
+    const combinedNotes = [data.adminNotes?.trim(), voucherNote]
+      .filter(Boolean)
+      .join(" | ");
+
     const orderRecord = await createOrderOnServer({
       firstName: data.firstName || "Guest",
       lastName: data.lastName || "Customer",
@@ -78,12 +152,12 @@ export default function CheckoutClient() {
       state: data.state || "Sindh",
       city: data.city || "Karachi",
       address: data.address || "",
-      adminNotes: data.adminNotes || "",
+      adminNotes: combinedNotes,
       items: itemsPayload,
       subtotal: totalPrice,
       shippingCost: 0,
-      discountAmount: 0,
-      totalAmount: totalPrice,
+      discountAmount,
+      totalAmount: finalTotal,
       paymentMethod: paymentMethod === "card" ? "CARD" : "COD",
     });
 
@@ -101,7 +175,10 @@ export default function CheckoutClient() {
         <h3 className="title-form">Your Order</h3>
         <ul className="list-product-order">
           {cart.map((item) => (
-            <li key={item.product.id} className="product-item-order">
+            <li
+              key={`${item.product.id}-${item.selectedSize}`}
+              className="product-item-order"
+            >
               <div className="product-thumb">
                 <Link href={`/product/${item.product.slug}`}>
                   <img
@@ -137,10 +214,150 @@ export default function CheckoutClient() {
             </li>
           ))}
         </ul>
+        {/* Promo / Voucher Box */}
+        <div
+          style={{
+            marginTop: "12px",
+            marginBottom: "14px",
+            paddingBottom: "14px",
+            borderBottom: "1px solid #eeeeee",
+          }}
+        >
+          {appliedVoucher && discountAmount > 0 ? (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                background: "#f2fbf5",
+                border: "1px solid #c3e6cb",
+                borderRadius: "20px",
+                padding: "8px 14px",
+                fontSize: "13px",
+                color: "#1e7e34",
+              }}
+            >
+              <span>
+                Promo <strong>{appliedVoucher.code}</strong> (-{settings.currency}{" "}
+                {discountAmount.toLocaleString()})
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  setAppliedVoucher(null);
+                  toast.success("Promo code removed.");
+                }}
+                style={{
+                  border: "none",
+                  background: "transparent",
+                  color: "#dc3545",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  fontSize: "15px",
+                  lineHeight: 1,
+                }}
+                title="Remove promo code"
+              >
+                ×
+              </button>
+            </div>
+          ) : (
+            <div
+              style={{
+                display: "flex",
+                gap: "8px",
+                alignItems: "center",
+                width: "100%",
+              }}
+            >
+              <input
+                type="text"
+                value={couponInput}
+                onChange={(e) => setCouponInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    handleApplyCoupon();
+                  }
+                }}
+                placeholder={`Promo code (e.g. ${settings.promoCode || businessConfig.promo.defaultCode
+                  })`}
+                className="input-text"
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  height: "42px",
+                  borderRadius: "30px",
+                  padding: "0 16px",
+                  fontSize: "13px",
+                  border: "1px solid #eeeeee",
+                  marginBottom: 0,
+                  backgroundColor: "#ffffff",
+                }}
+              />
+              <button
+                type="button"
+                onClick={handleApplyCoupon}
+                style={{
+                  height: "42px",
+                  borderRadius: "30px",
+                  padding: "0 20px",
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.06em",
+                  backgroundColor: "var(--color-primary)",
+                  color: "#ffffff",
+                  border: "none",
+                  cursor: "pointer",
+                  whiteSpace: "nowrap",
+                  flexShrink: 0,
+                  margin: 0,
+                }}
+              >
+                Apply
+              </button>
+            </div>
+          )}
+        </div>
+
+        {discountAmount > 0 && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              fontSize: "13px",
+              color: "#666666",
+              marginBottom: "6px",
+            }}
+          >
+            <span>Subtotal:</span>
+            <span>
+              {settings.currency} {totalPrice.toLocaleString()}
+            </span>
+          </div>
+        )}
+        {discountAmount > 0 && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              fontSize: "13px",
+              color: "#28a745",
+              marginBottom: "8px",
+            }}
+          >
+            <span>Discount ({appliedVoucher?.code}):</span>
+            <span>
+              - {settings.currency} {discountAmount.toLocaleString()}
+            </span>
+          </div>
+        )}
+
         <div className="order-total">
           <span className="title">Total Price:</span>
           <span className="total-price">
-            {settings.currency} {totalPrice}
+            {settings.currency} {finalTotal.toLocaleString()}
           </span>
         </div>
       </div>
@@ -209,7 +426,7 @@ export default function CheckoutClient() {
                         {...register("phone", { required: true })}
                         title="phone"
                         type="text"
-                        placeholder="+92 300 1234567"
+                        placeholder="+92 314 9784156"
                         className="input-text"
                         required
                       />
@@ -305,19 +522,20 @@ export default function CheckoutClient() {
                         className="group-button-payment"
                         style={{
                           display: "flex",
-                          gap: "14px",
-                          flexWrap: "wrap",
-                          alignItems: "center",
+                          gap: "10px",
+                          flexWrap: "nowrap",
+                          alignItems: "stretch",
+                          width: "100%",
                         }}
                       >
                         <button
                           type="button"
                           onClick={() => setPaymentMethod("cod")}
-                          className={`button btn-paypal ${paymentMethod === "cod" ? "active" : ""
-                            }`}
                           style={{
+                            flex: 1,
+                            minWidth: 0,
                             borderRadius: "30px",
-                            padding: "10px 24px",
+                            padding: "11px 12px",
                             border: "1px solid var(--color-primary)",
                             backgroundColor:
                               paymentMethod === "cod"
@@ -325,8 +543,14 @@ export default function CheckoutClient() {
                                 : "#ffffff",
                             color:
                               paymentMethod === "cod" ? "#ffffff" : "#333333",
-                            fontWeight: 600,
+                            fontSize: "12px",
+                            fontWeight: 700,
+                            textTransform: "uppercase",
+                            letterSpacing: "0.04em",
                             cursor: "pointer",
+                            whiteSpace: "nowrap",
+                            textAlign: "center",
+                            margin: 0,
                           }}
                         >
                           Cash on Delivery
@@ -335,7 +559,9 @@ export default function CheckoutClient() {
                         <div
                           style={{
                             position: "relative",
-                            display: "inline-block",
+                            flex: 1,
+                            minWidth: 0,
+                            display: "flex",
                           }}
                         >
                           <span
@@ -345,7 +571,7 @@ export default function CheckoutClient() {
                               right: "10px",
                               backgroundColor: "#222222",
                               color: "#ffffff",
-                              fontSize: "10px",
+                              fontSize: "9.5px",
                               fontWeight: 700,
                               textTransform: "uppercase",
                               letterSpacing: "0.06em",
@@ -355,6 +581,7 @@ export default function CheckoutClient() {
                               zIndex: 2,
                               pointerEvents: "none",
                               boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+                              whiteSpace: "nowrap",
                             }}
                           >
                             Coming Soon
@@ -362,19 +589,25 @@ export default function CheckoutClient() {
                           <button
                             type="button"
                             disabled
-                            className="button btn-credit-card"
                             style={{
+                              width: "100%",
                               borderRadius: "30px",
-                              padding: "10px 24px",
+                              padding: "11px 12px",
                               border: "1px solid #e0e0e0",
                               backgroundColor: "#f7f7f7",
                               color: "#999999",
-                              fontWeight: 600,
+                              fontSize: "12px",
+                              fontWeight: 700,
+                              textTransform: "uppercase",
+                              letterSpacing: "0.04em",
                               cursor: "not-allowed",
-                              opacity: 0.75,
+                              opacity: 0.8,
+                              whiteSpace: "nowrap",
+                              textAlign: "center",
+                              margin: 0,
                             }}
                           >
-                            Card / Online Payment
+                            Card / Online
                           </button>
                         </div>
                       </div>

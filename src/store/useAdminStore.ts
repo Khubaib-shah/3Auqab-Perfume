@@ -107,14 +107,18 @@ export const useAdminStore = create<AdminStoreState>()((set, get) => ({
       if (!res.ok) return;
       const data = (await res.json()) as DatabaseSchema;
       set({
-        ...initialSeed,
         ...data,
-        products:
-          Array.isArray(data.products) && data.products.length > 0
-            ? data.products
-            : initialPerfumeCatalog,
-        vouchers: data.vouchers || initialSeed.vouchers,
-        promoBanners: data.promoBanners || initialSeed.promoBanners,
+        products: Array.isArray(data.products) ? data.products : [],
+        categories: Array.isArray(data.categories) ? data.categories : [],
+        blogs: Array.isArray(data.blogs) ? data.blogs : [],
+        orders: Array.isArray(data.orders) ? data.orders : [],
+        messages: Array.isArray(data.messages) ? data.messages : [],
+        subscribers: Array.isArray(data.subscribers) ? data.subscribers : [],
+        announcements: Array.isArray(data.announcements) ? data.announcements : [],
+        heroSlides: Array.isArray(data.heroSlides) ? data.heroSlides : [],
+        testimonials: Array.isArray(data.testimonials) ? data.testimonials : [],
+        vouchers: Array.isArray(data.vouchers) ? data.vouchers : [],
+        promoBanners: data.promoBanners ?? initialSeed.promoBanners,
         isHydrated: true,
       });
     } catch (err) {
