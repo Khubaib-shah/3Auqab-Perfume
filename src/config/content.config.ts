@@ -261,9 +261,9 @@ export const contentConfig: ContentConfig = {
         avatar: "/assets/images/logo/3uqab-perfume-emblem.webp",
       },
       {
-        name: "Zakariya",
+        name: "Muneer",
         role: "Creative Fragrance Director",
-        avatar: "/assets/images/team/zakariya-3uqab-perfume-brand-owner.jpeg",
+        avatar: "/assets/images/team/muneer-3uqab-perfume-brand-owner.jpeg",
       },
     ],
   },

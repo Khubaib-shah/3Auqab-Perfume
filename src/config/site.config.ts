@@ -141,9 +141,9 @@ export const siteConfig: SiteConfig = {
     addressRegion: "Sindh",
     postalCode: "74400",
     addressCountry: "PK",
-    phone: "(+92) 300 1234567",
+    phone: "(+92) 344 2415083",
     email: "info@3uqab.com",
-    whatsappNumber: "+923001234567",
+    whatsappNumber: "+923442415083",
     mapEmbedUrl:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6302.435736831678!2d67.02174945219986!3d24.870722126230422!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33f66e2e280b7%3A0xd1b6da56d974eac!2zQ2l0eSBSZXNpZGVuY3kgYW5kIFNob3BwaW5nIEdhbGxlcmlhINiz2bnbjCDYsduM2LLbjNqI2YbYs9uMINin24zZhtqIINi02KfZvtmG2q8g2q_bjNmE2LHbjNin!5e0!3m2!1sen!2s!4v1794864674866!5m2!1sen!2s",
     mapDirectionsUrl:
