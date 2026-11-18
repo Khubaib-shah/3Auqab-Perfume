@@ -8,7 +8,6 @@ import {
   OrderStatus,
   PaymentStatus,
 } from "@/data/initialStoreSeed";
-import { initialPerfumeCatalog } from "@/data/perfumeCatalog";
 
 interface AdminStoreState extends DatabaseSchema {
   isHydrated: boolean;
