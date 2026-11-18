@@ -19,15 +19,13 @@ export default function ShopClient() {
   const products = useAdminStore((s) => s.products);
   const categories = useAdminStore((s) => s.categories);
   const settings = useAdminStore((s) => s.settings);
-  const promoBanners = useAdminStore((s) => s.promoBanners);
   const subscribeNewsletterOnServer = useAdminStore(
     (s) => s.subscribeNewsletterOnServer
   );
 
-  const shopSlide1 =
-    promoBanners?.shopSlide1 || siteConfig.promoBanners.shopSlide1;
-  const shopSlide2 =
-    promoBanners?.shopSlide2 || siteConfig.promoBanners.shopSlide2;
+  // Static Banners: instantly rendered from siteConfig
+  const shopSlide1 = siteConfig.promoBanners.shopSlide1;
+  const shopSlide2 = siteConfig.promoBanners.shopSlide2;
 
   const [bannerSlide, setBannerSlide] = useState(0);
 
