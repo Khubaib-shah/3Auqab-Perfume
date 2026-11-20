@@ -186,9 +186,9 @@ function ProductCardComponent({
         </div>
       </div>
       <div className="product-info">
-        <h5 className="product-name product_title">
+        <h3 className="product-name product_title">
           <Link href={`/product/${product.slug}`}>{product.name}</Link>
-        </h5>
+        </h3>
         <div className="group-info">
           <div className="stars-rating">
             <div className="star-rating">

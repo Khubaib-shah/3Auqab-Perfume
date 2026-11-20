@@ -87,7 +87,7 @@ function HeroSliderComponent({ slides }: HeroSliderProps) {
                   >
                     <div className="container">
                       <div className="slider-infor">
-                        <h5 className="title-small">{slide.subtitle}</h5>
+                        <p className="title-small">{slide.subtitle}</p>
                         <h3 className="title-big">
                           {slide.titleLine1}
                           <br />

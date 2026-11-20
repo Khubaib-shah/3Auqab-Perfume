@@ -192,6 +192,7 @@ export default function ContactClient() {
                           className="social-item"
                           target="_blank"
                           rel="noreferrer"
+                          aria-label="Visit 3Uqab Facebook"
                         >
                           <span className="icon fa fa-facebook"></span>
                         </a>
@@ -200,6 +201,7 @@ export default function ContactClient() {
                           className="social-item"
                           target="_blank"
                           rel="noreferrer"
+                          aria-label="Visit 3Uqab Twitter"
                         >
                           <span className="icon fa fa-twitter-square"></span>
                         </a>
@@ -208,6 +210,7 @@ export default function ContactClient() {
                           className="social-item"
                           target="_blank"
                           rel="noreferrer"
+                          aria-label="Visit 3Uqab Instagram"
                         >
                           <span className="icon fa fa-instagram"></span>
                         </a>

@@ -49,7 +49,9 @@ export default function StorefrontShell({
   return (
     <>
       <Header />
-      {children}
+      <main id="main-content" className="site-main-wrapper" role="main">
+        {children}
+      </main>
       <Footer />
       <QuickViewModal />
     </>

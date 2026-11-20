@@ -4063,3 +4063,40 @@ body {
     max-height: 96px !important;
   }
 }
+
+/* Accessibility & Color Contrast Optimizations */
+.flash .onnew {
+  background-color: #8c6f49 !important;
+  color: #ffffff !important;
+}
+.flash .onnew .text {
+  color: #ffffff !important;
+  font-weight: 600;
+}
+.product-info .price del,
+.group-info .price del,
+.price del {
+  color: #555555 !important;
+  opacity: 0.85;
+}
+.blog-info .post-date {
+  color: #4a4a4a !important;
+}
+.faq-section-subtitle {
+  color: #735a39 !important;
+}
+.coppyright a {
+  text-decoration: underline !important;
+  color: inherit !important;
+}
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}

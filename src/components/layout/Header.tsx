@@ -885,11 +885,14 @@ export default function Header() {
                 <a
                   href="#shop-panel"
                   className="app-menu-next-panel"
+                  aria-label="Open shop category menu"
                   onClick={(e) => {
                     e.preventDefault();
                     setMobilePanel("shop");
                   }}
-                ></a>
+                >
+                  <span className="sr-only">Open shop category menu</span>
+                </a>
               </li>
               <li className="menu-item menu-item-has-children">
                 <Link href="/cart" onClick={() => setMobileMenuOpen(false)}>
@@ -898,11 +901,14 @@ export default function Header() {
                 <a
                   href="#pages-panel"
                   className="app-menu-next-panel"
+                  aria-label="Open navigation pages menu"
                   onClick={(e) => {
                     e.preventDefault();
                     setMobilePanel("pages");
                   }}
-                ></a>
+                >
+                  <span className="sr-only">Open navigation pages menu</span>
+                </a>
               </li>
               <li className="menu-item">
                 <Link href="/blog" onClick={() => setMobileMenuOpen(false)}>

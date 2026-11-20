@@ -174,8 +174,9 @@ export default function Footer() {
                           className="social-item"
                           target="_blank"
                           rel="noreferrer"
+                          aria-label="Follow 3Uqab Perfume on Facebook"
                         >
-                          <i className="icon fa fa-facebook"></i>
+                          <i className="icon fa fa-facebook" aria-hidden="true"></i>
                         </a>
                       </li>
                       <li>
@@ -184,8 +185,9 @@ export default function Footer() {
                           className="social-item"
                           target="_blank"
                           rel="noreferrer"
+                          aria-label="Follow 3Uqab Perfume on Twitter"
                         >
-                          <i className="icon fa fa-twitter"></i>
+                          <i className="icon fa fa-twitter" aria-hidden="true"></i>
                         </a>
                       </li>
                       <li>
@@ -194,15 +196,19 @@ export default function Footer() {
                           className="social-item"
                           target="_blank"
                           rel="noreferrer"
+                          aria-label="Follow 3Uqab Perfume on Instagram"
                         >
-                          <i className="icon fa fa-instagram"></i>
+                          <i className="icon fa fa-instagram" aria-hidden="true"></i>
                         </a>
                       </li>
                     </ul>
                   </div>
                   <div className="coppyright">
                     Copyright © {2026}{" "}
-                    <Link href="/">{siteConfig.name}</Link>. All rights reserved
+                    <Link href="/" style={{ textDecoration: "underline" }}>
+                      {siteConfig.name}
+                    </Link>
+                    . All rights reserved
                   </div>
                 </div>
               </div>

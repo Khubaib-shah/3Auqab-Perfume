@@ -353,6 +353,7 @@ export default function BlogPostClient({
                       target="_blank"
                       rel="noreferrer"
                       className="social-item"
+                      aria-label="Share on Facebook"
                     >
                       <i
                         className="fa fa-facebook-square"
@@ -364,6 +365,7 @@ export default function BlogPostClient({
                       target="_blank"
                       rel="noreferrer"
                       className="social-item"
+                      aria-label="Share on Twitter"
                     >
                       <i className="fa fa-twitter" aria-hidden="true"></i>
                     </a>
@@ -372,6 +374,7 @@ export default function BlogPostClient({
                       target="_blank"
                       rel="noreferrer"
                       className="social-item"
+                      aria-label="Share on Instagram"
                     >
                       <i className="fa fa-instagram" aria-hidden="true"></i>
                     </a>

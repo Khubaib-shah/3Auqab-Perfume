@@ -64,9 +64,9 @@ function TestimonialsNewsletterComponent({
                             <img src={item.avatar} alt={item.name} />
                           </div>
                           <div className="info">
-                            <h5 className="name">
+                            <h3 className="name">
                               {item.name} <span>{item.role}</span>
-                            </h5>
+                            </h3>
                             <div className="text">
                               <p>{item.text}</p>
                             </div>
