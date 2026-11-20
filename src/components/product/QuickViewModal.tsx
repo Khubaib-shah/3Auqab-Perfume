@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
@@ -12,6 +12,7 @@ import {
   getDefaultProductSize,
   getProductPriceForSize,
   getProductOldPriceForSize,
+  getProductPhotoForSize,
 } from "@/data/products";
 
 export default function QuickViewModal() {
@@ -28,24 +29,12 @@ export default function QuickViewModal() {
   const [selectedSize, setSelectedSize] = useState<string>(DEFAULT_PRODUCT_SIZE);
   const [quantity, setQuantity] = useState<number>(1);
 
-  const getPhotoForSize = (prod: typeof quickViewProduct, size: string) => {
-    if (!prod) return "";
-    if (prod.sizeImages && prod.sizeImages[size]) {
-      return prod.sizeImages[size];
-    }
-    const sizeIdx = prod.sizes.indexOf(size);
-    if (sizeIdx !== -1 && prod.gallery[sizeIdx]) {
-      return prod.gallery[sizeIdx];
-    }
-    return prod.gallery[0] || prod.image;
-  };
-
   useEffect(() => {
     if (quickViewProduct) {
       const initialSize = getDefaultProductSize(quickViewProduct);
       setSelectedSize(initialSize);
       setActiveImage(
-        getPhotoForSize(quickViewProduct, initialSize) ||
+        getProductPhotoForSize(quickViewProduct, initialSize) ||
           quickViewProduct.gallery[0] ||
           quickViewProduct.image
       );
@@ -53,20 +42,55 @@ export default function QuickViewModal() {
     }
   }, [quickViewProduct]);
 
+  const thumbnails = useMemo(() => {
+    if (!quickViewProduct) return [];
+    const list: { url: string; size?: string; label?: string }[] = [];
+    const seenUrls = new Set<string>();
+
+    (quickViewProduct.sizes || []).forEach((sz) => {
+      const url = getProductPhotoForSize(quickViewProduct, sz);
+      if (url && !seenUrls.has(url)) {
+        seenUrls.add(url);
+        list.push({ url, size: sz, label: `${sz} Bottle View` });
+      }
+    });
+
+    (quickViewProduct.gallery || []).forEach((url, idx) => {
+      if (url && !seenUrls.has(url)) {
+        seenUrls.add(url);
+        list.push({ url, label: `View ${idx + 1}` });
+      }
+    });
+
+    if (quickViewProduct.image && !seenUrls.has(quickViewProduct.image)) {
+      seenUrls.add(quickViewProduct.image);
+      list.unshift({ url: quickViewProduct.image, label: "Cover" });
+    }
+
+    return list;
+  }, [quickViewProduct]);
+
   if (!quickViewProduct) return null;
 
   const handleSelectSize = (sz: string) => {
     setSelectedSize(sz);
-    const targetImg = getPhotoForSize(quickViewProduct, sz);
+    const targetImg = getProductPhotoForSize(quickViewProduct, sz);
     if (targetImg) {
       setActiveImage(targetImg);
     }
   };
 
-  const handleSelectThumbnail = (imgUrl: string, index: number) => {
-    setActiveImage(imgUrl);
-    if (quickViewProduct.sizes[index]) {
-      setSelectedSize(quickViewProduct.sizes[index]);
+  const handleSelectThumbnail = (thumb: { url: string; size?: string }) => {
+    setActiveImage(thumb.url);
+    if (thumb.size && quickViewProduct.sizes.includes(thumb.size)) {
+      setSelectedSize(thumb.size);
+    } else {
+      const matchingSize = Object.entries(quickViewProduct.sizeImages || {}).find(
+        ([_, u]) => u === thumb.url
+      )?.[0];
+      if (matchingSize) {
+        setSelectedSize(matchingSize);
+      }
     }
   };
 
@@ -158,6 +182,13 @@ export default function QuickViewModal() {
             <div className="details-thumb">
               <div
                 style={{
+                  width: "100%",
+                  aspectRatio: "1 / 1",
+                  maxHeight: "420px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: "#ffffff",
                   marginBottom: "12px",
                   textAlign: "center",
                   position: "relative",
@@ -168,8 +199,9 @@ export default function QuickViewModal() {
                   src={activeImage || quickViewProduct.image}
                   alt={quickViewProduct.name}
                   style={{
-                    maxWidth: "100%",
-                    height: "auto",
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
                     opacity: isOutOfStock ? 0.88 : 1,
                   }}
                 />
@@ -184,17 +216,19 @@ export default function QuickViewModal() {
                   display: "flex",
                   gap: "10px",
                   justifyContent: "center",
+                  overflowX: "auto",
+                  paddingBottom: "4px",
                 }}
               >
-                {quickViewProduct.gallery.map((img, i) => {
-                  const mappedSize = quickViewProduct.sizes[i];
-                  const isCurrent = activeImage === img;
+                {thumbnails.map((thumb, i) => {
+                  const isCurrent = activeImage === thumb.url;
                   return (
                     <button
                       key={i}
                       type="button"
-                      onClick={() => handleSelectThumbnail(img, i)}
+                      onClick={() => handleSelectThumbnail(thumb)}
                       style={{
+                        position: "relative",
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
@@ -206,19 +240,25 @@ export default function QuickViewModal() {
                         cursor: "pointer",
                         width: "68px",
                         borderRadius: "4px",
+                        boxShadow: isCurrent
+                          ? "0 2px 6px rgba(183,156,92,0.2)"
+                          : "none",
                       }}
-                      title={
-                        mappedSize
-                          ? `${mappedSize} Bottle View`
-                          : `View ${i + 1}`
-                      }
+                      title={thumb.label || `Photo ${i + 1}`}
                     >
                       <img
-                        src={img}
+                        src={thumb.url}
                         alt={`${quickViewProduct.name} ${i + 1}`}
-                        style={{ width: "100%", height: "auto" }}
+                        style={{
+                          width: "100%",
+                          height: "54px",
+                          objectFit: "contain",
+                          padding: "2px",
+                          background: "#fafafa",
+                          borderRadius: "2px",
+                        }}
                       />
-                      {mappedSize && (
+                      {thumb.size && (
                         <span
                           style={{
                             fontSize: "10px",
@@ -227,7 +267,7 @@ export default function QuickViewModal() {
                             marginTop: "2px",
                           }}
                         >
-                          {mappedSize}
+                          {thumb.size}
                         </span>
                       )}
                     </button>

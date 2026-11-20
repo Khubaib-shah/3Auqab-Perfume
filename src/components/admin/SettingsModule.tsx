@@ -29,17 +29,16 @@ export default function SettingsModule() {
       settings: {
         ...formState,
         popularTags: parsedTags,
+        cloudinary: {
+          cloudName: "gygjrt5s",
+          apiKey: "682718744332677",
+          apiSecret: "mhWOLkBBy3749GSktPPsgrI1MWU",
+          uploadPreset: "3Uqab_Store",
+          rootFolder: "3Uqab_Store",
+        },
       },
     });
     toast.success("Settings saved!");
-  };
-
-  const cloud = formState.cloudinary || {
-    cloudName: "",
-    apiKey: "",
-    apiSecret: "",
-    uploadPreset: "",
-    rootFolder: siteConfig.brand.slug,
   };
 
   return (
@@ -48,7 +47,7 @@ export default function SettingsModule() {
         <div>
           <h1 className="admin-section-title">Settings</h1>
           <p className="admin-section-subtitle">
-            Update store name, currency, WhatsApp number, and Cloudinary folders
+            Update store name, currency, and WhatsApp number
           </p>
         </div>
         <button
@@ -269,109 +268,6 @@ export default function SettingsModule() {
                   }
                 />
               </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Cloudinary Setup & Subfolder Map */}
-        <div className="admin-card">
-          <h3 className="admin-card-title">
-            <span>Cloudinary WebP Upload & Folders</span>
-            <span className="admin-badge admin-badge-confirmed">
-              Auto WebP Conversion Active
-            </span>
-          </h3>
-          <p style={{ fontSize: "13px", marginBottom: "16px" }}>
-            All images (PNG, JPG, or pasted URLs) are converted to{" "}
-            <strong>.webp</strong> and uploaded into subfolders inside{" "}
-            <strong>{cloud.rootFolder || "3uqab"}/</strong>:{" "}
-            <code>{cloud.rootFolder || "3uqab"}/products</code>,{" "}
-            <code>{cloud.rootFolder || "3uqab"}/banners</code>,{" "}
-            <code>{cloud.rootFolder || "3uqab"}/blogs</code>,{" "}
-            <code>{cloud.rootFolder || "3uqab"}/categories</code>,{" "}
-            <code>{cloud.rootFolder || "3uqab"}/reviews</code>.
-          </p>
-
-          <div className="admin-grid-2">
-            <div className="admin-form-group">
-              <label className="admin-label">Cloudinary Cloud Name</label>
-              <input
-                type="text"
-                className="admin-input"
-                placeholder="e.g. dxyz12345"
-                value={cloud.cloudName}
-                onChange={(e) =>
-                  setFormState({
-                    ...formState,
-                    cloudinary: { ...cloud, cloudName: e.target.value },
-                  })
-                }
-              />
-            </div>
-            <div className="admin-form-group">
-              <label className="admin-label">Root Folder Name</label>
-              <input
-                type="text"
-                className="admin-input"
-                placeholder="3uqab"
-                value={cloud.rootFolder}
-                onChange={(e) =>
-                  setFormState({
-                    ...formState,
-                    cloudinary: { ...cloud, rootFolder: e.target.value },
-                  })
-                }
-              />
-            </div>
-          </div>
-
-          <div className="admin-grid-3">
-            <div className="admin-form-group">
-              <label className="admin-label">Cloudinary API Key</label>
-              <input
-                type="text"
-                className="admin-input"
-                placeholder="API Key"
-                value={cloud.apiKey}
-                onChange={(e) =>
-                  setFormState({
-                    ...formState,
-                    cloudinary: { ...cloud, apiKey: e.target.value },
-                  })
-                }
-              />
-            </div>
-            <div className="admin-form-group">
-              <label className="admin-label">Cloudinary API Secret</label>
-              <input
-                type="password"
-                className="admin-input"
-                placeholder="API Secret"
-                value={cloud.apiSecret}
-                onChange={(e) =>
-                  setFormState({
-                    ...formState,
-                    cloudinary: { ...cloud, apiSecret: e.target.value },
-                  })
-                }
-              />
-            </div>
-            <div className="admin-form-group">
-              <label className="admin-label">
-                Or Unsigned Upload Preset (Optional)
-              </label>
-              <input
-                type="text"
-                className="admin-input"
-                placeholder="e.g. 3uqab_unsigned"
-                value={cloud.uploadPreset}
-                onChange={(e) =>
-                  setFormState({
-                    ...formState,
-                    cloudinary: { ...cloud, uploadPreset: e.target.value },
-                  })
-                }
-              />
             </div>
           </div>
         </div>

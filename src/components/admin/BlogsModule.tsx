@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useAdminStore } from "@/store/useAdminStore";
 import { AdminBlogPost } from "@/data/initialStoreSeed";
 import { assetsConfig } from "@/config";
+import { generateSlug } from "@/lib/slug";
 import ImageUploadField from "./ImageUploadField";
 
 export default function BlogsModule() {
@@ -16,6 +17,7 @@ export default function BlogsModule() {
 
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
+  const [isSlugManual, setIsSlugManual] = useState(false);
   const [category, setCategory] = useState("FRAGRANCE GUIDE");
   const [author, setAuthor] = useState("Tariq Al-Mansoor");
   const [authorRole, setAuthorRole] = useState("Perfumer");
@@ -31,6 +33,7 @@ export default function BlogsModule() {
     setEditingId(null);
     setTitle("");
     setSlug("");
+    setIsSlugManual(false);
     setCategory("FRAGRANCE GUIDE");
     setAuthor("Tariq Al-Mansoor");
     setAuthorRole("Perfumer");
@@ -48,6 +51,7 @@ export default function BlogsModule() {
     setEditingId(post.id);
     setTitle(post.title);
     setSlug(post.slug);
+    setIsSlugManual(true);
     setCategory(post.category);
     setAuthor(post.author);
     setAuthorRole(post.authorRole);
@@ -247,7 +251,13 @@ export default function BlogsModule() {
                     className="admin-input"
                     required
                     value={title}
-                    onChange={(e) => setTitle(e.target.value)}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setTitle(val);
+                      if (!isSlugManual) {
+                        setSlug(generateSlug(val));
+                      }
+                    }}
                   />
                 </div>
                 <div className="admin-form-group">
@@ -256,7 +266,16 @@ export default function BlogsModule() {
                     type="text"
                     className="admin-input"
                     value={slug}
-                    onChange={(e) => setSlug(e.target.value)}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      if (!val.trim()) {
+                        setIsSlugManual(false);
+                        setSlug(generateSlug(title));
+                      } else {
+                        setIsSlugManual(true);
+                        setSlug(val);
+                      }
+                    }}
                   />
                 </div>
               </div>

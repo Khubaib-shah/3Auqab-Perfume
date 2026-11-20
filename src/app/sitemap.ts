@@ -23,7 +23,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: route === "" ? 1 : 0.8,
   }));
 
-  const productPages = initialPerfumeCatalog.map((product) => ({
+  const catalogProducts =
+    db.products && db.products.length > 0
+      ? db.products
+      : initialPerfumeCatalog;
+
+  const productPages = catalogProducts.map((product) => ({
     url: `${baseUrl}/product/${product.slug}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
@@ -35,8 +40,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .map((post) => ({
       url: `${baseUrl}/blog/${post.slug}`,
       lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
     }));
 
   return [...staticPages, ...productPages, ...blogPages];

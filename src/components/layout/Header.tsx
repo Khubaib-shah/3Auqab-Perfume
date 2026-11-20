@@ -91,6 +91,15 @@ export default function Header() {
       .slice(0, 5);
   }, [products, searchQuery]);
 
+  const popularSearches = useMemo<string[]>(() => {
+    if (products && products.length > 0) {
+      return products.slice(0, 4).map((p) => p.name);
+    }
+    return (
+      settings.popularTags?.length ? settings.popularTags : siteConfig.popularTags
+    ).slice(0, 4);
+  }, [products, settings.popularTags]);
+
   // Close dropdowns smoothly on outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -568,25 +577,20 @@ export default function Header() {
                           Popular Searches
                         </div>
                         <div className="search-tags-row">
-                          {(settings.popularTags?.length
-                            ? settings.popularTags
-                            : siteConfig.popularTags
-                          )
-                            .slice(0, 5)
-                            .map((tag) => (
-                              <button
-                                key={tag}
-                                type="button"
-                                className="search-tag-chip"
-                                onClick={() => {
-                                  setSearchQuery(tag);
-                                  setSearchFocused(false);
-                                  router.push(`/shop?q=${encodeURIComponent(tag)}`);
-                                }}
-                              >
-                                {tag}
-                              </button>
-                            ))}
+                          {popularSearches.map((tag) => (
+                            <button
+                              key={tag}
+                              type="button"
+                              className="search-tag-chip"
+                              onClick={() => {
+                                setSearchQuery(tag);
+                                setSearchFocused(false);
+                                router.push(`/shop?q=${encodeURIComponent(tag)}`);
+                              }}
+                            >
+                              {tag}
+                            </button>
+                          ))}
                         </div>
                       </div>
 
@@ -760,25 +764,20 @@ export default function Header() {
                       Popular Searches
                     </div>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "14px" }}>
-                      {(settings.popularTags?.length
-                        ? settings.popularTags
-                        : siteConfig.popularTags
-                      )
-                        .slice(0, 4)
-                        .map((tag) => (
-                          <button
-                            key={tag}
-                            type="button"
-                            className="search-tag-chip"
-                            onClick={() => {
-                              setSearchQuery(tag);
-                              setMobileSearchOpen(false);
-                              router.push(`/shop?q=${encodeURIComponent(tag)}`);
-                            }}
-                          >
-                            {tag}
-                          </button>
-                        ))}
+                      {popularSearches.map((tag) => (
+                        <button
+                          key={tag}
+                          type="button"
+                          className="search-tag-chip"
+                          onClick={() => {
+                            setSearchQuery(tag);
+                            setMobileSearchOpen(false);
+                            router.push(`/shop?q=${encodeURIComponent(tag)}`);
+                          }}
+                        >
+                          {tag}
+                        </button>
+                      ))}
                     </div>
 
                     {suggestedProducts.length > 0 && (

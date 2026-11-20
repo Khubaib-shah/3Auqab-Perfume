@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useAdminStore } from "@/store/useAdminStore";
 import { CategoryItem } from "@/data/initialStoreSeed";
+import { generateSlug } from "@/lib/slug";
 import ImageUploadField from "./ImageUploadField";
 
 export default function CategoriesModule() {
@@ -15,6 +16,7 @@ export default function CategoriesModule() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
+  const [isSlugManual, setIsSlugManual] = useState(false);
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
   const [showInNav, setShowInNav] = useState(true);
@@ -23,6 +25,7 @@ export default function CategoriesModule() {
     setEditingId(null);
     setName("");
     setSlug("");
+    setIsSlugManual(false);
     setDescription("");
     setImage("/assets/images/products/3uqab-perfume-product-placeholder-1.jpg");
     setShowInNav(true);
@@ -33,6 +36,7 @@ export default function CategoriesModule() {
     setEditingId(cat.id);
     setName(cat.name);
     setSlug(cat.slug);
+    setIsSlugManual(true);
     setDescription(cat.description);
     setImage(cat.image || "/assets/images/products/3uqab-perfume-product-placeholder-1.jpg");
     setShowInNav(cat.showInNav);
@@ -228,7 +232,13 @@ export default function CategoriesModule() {
                   className="admin-input"
                   required
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setName(val);
+                    if (!isSlugManual) {
+                      setSlug(generateSlug(val));
+                    }
+                  }}
                   placeholder="e.g. Arabian Oud"
                 />
               </div>
@@ -238,7 +248,16 @@ export default function CategoriesModule() {
                   type="text"
                   className="admin-input"
                   value={slug}
-                  onChange={(e) => setSlug(e.target.value)}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (!val.trim()) {
+                      setIsSlugManual(false);
+                      setSlug(generateSlug(name));
+                    } else {
+                      setIsSlugManual(true);
+                      setSlug(val);
+                    }
+                  }}
                   placeholder="arabian-oud"
                 />
               </div>

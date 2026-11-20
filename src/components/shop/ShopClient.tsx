@@ -27,9 +27,12 @@ export default function ShopClient() {
     (s) => s.subscribeNewsletterOnServer
   );
 
-  // Static Banners: instantly rendered from siteConfig
-  const shopSlide1 = siteConfig.promoBanners.shopSlide1;
-  const shopSlide2 = siteConfig.promoBanners.shopSlide2;
+  // Dynamic Shop Promo Banners from admin store with fallback
+  const storePromoBanners = useAdminStore((s) => s.promoBanners);
+  const shopSlide1 =
+    storePromoBanners?.shopSlide1 || siteConfig.promoBanners.shopSlide1;
+  const shopSlide2 =
+    storePromoBanners?.shopSlide2 || siteConfig.promoBanners.shopSlide2;
 
   const [bannerSlide, setBannerSlide] = useState(0);
 

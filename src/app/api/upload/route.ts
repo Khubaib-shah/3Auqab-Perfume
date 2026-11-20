@@ -53,19 +53,22 @@ async function getCloudinaryCredentials() {
     process.env.CLOUDINARY_CLOUD_NAME ||
     process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ||
     saved?.cloudName ||
-    "";
-  const apiKey = process.env.CLOUDINARY_API_KEY || saved?.apiKey || "";
+    "gygjrt5s";
+  const apiKey =
+    process.env.CLOUDINARY_API_KEY || saved?.apiKey || "682718744332677";
   const apiSecret =
     process.env.CLOUDINARY_API_SECRET ||
     process.env.CLOUDINARY_API_SECRET_KEY ||
     saved?.apiSecret ||
-    "";
+    "mhWOLkBBy3749GSktPPsgrI1MWU";
   const uploadPreset =
-    process.env.CLOUDINARY_UPLOAD_PRESET || saved?.uploadPreset || "";
+    process.env.CLOUDINARY_UPLOAD_PRESET ||
+    saved?.uploadPreset ||
+    "3Uqab_Store";
   const rootFolder = (
     process.env.CLOUDINARY_ROOT_FOLDER ||
     saved?.rootFolder ||
-    "3Uqab Perfume"
+    "3Uqab_Store"
   ).replace(/^\/+|\/+$/g, "");
 
   return {
@@ -73,7 +76,7 @@ async function getCloudinaryCredentials() {
     apiKey: apiKey.trim(),
     apiSecret: apiSecret.trim(),
     uploadPreset: uploadPreset.trim(),
-    rootFolder: rootFolder || "3uqab",
+    rootFolder: rootFolder || "3Uqab_Store",
   };
 }
 
@@ -157,23 +160,30 @@ export async function POST(request: Request) {
         creds.cloudName &&
         ((creds.apiKey && creds.apiSecret) || creds.uploadPreset)
       ) {
-        const base64DataUri = `data:image/webp;base64,${buffer.toString(
-          "base64"
-        )}`;
-        const cloudUrl = await uploadToCloudinary(
-          base64DataUri,
-          targetFolder,
-          seoPublicId,
-          creds
-        );
-        if (cloudUrl) {
-          return NextResponse.json({
-            url: cloudUrl,
-            folder: targetFolder,
-            fileName: `${seoPublicId}.webp`,
-            provider: "cloudinary",
-            format: "webp",
-          });
+        try {
+          const base64DataUri = `data:image/webp;base64,${buffer.toString(
+            "base64"
+          )}`;
+          const cloudUrl = await uploadToCloudinary(
+            base64DataUri,
+            targetFolder,
+            seoPublicId,
+            creds
+          );
+          if (cloudUrl) {
+            return NextResponse.json({
+              url: cloudUrl,
+              folder: targetFolder,
+              fileName: `${seoPublicId}.webp`,
+              provider: "cloudinary",
+              format: "webp",
+            });
+          }
+        } catch (cloudErr) {
+          console.warn(
+            "Cloudinary upload failed, falling back to local webp storage:",
+            cloudErr
+          );
         }
       }
 
@@ -209,20 +219,24 @@ export async function POST(request: Request) {
       creds.cloudName &&
       ((creds.apiKey && creds.apiSecret) || creds.uploadPreset)
     ) {
-      const cloudUrl = await uploadToCloudinary(
-        rawUrl,
-        targetFolder,
-        seoPublicId,
-        creds
-      );
-      if (cloudUrl) {
-        return NextResponse.json({
-          url: cloudUrl,
-          folder: targetFolder,
-          fileName: `${seoPublicId}.webp`,
-          provider: "cloudinary",
-          format: "webp",
-        });
+      try {
+        const cloudUrl = await uploadToCloudinary(
+          rawUrl,
+          targetFolder,
+          seoPublicId,
+          creds
+        );
+        if (cloudUrl) {
+          return NextResponse.json({
+            url: cloudUrl,
+            folder: targetFolder,
+            fileName: `${seoPublicId}.webp`,
+            provider: "cloudinary",
+            format: "webp",
+          });
+        }
+      } catch (cloudErr) {
+        console.warn("Cloudinary URL upload failed, keeping URL:", cloudErr);
       }
     }
 

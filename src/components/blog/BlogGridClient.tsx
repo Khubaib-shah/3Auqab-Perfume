@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState } from "react";
 import Link from "next/link";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { useAdminStore } from "@/store/useAdminStore";
@@ -7,6 +8,22 @@ import { useAdminStore } from "@/store/useAdminStore";
 export default function BlogGridClient() {
   const blogs = useAdminStore((s) => s.blogs);
   const publishedBlogs = blogs.filter((b) => b.isPublished !== false);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const blogsPerPage = 6;
+  const totalPages = Math.ceil(publishedBlogs.length / blogsPerPage);
+
+  const handlePageChange = (pageNum: number) => {
+    setCurrentPage(pageNum);
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 120, behavior: "smooth" });
+    }
+  };
+
+  const displayedBlogs = publishedBlogs.slice(
+    (currentPage - 1) * blogsPerPage,
+    currentPage * blogsPerPage
+  );
 
   return (
     <div className="main-content main-content-blog grid no-sidebar">
@@ -22,7 +39,7 @@ export default function BlogGridClient() {
               <h3 className="custom_blog_title capi">Our Perfume Journal</h3>
               <div className="blog-list grid-style">
                 <div className="row">
-                  {publishedBlogs.map((post) => (
+                  {displayedBlogs.map((post) => (
                     <div
                       key={post.id}
                       className="col-lg-6 col-md-12 col-sm-12 col-xs-12"
@@ -86,22 +103,49 @@ export default function BlogGridClient() {
                   ))}
                 </div>
               </div>
-              <div className="pagination clearfix style2">
-                <div className="nav-link">
-                  <Link href="/blog" className="page-numbers current">
-                    1
-                  </Link>
-                  <Link href="/blog" className="page-numbers">
-                    2
-                  </Link>
-                  <Link href="/blog" className="page-numbers">
-                    <i
-                      className="icon fa fa-angle-right"
-                      aria-hidden="true"
-                    ></i>
-                  </Link>
+              {totalPages > 1 && (
+                <div className="pagination clearfix style2">
+                  <div className="nav-link">
+                    {currentPage > 1 && (
+                      <button
+                        type="button"
+                        className="page-numbers"
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        title="Previous page"
+                        aria-label="Previous page"
+                        style={{ border: "none", cursor: "pointer", background: "none" }}
+                      >
+                        <i className="icon fa fa-angle-left" aria-hidden="true"></i>
+                      </button>
+                    )}
+
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
+                      <button
+                        key={num}
+                        type="button"
+                        className={`page-numbers ${currentPage === num ? "current" : ""}`}
+                        onClick={() => handlePageChange(num)}
+                        style={{ border: "none", cursor: "pointer", background: "none" }}
+                      >
+                        {num}
+                      </button>
+                    ))}
+
+                    {currentPage < totalPages && (
+                      <button
+                        type="button"
+                        className="page-numbers"
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        title="Next page"
+                        aria-label="Next page"
+                        style={{ border: "none", cursor: "pointer", background: "none" }}
+                      >
+                        <i className="icon fa fa-angle-right" aria-hidden="true"></i>
+                      </button>
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>

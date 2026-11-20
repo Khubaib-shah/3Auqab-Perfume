@@ -23,11 +23,18 @@ export default function HomeClient() {
     (s) => s.subscribeNewsletterOnServer
   );
 
-  // Static Banners: instantly rendered from siteConfig without waiting for backend response
-  const heroSlides = siteConfig.heroSlides;
-  const card1 = siteConfig.promoBanners.homeCard1;
-  const card2 = siteConfig.promoBanners.homeCard2;
-  const fullBanner = siteConfig.promoBanners.homeFullwidth;
+  // Dynamic Banners from admin store with static fallback for instant first render
+  const storeHeroSlides = useAdminStore((s) => s.heroSlides);
+  const storePromoBanners = useAdminStore((s) => s.promoBanners);
+
+  const heroSlides =
+    storeHeroSlides && storeHeroSlides.length > 0
+      ? storeHeroSlides
+      : siteConfig.heroSlides;
+  const card1 = storePromoBanners?.homeCard1 || siteConfig.promoBanners.homeCard1;
+  const card2 = storePromoBanners?.homeCard2 || siteConfig.promoBanners.homeCard2;
+  const fullBanner =
+    storePromoBanners?.homeFullwidth || siteConfig.promoBanners.homeFullwidth;
 
   // Memoize filtered store slices
   const testimonials = useMemo(

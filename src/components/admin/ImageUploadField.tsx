@@ -19,6 +19,7 @@ interface ImageUploadFieldProps {
   folder: UploadSubfolder;
   fileName?: string;
   placeholder?: string;
+  hideUrlInput?: boolean;
 }
 
 const DEFAULT_SEO_NAMES: Record<UploadSubfolder, string> = {
@@ -148,6 +149,7 @@ export default function ImageUploadField({
   folder,
   fileName,
   placeholder = "Paste image URL or click Upload...",
+  hideUrlInput = false,
 }: ImageUploadFieldProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -256,110 +258,235 @@ export default function ImageUploadField({
   };
 
   return (
-    <div className="admin-form-group">
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          marginBottom: "6px",
-          gap: "8px",
-          flexWrap: "wrap",
-        }}
-      >
-        <label className="admin-label" style={{ margin: 0 }}>
+    <div className="admin-form-group" style={{ marginBottom: 0 }}>
+      {label && (
+        <label
+          className="admin-label"
+          style={{ marginBottom: "5px", display: "block", fontSize: "11px", color: "#555" }}
+        >
           {label}
         </label>
-        <span
-          style={{
-            fontSize: "10px",
-            color: "var(--color-primary)",
-            fontWeight: 600,
-            letterSpacing: "0.04em",
-          }}
-        >
-          3uqab/{folder}/{seoSlug}.webp
-        </span>
-      </div>
+      )}
 
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "8px",
-          flexWrap: "wrap",
-        }}
-      >
-        <div
-          style={{
-            width: "42px",
-            height: "42px",
-            minWidth: "42px",
-            border: "1px solid #e9e9e9",
-            background: "#fafafa",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            overflow: "hidden",
-          }}
-        >
+      {hideUrlInput ? (
+        <div>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            style={{ display: "none" }}
+            onChange={handleFileSelect}
+          />
           {value ? (
-            <img
-              src={value}
-              alt={seoSlug}
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
-            />
+            <div
+              style={{
+                position: "relative",
+                width: "100%",
+                height: "85px",
+                border: "1px solid #e2e8f0",
+                borderRadius: "6px",
+                overflow: "hidden",
+                background: "#f8fafc",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <img
+                src={value}
+                alt={seoSlug}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "contain",
+                  padding: "4px",
+                }}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background: "rgba(0,0,0,0.4)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "6px",
+                  padding: "4px",
+                }}
+              >
+                <button
+                  type="button"
+                  disabled={isUploading}
+                  onClick={() => fileInputRef.current?.click()}
+                  className="btn-admin btn-admin-sm btn-admin-primary"
+                  style={{
+                    height: "28px",
+                    padding: "0 10px",
+                    fontSize: "11px",
+                    borderRadius: "4px",
+                    fontWeight: 600,
+                  }}
+                  title="Change image"
+                >
+                  <i className="fa fa-refresh"></i> {isUploading ? "..." : "Change"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onChange("")}
+                  style={{
+                    height: "28px",
+                    padding: "0 8px",
+                    fontSize: "11px",
+                    background: "#ef4444",
+                    color: "#ffffff",
+                    border: "none",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                  }}
+                  title="Remove image"
+                >
+                  <i className="fa fa-trash"></i>
+                </button>
+              </div>
+            </div>
           ) : (
-            <i
-              className="fa fa-picture-o"
-              style={{ color: "#bbb", fontSize: "15px" }}
-            ></i>
+            <button
+              type="button"
+              disabled={isUploading}
+              onClick={() => fileInputRef.current?.click()}
+              style={{
+                width: "100%",
+                height: "85px",
+                border: "1.5px dashed #cbd5e1",
+                borderRadius: "6px",
+                background: "#f8fafc",
+                cursor: "pointer",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "5px",
+                padding: "8px",
+                transition: "all 0.15s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "var(--color-primary, #b79c5c)";
+                e.currentTarget.style.background = "#fdfbf7";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "#cbd5e1";
+                e.currentTarget.style.background = "#f8fafc";
+              }}
+            >
+              {isUploading ? (
+                <>
+                  <i
+                    className="fa fa-spinner fa-spin"
+                    style={{ fontSize: "18px", color: "var(--color-primary, #b79c5c)" }}
+                  ></i>
+                  <span style={{ fontSize: "11px", color: "#64748b", fontWeight: 600 }}>
+                    Uploading...
+                  </span>
+                </>
+              ) : (
+                <>
+                  <i
+                    className="fa fa-cloud-upload"
+                    style={{ fontSize: "20px", color: "var(--color-primary, #b79c5c)" }}
+                  ></i>
+                  <span style={{ fontSize: "11px", color: "#475569", fontWeight: 600 }}>
+                    Upload Image
+                  </span>
+                </>
+              )}
+            </button>
           )}
         </div>
-
-        <input
-          type="text"
-          className="admin-input"
-          style={{ flex: 1, minWidth: "160px" }}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          onPaste={handlePasteUrl}
-          placeholder={placeholder}
-        />
-
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/*"
-          style={{ display: "none" }}
-          onChange={handleFileSelect}
-        />
-
-        <button
-          type="button"
-          disabled={isUploading}
-          onClick={() => fileInputRef.current?.click()}
-          className="btn-admin btn-admin-sm btn-admin-primary"
-          style={{ height: "42px", padding: "0 16px" }}
-          title="Pick image from gallery (renames & converts to WebP)"
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            flexWrap: "wrap",
+          }}
         >
-          <i className="fa fa-upload"></i>{" "}
-          {isUploading ? "Uploading..." : "Upload"}
-        </button>
+          <div
+            style={{
+              width: "42px",
+              height: "42px",
+              minWidth: "42px",
+              border: "1px solid #e9e9e9",
+              background: "#fafafa",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              overflow: "hidden",
+            }}
+          >
+            {value ? (
+              <img
+                src={value}
+                alt={seoSlug}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "contain",
+                  padding: "4px",
+                }}
+              />
+            ) : (
+              <i
+                className="fa fa-picture-o"
+                style={{ color: "#bbb", fontSize: "15px" }}
+              ></i>
+            )}
+          </div>
 
-        {value && !value.endsWith(".webp") && (
+          <input
+            type="text"
+            className="admin-input"
+            style={{ flex: 1, minWidth: "160px" }}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            onPaste={handlePasteUrl}
+            placeholder={placeholder}
+          />
+
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            style={{ display: "none" }}
+            onChange={handleFileSelect}
+          />
+
           <button
             type="button"
             disabled={isUploading}
-            onClick={() => convertAndUploadUrl(value)}
-            className="btn-admin btn-admin-sm btn-admin-dark"
-            style={{ height: "42px", padding: "0 14px" }}
-            title="Convert URL to WebP with SEO name"
+            onClick={() => fileInputRef.current?.click()}
+            className="btn-admin btn-admin-sm btn-admin-primary"
+            style={{ height: "42px", padding: "0 16px" }}
+            title="Pick image from gallery (renames & converts to WebP)"
           >
-            To WebP
+            <i className="fa fa-upload"></i>{" "}
+            {isUploading ? "Uploading..." : "Upload"}
           </button>
-        )}
-      </div>
+
+          {value && !value.endsWith(".webp") && (
+            <button
+              type="button"
+              disabled={isUploading}
+              onClick={() => convertAndUploadUrl(value)}
+              className="btn-admin btn-admin-sm btn-admin-dark"
+              style={{ height: "42px", padding: "0 14px" }}
+              title="Convert URL to WebP with SEO name"
+            >
+              To WebP
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }

@@ -23,11 +23,27 @@ export async function generateMetadata({
     };
   }
 
+  const baseUrl = db.settings.url || "https://3uqab.com";
+  const articleUrl = `${baseUrl}/blog/${post.slug}`;
+
   return {
-    title: post.title,
+    title: `${post.title} | ${db.settings.name}`,
     description: post.excerpt,
+    alternates: {
+      canonical: articleUrl,
+    },
     openGraph: {
       title: `${post.title} | ${db.settings.name}`,
+      description: post.excerpt,
+      url: articleUrl,
+      type: "article",
+      publishedTime: post.date,
+      authors: [post.author],
+      images: post.image ? [{ url: post.image, alt: post.title }] : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
       description: post.excerpt,
       images: post.image ? [post.image] : [],
     },
@@ -43,9 +59,41 @@ export default async function BlogPostPage({ params }: PageProps) {
     notFound();
   }
 
+  const baseUrl = db.settings.url || "https://3uqab.com";
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    image: post.image ? [post.image] : [],
+    datePublished: post.date,
+    author: {
+      "@type": "Person",
+      name: post.author,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: db.settings.name,
+      logo: {
+        "@type": "ImageObject",
+        url: `${baseUrl}/assets/images/logo/3uqab-perfume-logo.png`,
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${baseUrl}/blog/${post.slug}`,
+    },
+  };
+
   return (
-    <Suspense fallback={<div className="container">Loading article...</div>}>
-      <BlogPostClient post={post} />
-    </Suspense>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <Suspense fallback={<div className="container">Loading article...</div>}>
+        <BlogPostClient post={post} />
+      </Suspense>
+    </>
   );
 }

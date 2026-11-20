@@ -27,6 +27,7 @@ export interface Product {
   };
   specifications?: Record<string, string>;
   sizes: string[];
+  defaultSize?: string;
   bottleFinishes?: { label: string; className: string }[];
   sizePrices?: Record<string, number>;
   sizeImages?: Record<string, string>;
@@ -36,7 +37,12 @@ export const DEFAULT_VARIANTS = businessConfig.variant.options;
 export const BOTTLE_SIZES = DEFAULT_VARIANTS;
 export const DEFAULT_PRODUCT_SIZE = "50ml";
 
-export function getDefaultProductSize(product?: Pick<Product, "sizes">): string {
+export function getDefaultProductSize(
+  product?: Pick<Product, "sizes" | "defaultSize">
+): string {
+  if (product?.defaultSize && product.sizes?.includes(product.defaultSize)) {
+    return product.defaultSize;
+  }
   if (product?.sizes && product.sizes.length > 0) {
     if (product.sizes.includes(DEFAULT_PRODUCT_SIZE)) {
       return DEFAULT_PRODUCT_SIZE;
@@ -78,4 +84,21 @@ export function getProductOldPriceForSize(
     return DEFAULT_SIZE_OLD_PRICES[size];
   }
   return product.oldPrice;
+}
+
+export function getProductPhotoForSize(
+  product?: Product,
+  size?: string
+): string {
+  if (!product) return "";
+  if (size && product.sizeImages && product.sizeImages[size]) {
+    return product.sizeImages[size];
+  }
+  if (size && product.sizes && product.gallery && product.gallery.length > 0) {
+    const sizeIdx = product.sizes.indexOf(size);
+    if (sizeIdx !== -1 && product.gallery[sizeIdx]) {
+      return product.gallery[sizeIdx];
+    }
+  }
+  return product.gallery?.[0] || product.image || "";
 }

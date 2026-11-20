@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useAdminStore } from "@/store/useAdminStore";
 import { AdminProduct } from "@/data/initialStoreSeed";
 import { businessConfig, siteConfig, assetsConfig } from "@/config";
+import { generateSlug } from "@/lib/slug";
 import ImageUploadField from "./ImageUploadField";
 
 export default function ProductsModule() {
@@ -20,6 +21,7 @@ export default function ProductsModule() {
 
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
+  const [isSlugManual, setIsSlugManual] = useState(false);
   const [sku, setSku] = useState("");
   const [category, setCategory] = useState("Unisex Collection");
   const [oldPrice, setOldPrice] = useState<number>(750);
@@ -27,6 +29,11 @@ export default function ProductsModule() {
   const [size30Price, setSize30Price] = useState<number>(1200);
   const [size50Price, setSize50Price] = useState<number>(2000);
   const [size100Price, setSize100Price] = useState<number>(4000);
+  const [size15Image, setSize15Image] = useState("");
+  const [size30Image, setSize30Image] = useState("");
+  const [size50Image, setSize50Image] = useState("");
+  const [size100Image, setSize100Image] = useState("");
+  const [defaultSize, setDefaultSize] = useState<string>("50ml");
   const [stockQuantity, setStockQuantity] = useState<number>(25);
   const [inStock, setInStock] = useState<boolean>(true);
   const [isNew, setIsNew] = useState<boolean>(true);
@@ -60,6 +67,7 @@ export default function ProductsModule() {
     setEditingId(null);
     setName("");
     setSlug("");
+    setIsSlugManual(false);
     setSku(`3UQ-${String(products.length + 1).padStart(2, "0")}-EDP`);
     setCategory(categories[0]?.name || "Unisex Collection");
     setOldPrice(750);
@@ -67,6 +75,11 @@ export default function ProductsModule() {
     setSize30Price(1200);
     setSize50Price(2000);
     setSize100Price(4000);
+    setSize15Image("");
+    setSize30Image("");
+    setSize50Image("");
+    setSize100Image("");
+    setDefaultSize("50ml");
     setStockQuantity(30);
     setInStock(true);
     setIsNew(true);
@@ -85,6 +98,7 @@ export default function ProductsModule() {
     setEditingId(prod.id);
     setName(prod.name);
     setSlug(prod.slug);
+    setIsSlugManual(true);
     setSku(prod.sku);
     setCategory(prod.category);
     setOldPrice(prod.oldPrice || 0);
@@ -92,6 +106,11 @@ export default function ProductsModule() {
     setSize30Price(prod.sizePrices?.["30ml"] ?? 1200);
     setSize50Price(prod.sizePrices?.["50ml"] ?? 2000);
     setSize100Price(prod.sizePrices?.["100ml"] ?? 4000);
+    setSize15Image(prod.sizeImages?.["15ml"] || prod.gallery?.[0] || "");
+    setSize30Image(prod.sizeImages?.["30ml"] || prod.gallery?.[1] || "");
+    setSize50Image(prod.sizeImages?.["50ml"] || prod.image || prod.gallery?.[2] || "");
+    setSize100Image(prod.sizeImages?.["100ml"] || prod.gallery?.[3] || "");
+    setDefaultSize(prod.defaultSize || "50ml");
     setStockQuantity(prod.stockQuantity ?? 20);
     setInStock(prod.inStock);
     setIsNew(Boolean(prod.isNew));
@@ -130,13 +149,43 @@ export default function ProductsModule() {
       "100ml": Number(size100Price) || 4000,
     };
 
+    const sizeImagesMap: Record<string, string> = {};
+    if (size15Image.trim()) sizeImagesMap["15ml"] = size15Image.trim();
+    if (size30Image.trim()) sizeImagesMap["30ml"] = size30Image.trim();
+    if (size50Image.trim()) sizeImagesMap["50ml"] = size50Image.trim();
+    if (size100Image.trim()) sizeImagesMap["100ml"] = size100Image.trim();
+
+    const primaryImage =
+      sizeImagesMap[defaultSize] ||
+      sizeImagesMap["50ml"] ||
+      sizeImagesMap["15ml"] ||
+      sizeImagesMap["30ml"] ||
+      sizeImagesMap["100ml"] ||
+      assetsConfig.placeholders.product;
+
+    // Build ordered gallery of all bottle images
+    const galleryItems: string[] = [];
+    activeSizes.forEach((sz) => {
+      const img = sizeImagesMap[sz];
+      if (img && !galleryItems.includes(img)) {
+        galleryItems.push(img);
+      }
+    });
+    if (primaryImage && !galleryItems.includes(primaryImage)) {
+      galleryItems.unshift(primaryImage);
+    }
+    if (galleryItems.length === 0) {
+      galleryItems.push(primaryImage);
+    }
+
     const newProductObj: AdminProduct = {
       id: editingId || `prod-${Date.now()}`,
       slug: generatedSlug,
       name: name.trim(),
       sku: sku.trim() || `3UQ-${String(products.length + 1).padStart(2, "0")}-EDP`,
       category,
-      price: Number(size15Price) || 600,
+      defaultSize,
+      price: sizePricesMap[defaultSize] || Number(size50Price) || 2000,
       oldPrice: Number(oldPrice) > 0 ? Number(oldPrice) : undefined,
       rating: Number(rating) || 5,
       reviewsCount: Number(reviewsCount) || 12,
@@ -144,10 +193,10 @@ export default function ProductsModule() {
       isWeeklyFeatured,
       inStock: inStock && Number(stockQuantity) > 0,
       stockQuantity: Number(stockQuantity) || 0,
-      image: image.trim() || "/assets/images/products/3uqab-perfume-product-placeholder-1.jpg",
-      orderThumb: image.trim() || "/assets/images/products/item-order1.jpg",
-      cartThumb: image.trim() || "/assets/images/products/cart-item-1.jpg",
-      gallery: [image.trim() || "/assets/images/products/3uqab-perfume-product-placeholder-1.jpg"],
+      image: primaryImage,
+      orderThumb: primaryImage,
+      cartThumb: primaryImage,
+      gallery: galleryItems,
       shortBullets: [
         `Top Notes: ${topNotes.trim() || "Bergamot, Fresh Citrus"}`,
         `Heart Notes: ${heartNotes.trim() || "Floral Jasmine, Rose"}`,
@@ -164,6 +213,7 @@ export default function ProductsModule() {
       },
       sizes: activeSizes,
       sizePrices: sizePricesMap,
+      sizeImages: sizeImagesMap,
       bottleFinishes: [],
     };
 
@@ -217,9 +267,8 @@ export default function ProductsModule() {
           <button
             type="button"
             onClick={() => setCategoryFilter("ALL")}
-            className={`admin-pill-tab ${
-              categoryFilter === "ALL" ? "active" : ""
-            }`}
+            className={`admin-pill-tab ${categoryFilter === "ALL" ? "active" : ""
+              }`}
           >
             All ({products.length})
           </button>
@@ -228,9 +277,8 @@ export default function ProductsModule() {
               key={cat.id}
               type="button"
               onClick={() => setCategoryFilter(cat.name)}
-              className={`admin-pill-tab ${
-                categoryFilter === cat.name ? "active" : ""
-              }`}
+              className={`admin-pill-tab ${categoryFilter === cat.name ? "active" : ""
+                }`}
             >
               {cat.name}
             </button>
@@ -341,8 +389,8 @@ export default function ProductsModule() {
                           qty === 0
                             ? "admin-badge admin-badge-cancelled"
                             : qty <= 5
-                            ? "admin-badge admin-badge-pending"
-                            : "admin-badge admin-badge-delivered"
+                              ? "admin-badge admin-badge-pending"
+                              : "admin-badge admin-badge-delivered"
                         }
                       >
                         {qty} left
@@ -399,7 +447,7 @@ export default function ProductsModule() {
       {/* Add / Edit Product Modal */}
       {modalOpen && (
         <div className="admin-backdrop" onClick={() => setModalOpen(false)}>
-          <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
+          <div className="admin-modal" style={{ maxWidth: "1020px", width: "95%" }} onClick={(e) => e.stopPropagation()}>
             <div className="admin-modal-header">
               <h3 className="admin-modal-title">
                 {editingId ? "Edit Product" : "Add Product"}
@@ -421,7 +469,13 @@ export default function ProductsModule() {
                     className="admin-input"
                     required
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setName(val);
+                      if (!isSlugManual) {
+                        setSlug(generateSlug(val));
+                      }
+                    }}
                     placeholder={`e.g. ${siteConfig.brand.shortName} Signature`}
                   />
                 </div>
@@ -431,7 +485,16 @@ export default function ProductsModule() {
                     type="text"
                     className="admin-input"
                     value={slug}
-                    onChange={(e) => setSlug(e.target.value)}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      if (!val.trim()) {
+                        setIsSlugManual(false);
+                        setSlug(generateSlug(name));
+                      } else {
+                        setIsSlugManual(true);
+                        setSlug(val);
+                      }
+                    }}
                     placeholder={`${siteConfig.brand.slug}-signature`}
                   />
                 </div>
@@ -474,13 +537,13 @@ export default function ProductsModule() {
                 </div>
               </div>
 
-              {/* Bottle Sizes & Dynamic Size-Specific Pricing */}
+              {/* Bottle Sizes & Dedicated Images / Pricing */}
               <div
                 style={{
-                  background: "#fafafa",
+                  background: "#fcfbf9",
                   padding: "16px 18px",
-                  borderRadius: "12px",
-                  border: "1px solid #e9ecef",
+                  borderRadius: "10px",
+                  border: "1px solid #e7dfd5",
                   marginBottom: "18px",
                 }}
               >
@@ -489,80 +552,280 @@ export default function ProductsModule() {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    marginBottom: "10px",
+                    marginBottom: "14px",
                     flexWrap: "wrap",
                     gap: "6px",
                   }}
                 >
-                  <label
-                    className="admin-label"
-                    style={{ fontWeight: 700, margin: 0, fontSize: "13px" }}
-                  >
-                    {businessConfig.variant.label}s & Prices ({settings.currency}) *
-                  </label>
-                  <span style={{ fontSize: "11px", color: "#888" }}>
-                    Shown on product page size selectors & checkout
-                  </span>
+                  <div>
+                    <label
+                      className="admin-label"
+                      style={{ fontWeight: 700, margin: 0, fontSize: "13px", color: "#111" }}
+                    >
+                      Bottle Sizes, Prices ({settings.currency}) & Dedicated Images *
+                    </label>
+                    <div style={{ fontSize: "11px", color: "#666", marginTop: "2px" }}>
+                      Upload the dedicated bottle image for each size. On the storefront, clicking a size shows its bottle photo and clicking an image switches to that size.
+                    </div>
+                  </div>
                 </div>
-                <div className="admin-grid-4">
-                  <div className="admin-form-group" style={{ marginBottom: 0 }}>
-                    <label
-                      className="admin-label"
-                      style={{ fontSize: "11px", color: "#555" }}
-                    >
-                      15ml Bottle Price ({settings.currency}) *
-                    </label>
-                    <input
-                      type="number"
-                      className="admin-input"
-                      required
-                      value={size15Price}
-                      onChange={(e) => setSize15Price(Number(e.target.value))}
+
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+                    gap: "12px",
+                  }}
+                >
+                  {/* 15ml Card */}
+                  <div
+                    style={{
+                      background: defaultSize === "15ml" ? "#fcfaf4" : "#ffffff",
+                      border: defaultSize === "15ml" ? "1.5px solid var(--color-primary, #b79c5c)" : "1px solid #e2e8f0",
+                      borderRadius: "8px",
+                      padding: "10px 12px",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "8px",
+                      boxShadow: defaultSize === "15ml" ? "0 2px 8px rgba(183,156,92,0.15)" : "none",
+                      minWidth: 0,
+                    }}
+                  >
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <strong style={{ fontSize: "12px", color: "#1e293b", whiteSpace: "nowrap" }}>15ml Bottle</strong>
+                      <button
+                        type="button"
+                        onClick={() => setDefaultSize("15ml")}
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "4px",
+                          cursor: "pointer",
+                          margin: 0,
+                          padding: "2px 7px",
+                          borderRadius: "12px",
+                          background: defaultSize === "15ml" ? "var(--color-primary, #b79c5c)" : "#f1f5f9",
+                          color: defaultSize === "15ml" ? "#ffffff" : "#64748b",
+                          fontSize: "9px",
+                          fontWeight: 700,
+                          border: defaultSize === "15ml" ? "none" : "1px solid #e2e8f0",
+                          transition: "all 0.15s ease",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        <i className={`fa ${defaultSize === "15ml" ? "fa-check-circle" : "fa-circle-o"}`} style={{ fontSize: "9px" }}></i>
+                        {defaultSize === "15ml" ? "DEFAULT" : "Set Default"}
+                      </button>
+                    </div>
+                    <div className="admin-form-group" style={{ marginBottom: 0 }}>
+                      <label className="admin-label" style={{ fontSize: "10px", color: "#555", marginBottom: "3px" }}>
+                        Price ({settings.currency}) *
+                      </label>
+                      <input
+                        type="number"
+                        className="admin-input"
+                        style={{ padding: "5px 8px", fontSize: "12px", height: "32px" }}
+                        required
+                        value={size15Price}
+                        onChange={(e) => setSize15Price(Number(e.target.value))}
+                      />
+                    </div>
+                    <ImageUploadField
+                      label="Image"
+                      value={size15Image}
+                      onChange={setSize15Image}
+                      folder="products"
+                      fileName={`${name || slug || "3uqab"}-15ml`}
+                      hideUrlInput={true}
                     />
                   </div>
-                  <div className="admin-form-group" style={{ marginBottom: 0 }}>
-                    <label
-                      className="admin-label"
-                      style={{ fontSize: "11px", color: "#555" }}
-                    >
-                      30ml Bottle Price ({settings.currency}) *
-                    </label>
-                    <input
-                      type="number"
-                      className="admin-input"
-                      required
-                      value={size30Price}
-                      onChange={(e) => setSize30Price(Number(e.target.value))}
+
+                  {/* 30ml Card */}
+                  <div
+                    style={{
+                      background: defaultSize === "30ml" ? "#fcfaf4" : "#ffffff",
+                      border: defaultSize === "30ml" ? "1.5px solid var(--color-primary, #b79c5c)" : "1px solid #e2e8f0",
+                      borderRadius: "8px",
+                      padding: "10px 12px",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "8px",
+                      boxShadow: defaultSize === "30ml" ? "0 2px 8px rgba(183,156,92,0.15)" : "none",
+                      minWidth: 0,
+                    }}
+                  >
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <strong style={{ fontSize: "12px", color: "#1e293b", whiteSpace: "nowrap" }}>30ml Bottle</strong>
+                      <button
+                        type="button"
+                        onClick={() => setDefaultSize("30ml")}
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "4px",
+                          cursor: "pointer",
+                          margin: 0,
+                          padding: "2px 7px",
+                          borderRadius: "12px",
+                          background: defaultSize === "30ml" ? "var(--color-primary, #b79c5c)" : "#f1f5f9",
+                          color: defaultSize === "30ml" ? "#ffffff" : "#64748b",
+                          fontSize: "9px",
+                          fontWeight: 700,
+                          border: defaultSize === "30ml" ? "none" : "1px solid #e2e8f0",
+                          transition: "all 0.15s ease",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        <i className={`fa ${defaultSize === "30ml" ? "fa-check-circle" : "fa-circle-o"}`} style={{ fontSize: "9px" }}></i>
+                        {defaultSize === "30ml" ? "DEFAULT" : "Set Default"}
+                      </button>
+                    </div>
+                    <div className="admin-form-group" style={{ marginBottom: 0 }}>
+                      <label className="admin-label" style={{ fontSize: "10px", color: "#555", marginBottom: "3px" }}>
+                        Price ({settings.currency}) *
+                      </label>
+                      <input
+                        type="number"
+                        className="admin-input"
+                        style={{ padding: "5px 8px", fontSize: "12px", height: "32px" }}
+                        required
+                        value={size30Price}
+                        onChange={(e) => setSize30Price(Number(e.target.value))}
+                      />
+                    </div>
+                    <ImageUploadField
+                      label="Image"
+                      value={size30Image}
+                      onChange={setSize30Image}
+                      folder="products"
+                      fileName={`${name || slug || "3uqab"}-30ml`}
+                      hideUrlInput={true}
                     />
                   </div>
-                  <div className="admin-form-group" style={{ marginBottom: 0 }}>
-                    <label
-                      className="admin-label"
-                      style={{ fontSize: "11px", color: "#555" }}
-                    >
-                      50ml Bottle Price ({settings.currency}) *
-                    </label>
-                    <input
-                      type="number"
-                      className="admin-input"
-                      required
-                      value={size50Price}
-                      onChange={(e) => setSize50Price(Number(e.target.value))}
+
+                  {/* 50ml Card */}
+                  <div
+                    style={{
+                      background: defaultSize === "50ml" ? "#fcfaf4" : "#ffffff",
+                      border: defaultSize === "50ml" ? "1.5px solid var(--color-primary, #b79c5c)" : "1px solid #e2e8f0",
+                      borderRadius: "8px",
+                      padding: "10px 12px",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "8px",
+                      boxShadow: defaultSize === "50ml" ? "0 2px 8px rgba(183,156,92,0.15)" : "none",
+                      minWidth: 0,
+                    }}
+                  >
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <strong style={{ fontSize: "12px", color: "#1e293b", whiteSpace: "nowrap" }}>50ml Bottle</strong>
+                      <button
+                        type="button"
+                        onClick={() => setDefaultSize("50ml")}
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "4px",
+                          cursor: "pointer",
+                          margin: 0,
+                          padding: "2px 7px",
+                          borderRadius: "12px",
+                          background: defaultSize === "50ml" ? "var(--color-primary, #b79c5c)" : "#f1f5f9",
+                          color: defaultSize === "50ml" ? "#ffffff" : "#64748b",
+                          fontSize: "9px",
+                          fontWeight: 700,
+                          border: defaultSize === "50ml" ? "none" : "1px solid #e2e8f0",
+                          transition: "all 0.15s ease",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        <i className={`fa ${defaultSize === "50ml" ? "fa-check-circle" : "fa-circle-o"}`} style={{ fontSize: "9px" }}></i>
+                        {defaultSize === "50ml" ? "DEFAULT" : "Set Default"}
+                      </button>
+                    </div>
+                    <div className="admin-form-group" style={{ marginBottom: 0 }}>
+                      <label className="admin-label" style={{ fontSize: "10px", color: "#555", marginBottom: "3px" }}>
+                        Price ({settings.currency}) *
+                      </label>
+                      <input
+                        type="number"
+                        className="admin-input"
+                        style={{ padding: "5px 8px", fontSize: "12px", height: "32px" }}
+                        required
+                        value={size50Price}
+                        onChange={(e) => setSize50Price(Number(e.target.value))}
+                      />
+                    </div>
+                    <ImageUploadField
+                      label="Image"
+                      value={size50Image}
+                      onChange={setSize50Image}
+                      folder="products"
+                      fileName={`${name || slug || "3uqab"}-50ml`}
+                      hideUrlInput={true}
                     />
                   </div>
-                  <div className="admin-form-group" style={{ marginBottom: 0 }}>
-                    <label
-                      className="admin-label"
-                      style={{ fontSize: "11px", color: "#555" }}
-                    >
-                      100ml Bottle Price ({settings.currency}) *
-                    </label>
-                    <input
-                      type="number"
-                      className="admin-input"
-                      required
-                      value={size100Price}
-                      onChange={(e) => setSize100Price(Number(e.target.value))}
+
+                  {/* 100ml Card */}
+                  <div
+                    style={{
+                      background: defaultSize === "100ml" ? "#fcfaf4" : "#ffffff",
+                      border: defaultSize === "100ml" ? "1.5px solid var(--color-primary, #b79c5c)" : "1px solid #e2e8f0",
+                      borderRadius: "8px",
+                      padding: "10px 12px",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "8px",
+                      boxShadow: defaultSize === "100ml" ? "0 2px 8px rgba(183,156,92,0.15)" : "none",
+                      minWidth: 0,
+                    }}
+                  >
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <strong style={{ fontSize: "12px", color: "#1e293b", whiteSpace: "nowrap" }}>100ml Bottle</strong>
+                      <button
+                        type="button"
+                        onClick={() => setDefaultSize("100ml")}
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "4px",
+                          cursor: "pointer",
+                          margin: 0,
+                          padding: "2px 7px",
+                          borderRadius: "12px",
+                          background: defaultSize === "100ml" ? "var(--color-primary, #b79c5c)" : "#f1f5f9",
+                          color: defaultSize === "100ml" ? "#ffffff" : "#64748b",
+                          fontSize: "9px",
+                          fontWeight: 700,
+                          border: defaultSize === "100ml" ? "none" : "1px solid #e2e8f0",
+                          transition: "all 0.15s ease",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        <i className={`fa ${defaultSize === "100ml" ? "fa-check-circle" : "fa-circle-o"}`} style={{ fontSize: "9px" }}></i>
+                        {defaultSize === "100ml" ? "DEFAULT" : "Set Default"}
+                      </button>
+                    </div>
+                    <div className="admin-form-group" style={{ marginBottom: 0 }}>
+                      <label className="admin-label" style={{ fontSize: "10px", color: "#555", marginBottom: "3px" }}>
+                        Price ({settings.currency}) *
+                      </label>
+                      <input
+                        type="number"
+                        className="admin-input"
+                        style={{ padding: "5px 8px", fontSize: "12px", height: "32px" }}
+                        required
+                        value={size100Price}
+                        onChange={(e) => setSize100Price(Number(e.target.value))}
+                      />
+                    </div>
+                    <ImageUploadField
+                      label="Image"
+                      value={size100Image}
+                      onChange={setSize100Image}
+                      folder="products"
+                      fileName={`${name || slug || "3uqab"}-100ml`}
+                      hideUrlInput={true}
                     />
                   </div>
                 </div>
@@ -602,16 +865,6 @@ export default function ProductsModule() {
                     onChange={(e) => setReviewsCount(Number(e.target.value))}
                   />
                 </div>
-              </div>
-
-              <div className="admin-form-group">
-                <ImageUploadField
-                  label="Product Image *"
-                  value={image}
-                  onChange={setImage}
-                  folder="products"
-                  fileName={name || slug || `${siteConfig.brand.slug}-product`}
-                />
               </div>
 
               <div className="admin-grid-3">

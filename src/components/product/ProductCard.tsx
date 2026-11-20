@@ -9,6 +9,7 @@ import {
   getDefaultProductSize,
   getProductPriceForSize,
   getProductOldPriceForSize,
+  getProductPhotoForSize,
 } from "@/data/products";
 import { siteConfig } from "@/data/siteConfig";
 import { useShopStore } from "@/store/useShopStore";
@@ -40,12 +41,12 @@ function ProductCardComponent({
     (typeof (product as unknown as { stockQuantity?: number }).stockQuantity === "number" &&
       (product as unknown as { stockQuantity: number }).stockQuantity <= 0);
 
+  const defaultSize = getDefaultProductSize(product);
   const displayImage =
     useBlackImage && product.blackCardImage
       ? product.blackCardImage
-      : product.image;
+      : (getProductPhotoForSize(product, defaultSize) || product.image);
 
-  const defaultSize = getDefaultProductSize(product);
   const displayPrice = getProductPriceForSize(product, defaultSize);
   const displayOldPrice = getProductOldPriceForSize(product, defaultSize);
 
@@ -83,11 +84,28 @@ function ProductCardComponent({
       </div>
       <div className="product-thumb">
         <div className="thumb-inner">
-          <Link href={`/product/${product.slug}`}>
+          <Link
+            href={`/product/${product.slug}`}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              aspectRatio: "1 / 1",
+              background: "#ffffff",
+              overflow: "hidden",
+            }}
+          >
             <img
               src={displayImage}
               alt={product.name}
-              style={isOutOfStock ? { opacity: 0.88 } : undefined}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+                padding: "8px",
+                opacity: isOutOfStock ? 0.88 : 1,
+              }}
             />
           </Link>
           <button

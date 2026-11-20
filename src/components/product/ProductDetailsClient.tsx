@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Lightbox from "yet-another-react-lightbox";
@@ -13,6 +13,7 @@ import {
   getDefaultProductSize,
   getProductPriceForSize,
   getProductOldPriceForSize,
+  getProductPhotoForSize,
 } from "@/data/products";
 import { useShopStore } from "@/store/useShopStore";
 import { useAdminStore } from "@/store/useAdminStore";
@@ -39,17 +40,74 @@ export default function ProductDetailsClient({
   const { addToCart, toggleWishlist, wishlist } = useShopStore();
   const isWishlisted = wishlist.includes(product.id);
 
-  const [selectedSize, setSelectedSize] = useState(() =>
-    getDefaultProductSize(product)
+  const defaultSize = getDefaultProductSize(product);
+  const [selectedSize, setSelectedSize] = useState<string>(() => defaultSize);
+  const [activeImage, setActiveImage] = useState<string>(() =>
+    getProductPhotoForSize(product, defaultSize)
   );
-  const activeImage = product.image;
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 });
   const [quantity, setQuantity] = useState(1);
 
+  // Sync state when product changes
+  useEffect(() => {
+    const defSize = getDefaultProductSize(product);
+    setSelectedSize(defSize);
+    setActiveImage(getProductPhotoForSize(product, defSize));
+  }, [product.id, product.slug]);
+
+  // Compute thumbnail list for the product gallery
+  const thumbnails = useMemo(() => {
+    const list: { url: string; size?: string; label?: string }[] = [];
+    const seenUrls = new Set<string>();
+
+    // 1. Each bottle size variant image
+    (product.sizes || []).forEach((sz) => {
+      const url = getProductPhotoForSize(product, sz);
+      if (url && !seenUrls.has(url)) {
+        seenUrls.add(url);
+        list.push({ url, size: sz, label: `${sz} Bottle` });
+      }
+    });
+
+    // 2. Extra gallery images
+    (product.gallery || []).forEach((url, idx) => {
+      if (url && !seenUrls.has(url)) {
+        seenUrls.add(url);
+        list.push({ url, label: `Photo ${idx + 1}` });
+      }
+    });
+
+    // 3. Fallback main image
+    if (product.image && !seenUrls.has(product.image)) {
+      seenUrls.add(product.image);
+      list.unshift({ url: product.image, label: "Cover" });
+    }
+
+    return list;
+  }, [product]);
+
   const handleSelectSize = (sz: string) => {
     setSelectedSize(sz);
+    const photo = getProductPhotoForSize(product, sz);
+    if (photo) {
+      setActiveImage(photo);
+    }
+  };
+
+  const handleSelectThumbnail = (thumb: { url: string; size?: string }) => {
+    setActiveImage(thumb.url);
+    if (thumb.size && product.sizes.includes(thumb.size)) {
+      setSelectedSize(thumb.size);
+    } else {
+      const matchingSize = Object.entries(product.sizeImages || {}).find(
+        ([_, u]) => u === thumb.url
+      )?.[0];
+      if (matchingSize) {
+        setSelectedSize(matchingSize);
+      }
+    }
   };
 
   const currentPrice = getProductPriceForSize(product, selectedSize);
@@ -165,7 +223,13 @@ export default function ProductDetailsClient({
                       position: "relative",
                       overflow: "hidden",
                       cursor: isZoomed ? "crosshair" : "zoom-in",
-                      backgroundColor: "#f9f9f9",
+                      backgroundColor: "#ffffff",
+                      width: "100%",
+                      aspectRatio: "1 / 1",
+                      maxHeight: "560px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                     }}
                   >
                     <img
@@ -174,7 +238,8 @@ export default function ProductDetailsClient({
                       alt={product.name}
                       style={{
                         width: "100%",
-                        height: "auto",
+                        height: "100%",
+                        objectFit: "contain",
                         display: "block",
                         transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`,
                         transform: isZoomed ? "scale(2.2)" : "scale(1)",
@@ -205,6 +270,85 @@ export default function ProductDetailsClient({
                       <i className="fa fa-search" aria-hidden="true"></i>
                     </a>
                   </div>
+
+                  {/* Bottle Variant Thumbnails Strip */}
+                  {thumbnails.length > 1 && (
+                    <div
+                      className="product-thumbnails-strip"
+                      style={{
+                        display: "flex",
+                        gap: "10px",
+                        marginTop: "12px",
+                        overflowX: "auto",
+                        paddingBottom: "6px",
+                      }}
+                    >
+                      {thumbnails.map((thumb, idx) => {
+                        const isCurrent = activeImage === thumb.url;
+                        return (
+                          <button
+                            key={idx}
+                            type="button"
+                            onClick={() => handleSelectThumbnail(thumb)}
+                            style={{
+                              position: "relative",
+                              flex: "0 0 76px",
+                              width: "76px",
+                              height: "76px",
+                              padding: "3px",
+                              border: isCurrent
+                                ? "2px solid var(--color-primary, #b79c5c)"
+                                : "1px solid #e5e7eb",
+                              borderRadius: "6px",
+                              background: "#ffffff",
+                              cursor: "pointer",
+                              overflow: "hidden",
+                              transition: "all 0.2s ease",
+                              boxShadow: isCurrent
+                                ? "0 2px 8px rgba(183,156,92,0.25)"
+                                : "none",
+                            }}
+                            title={thumb.label || `Photo ${idx + 1}`}
+                          >
+                            <img
+                              src={thumb.url}
+                              alt={thumb.label || product.name}
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "contain",
+                                padding: "4px",
+                                background: "#fafafa",
+                                borderRadius: "4px",
+                              }}
+                            />
+                            {thumb.size && (
+                              <span
+                                style={{
+                                  position: "absolute",
+                                  bottom: "3px",
+                                  left: "3px",
+                                  right: "3px",
+                                  background: isCurrent
+                                    ? "var(--color-primary, #b79c5c)"
+                                    : "rgba(0,0,0,0.68)",
+                                  color: "#ffffff",
+                                  fontSize: "9px",
+                                  fontWeight: 700,
+                                  padding: "1px 0",
+                                  textAlign: "center",
+                                  borderRadius: "2px",
+                                  letterSpacing: "0.02em",
+                                }}
+                              >
+                                {thumb.size}
+                              </span>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
 
                 <div className="details-infor">
@@ -748,7 +892,15 @@ export default function ProductDetailsClient({
       <Lightbox
         open={lightboxOpen}
         close={() => setLightboxOpen(false)}
-        slides={[{ src: product.image }]}
+        slides={
+          thumbnails.length > 0
+            ? thumbnails.map((t) => ({ src: t.url }))
+            : [{ src: activeImage || product.image }]
+        }
+        index={Math.max(
+          0,
+          thumbnails.findIndex((t) => t.url === activeImage)
+        )}
       />
     </div>
   );
